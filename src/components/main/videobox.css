@@ -1,0 +1,40 @@
+/* videobox.css */
+
+.video-box {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgb(220, 174, 203);
+}
+
+/* socialmediabox.css */
+
+.social-media-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.social-media-box a {
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.social-media-box img {
+  width: 40px; /* Adjust the size of the icons as needed */
+  height: auto;
+}
+
+.social-media-container {
+  border: 5px solid #280c0c;
+  border-radius: 30%;
+  padding: 30px;
+  margin-top: 20px;
+}

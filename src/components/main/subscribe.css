@@ -1,0 +1,77 @@
+.subscribe-section {
+    background-color: #f4f4f4;
+    padding: 50px 0;
+    text-align: center;
+    align-items: center;
+}
+
+.subscribe-content {
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.subscribe-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.subscribe-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.subscribe-input {
+    height: fit-content;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.subscribe-button {
+    background-color: #0a2fad;
+    color: #fff;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.subscribe-button:hover {
+    background-color: #0a2a95;
+}
+
+.subscribe-content div{
+    display: flex;
+    width: 100%;
+
+}
+
+@media screen and (max-width: 600px) {
+    .subscribe-content {
+        padding: 0 20px; /* Adjust as needed for smaller screens */
+    }
+
+    .subscribe-form {
+        flex-direction: column; /* Stack input and button in a column */
+    }
+
+    .subscribe-input,
+    .subscribe-button {
+        width: 100%; /* Full width for smaller screens */
+    }
+
+    .subscribe-button {
+        margin-left: 0; /* Remove margin between input and button */
+        margin-top: 10px; /* Add spacing between input and button */
+    }
+    .subscribe-content div{
+        display: block;
+        width: 100%;
+    
+    }
+}

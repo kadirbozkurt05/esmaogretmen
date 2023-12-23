@@ -1,0 +1,141 @@
+.teacher-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f7f4;
+}
+
+.teacher-box > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust as needed for spacing between the paragraphs and image */
+}
+
+.teacher-box img {
+  margin-top: 20px;
+  border-radius: 40%;
+}
+
+.teacher-info-paragraph {
+  margin-right: 10px; /* Adjust as needed for spacing between the paragraph and image */
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.randevu-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Styles for the "randevu-button" class */
+.randevu-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 15px 40px;
+  font-size: 22px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #0a2fad; /* Change to your preferred background color */
+  color: #fff; /* Change to your preferred text color */
+}
+
+/* Hover styles */
+.randevu-button:hover {
+  background-color: #07237c; /* Change to your preferred hover background color */
+  color: #fff; /* Change to your preferred hover text color */
+}
+
+/* Active (pressed) styles */
+.randevu-button:active {
+  background-color: #216a94; /* Change to your preferred active background color */
+  color: #fff; /* Change to your preferred active text color */
+  border-color: #216a94; /* Change to your preferred active border color */
+}
+.teacher-box-left {
+  margin-top: 100px;
+  padding: 20px;
+  margin-left: 200px;
+  flex: 1;
+}
+
+.teacher-info-heading {
+  line-height: 2.3rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: #08268a;
+  font-size: 32px;
+}
+.teacher-box a {
+  font-size: 24px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-right: 20px;
+}
+
+.teacher-box a:hover{
+  color: #216a94;
+}
+.teacher-box a img{
+  margin-left: 10px;
+}
+
+.teacher-box-right {
+  flex: 1.5;
+}
+.teacher-box p{
+  margin-top: 20px;
+}
+
+.stats {
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow to the border */
+  border: solid 1px #000000;
+  border-radius: 5px;
+  padding: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates three equal-width columns */
+  gap: 10px; /* Adjust as needed for spacing between grid items */
+}
+
+/* Optional: Style for grid items */
+.stats > div {
+  padding: 10px;
+  text-align: center;
+  color: #08268a;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+  .teacher-box {
+    text-align: center;
+  }
+
+  .teacher-box > div {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .teacher-box-left {
+    margin-left: 0;
+  }
+
+  .stats {
+    grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
+  }
+}
+
