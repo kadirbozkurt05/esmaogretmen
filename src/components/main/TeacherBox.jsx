@@ -1,13 +1,8 @@
 import "./teacherbox.css";
 import "../../../index.css";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, NavLink} from "react-router-dom";
 
 const TeacherBox = () => {
-
-  const  navigate = useNavigate();
-  function handleOnclick(){
-    navigate("/trial");
-  }
   return (
     <>
     <div class="teacher-box">
@@ -16,8 +11,8 @@ const TeacherBox = () => {
           <h1 className="teacher-info-heading">Çocuğunuzun tüm potansiyelini ortaya çıkarmak için bire bir eğitim</h1>
           <p class="teacher-info-paragraph">En ilham verici öğretmeninizin kendinizi nasıl hissettirdiğini hatırlıyor musunuz? Kişiye özel bire bir 
             eğitimle çocuğunuz için bu hissi yeniden yakalayın.</p>
-          <button class="randevu-button" onClick={handleOnclick}>Ücretsiz deneme dersinizi ayırtın</button><br /><br />
-          <div><a href="/services">Hizmetler<img src="arrow.png" alt="arrow" width={20}/></a></div>
+         <NavLink to={"/trial"} > <button class="randevu-button">Ücretsiz deneme dersinizi ayırtın</button></NavLink><br /><br />
+          <div><NavLink to={"/services"}>Hizmetler<img src="arrow.png" alt="arrow" width={20}/></NavLink></div>
           
           </div >
           <div className="teacher-box-right">
