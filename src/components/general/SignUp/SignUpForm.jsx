@@ -45,13 +45,16 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      className="bg-white max-w-screen-lg p-10 rounded-md shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]  mx-auto text-[#333] font-[sans-serif]"
+      onSubmit={handleSubmit}
+    >
       <div className=" text-center text-3xl mb-6">ÜYE FORMU</div>
       <div className="grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label
             htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             İsim*
           </label>
@@ -59,7 +62,7 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="text"
             id="first_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="Ahmet"
             required
           />
@@ -67,7 +70,7 @@ const SignUpForm = () => {
         <div>
           <label
             htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             Soy İsim*
           </label>
@@ -75,7 +78,7 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="text"
             id="last_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="Yılmaz"
             required
           />
@@ -83,7 +86,7 @@ const SignUpForm = () => {
         <div>
           <label
             htmlFor="reference"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             Referans Kodu (Opsiyonel)
           </label>
@@ -91,14 +94,14 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="text"
             id="reference"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="x8ju97Jh"
           />
         </div>
         <div>
           <label
             htmlFor="phone"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             Telefon Numarası (Opsiyonel)
           </label>
@@ -106,7 +109,7 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="tel"
             id="phone"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="555-211-12-12"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
           />
@@ -114,7 +117,7 @@ const SignUpForm = () => {
         <div>
           <label
             htmlFor="class"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             Sınıf (Opsiyonel)
           </label>
@@ -122,14 +125,14 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="number"
             id="class"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="4"
           />
         </div>
         <div>
           <label
             htmlFor="school"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
             Okul (Opsiyonel)
           </label>
@@ -137,7 +140,7 @@ const SignUpForm = () => {
             onChange={handleChange}
             type="number"
             id="school"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="Cumhuriyet İlkokulu"
           />
         </div>
@@ -145,7 +148,7 @@ const SignUpForm = () => {
       <div className="mb-6">
         <label
           htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
         >
           E-posta*
         </label>
@@ -153,7 +156,7 @@ const SignUpForm = () => {
           onChange={handleChange}
           type="email"
           id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
           placeholder="ahmet.yilmaz@example.com"
           required
         />
@@ -161,7 +164,7 @@ const SignUpForm = () => {
       <div className="mb-6">
         <label
           htmlFor="password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
         >
           Şifre*
         </label>
@@ -169,7 +172,7 @@ const SignUpForm = () => {
           onChange={handleChange}
           type="password"
           id="password"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
           placeholder="•••••••••"
           required
         />
@@ -177,7 +180,7 @@ const SignUpForm = () => {
       <div className="mb-6">
         <label
           htmlFor="confirm_password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
         >
           Şifre (Tekrar)*
         </label>
@@ -185,11 +188,11 @@ const SignUpForm = () => {
           onChange={handleChange}
           type="password"
           id="confirm_password"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
           placeholder="•••••••••"
           required
         />
-        <div className=" text-white">* Zorunlu alanlar</div>
+        <div className=" text-black">* Zorunlu alanlar</div>
       </div>
 
       <div className="flex items-start">
@@ -205,12 +208,9 @@ const SignUpForm = () => {
         </div>
         <label
           htmlFor="remember"
-          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          className="ms-2 text-sm font-medium text-gray-900 "
         >
-          <a
-            href="#"
-            className="text-blue-600 hover:underline dark:text-blue-500"
-          >
+          <a href="#" className="text-blue-600 hover:underline ">
             Şartlar ve koşulları{" "}
           </a>
           kabul ediyorum.
@@ -219,7 +219,7 @@ const SignUpForm = () => {
       <div className="text-center mt-6">
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-1/4 content-center px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-1/4 content-center px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Kayıt Ol
         </button>

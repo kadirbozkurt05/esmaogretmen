@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'logo-like': "url('https://i.ibb.co/qxnwMX8/logo-like.png')",
+        'logo-like': "url('https://i.ibb.co/prMYsS5/logo-no-background.png')",
         'footer-texture': "url('/img/footer-texture.png')",
       }
     },

@@ -1,12 +1,15 @@
 import SignInForm from "../../components/general/SignIn/SignInForm";
 import Nav from "../../components/general/Nav/Nav";
+import Footer from "../../components/general/Footer/Footer"
+
 
 const SignIn = () => {
   return (<>
     <Nav/>
-    <div className=" h-screen bg-slate-400">
+    <div className=" h-screen ">
       <SignInForm />
     </div>
+    <Footer/>
     </>
   );
 };

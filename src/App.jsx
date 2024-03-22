@@ -4,7 +4,7 @@ import MainPage from "./pages/general/MainPage";
 
 function App() {
   return (
-    <div className="bg-slate-400">
+    <div className=" bg-orange-200">
       <Nav />
       <MainPage/>
       <Footer/>

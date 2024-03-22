@@ -37,7 +37,7 @@ const MainPage = () => {
 
 
   return (
-    <div>
+    <div className="xl:px-32">
         {user ? null : <Info />}
       <div className="bg-orange-200"><Slider  slides={slides} title={"YARIŞMALAR"}/></div>
       <div className=" bg-red-300"><Slider  slides={slides} title={"DUYURULAR"}/></div>
