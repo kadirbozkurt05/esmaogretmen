@@ -32,7 +32,7 @@ const Info = () => {
         </div>
       </div>
 
-      <div className="p-10">
+      <div className="py-10 px-6">
         <div className="rounded-3xl bg-white p-10">
           <div className=" text-lg font-bold mb-4">
             ÖZEL DERS NEDEN GEREKLİDİR?

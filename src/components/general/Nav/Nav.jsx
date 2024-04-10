@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import auth from "./../../../utils/config/firebaseConfig";
 import { logOut } from "./../../../utils/auth/LoginAndLogout";
-import { Link, useHref} from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
-
 
 const Nav = () => {
   const [user, setUser] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
-
 
   const handleLogout = async () => {
     try {
@@ -159,7 +157,11 @@ const Nav = () => {
             <li>
               <Link
                 to="/"
-                className={href === "/" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                className={
+                  href === "/"
+                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                }
                 aria-current="page"
               >
                 Anasayfa
@@ -168,7 +170,11 @@ const Nav = () => {
             <li>
               <Link
                 to="/about"
-                className={href === "/about" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                className={
+                  href === "/about"
+                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                }
               >
                 Hakkımda
               </Link>
@@ -176,7 +182,11 @@ const Nav = () => {
             <li>
               <Link
                 to="/services"
-                className={href === "/services" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                className={
+                  href === "/services"
+                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                }
               >
                 Hizmetler
               </Link>
@@ -184,7 +194,11 @@ const Nav = () => {
             <li>
               <Link
                 to="/pricing"
-                className={href === "/pricing" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                className={
+                  href === "/pricing"
+                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                }
               >
                 Ücretler
               </Link>
@@ -192,7 +206,11 @@ const Nav = () => {
             <li>
               <Link
                 to="/contact"
-                className={href === "/contact" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                className={
+                  href === "/contact"
+                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                }
               >
                 İletişim
               </Link>
@@ -203,21 +221,38 @@ const Nav = () => {
                 <li>
                   <Link
                     to="/sign-up"
-                    className={href === "/sign-up" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
-                    >
+                    className={
+                      href === "/sign-up"
+                        ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                        : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                    }
+                  >
                     Üye Ol
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/sign-in"
-                    className={href === "/sign-in" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
-                    >
+                    className={
+                      href === "/sign-in"
+                        ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                        : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                    }
+                  >
                     Giriş Yap
                   </Link>
                 </li>
               </>
             )}
+                            <li>
+              <Link
+                to="/teacher-dashboard"
+                className={href === "/teacher-dashboard" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                aria-current="page"
+              >
+                ÖĞRETMEN
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
