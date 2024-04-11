@@ -1,27 +1,28 @@
-const Student = ({student}) => {
+import getUserInfo from "../../utils/database/GetData/GetUserInfo";
+import { useState, useEffect } from "react";
+const Student = ({ student }) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const user = await getUserInfo(student);
+        setUser(user);
+      } catch (error) {}
+    };
+    getUser();
+  }, []);
   return (
-        <div className="grid rounded-3xl max-w-[370px] shadow-sm bg-slate-100  flex-col mx-auto">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BMzI0NmVkMjEtYmY4MS00ZDMxLTlkZmEtMzU4MDQxYTMzMjU2XkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_QL75_UX380_CR0,1,380,562_.jpg"
-            width="375"
-            height="200"
-            className="rounded-t-3xl justify-center grid h-80 object-cover"
-            alt="movie.title"
-          />
-
-          <div className="group p-6 grid z-10">
-            <a
-              href={"#"}
-              className="group-hover:text-cyan-700 font-bold sm:text-2xl line-clamp-2"
-            >
-              {student?.data?.firstName} {student.lastName}
-            </a>
-            <span className="text-slate-400 pt-2 font-semibold">
-              (3. Sınıf)
-            </span>
-            <div>Aktif</div>
-          </div>
+    <div className="p-4 flex flex-row justify-between items-center  bg-gray-800 border border-gray-800 shadow-lg rounded-2xl">
+      <div className="flex flex-col justify-center">
+        <div className="text-2xl text-gray-100 font-medium">
+          {user?.firstName} {user?.lastName}
         </div>
+        <div className="text-sm text-gray-500">
+          {user?.educationDetails?.class}. Sınıf
+        </div>
+      </div>
+      <img className=" h-14 rounded-lg" src={user?.picture} />
+    </div>
   );
 };
 

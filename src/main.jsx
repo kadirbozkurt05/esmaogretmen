@@ -11,6 +11,7 @@ import Contact from './pages/general/Contact.jsx';
 import Pricing from './pages/general/Pricing.jsx';
 import Services from './pages/general/Services.jsx';
 import TeacherDashboard from './pages/teacher/TeacherDashboard.jsx';
+import LeftMenu from './components/teacher/LeftMenu.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -25,6 +26,8 @@ createRoot(document.getElementById('root')).render(
       <Route element={<Pricing />} path="/pricing" />
       <Route element={<Services />} path="/services" />
       <Route element={<TeacherDashboard />} path="/teacher-dashboard" />
+      <Route element={<LeftMenu />} path="/deneme" />
+
     </Routes>
   </Router>
 );

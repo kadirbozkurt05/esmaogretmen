@@ -28,6 +28,8 @@ const Nav = () => {
     };
     getUser();
   }, []);
+
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -246,8 +248,8 @@ const Nav = () => {
             )}
                             <li>
               <Link
-                to="/teacher-dashboard"
-                className={href === "/teacher-dashboard" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                to="/deneme"
+                className={href === "/deneme" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
                 aria-current="page"
               >
                 ÖĞRETMEN
