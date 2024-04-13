@@ -5,6 +5,7 @@ import auth from "../../utils/config/firebaseConfig";
 import getUserInfo from "../../utils/database/GetData/GetUserInfo";
 import AddNews from "./AddNews";
 import AddCompetition from "./AddCompetition";
+import Competitions from "./Competitions";
 const MainComponent = () => {
   const [user, setUser] = useState();
 
@@ -38,6 +39,7 @@ const MainComponent = () => {
             <AddNews />
             <hr className="my-6" />
             <AddCompetition />
+            <Competitions />
 
 
 
