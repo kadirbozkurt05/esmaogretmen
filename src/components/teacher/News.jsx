@@ -1,50 +1,48 @@
 import { useEffect, useState } from "react";
-import getCompetitions from "../../utils/database/GetData/GetCompetitions";
 import { format } from "date-fns";
+import getNews from "../../utils/database/GetData/GetNews";
 
-const Competitions = () => {
-  const [allCompetitions, setAllCompetitions] = useState([]);
-  const [showedCompetitions, setShowedCompetitions] = useState([]);
+const News = () => {
+  const [allNews, setAllNews] = useState([]);
+  const [showedNews, setShowedNews] = useState([]);
   const [showAll, setShowAll] = useState(false);
   useEffect(() => {
-    const getAllCompetitions = async () => {
-      const competitions = await getCompetitions();
-      setAllCompetitions(competitions);
-      setShowedCompetitions(competitions.slice(0,4))
+    const getAllNews = async () => {
+      const news = await getNews();
+      setAllNews(news);
+      setShowedNews(news.slice(0,4))
     };
-    getAllCompetitions();
+    getAllNews();
   }, []);
 
   useEffect(()=>{
     if(showAll){
-        setShowedCompetitions(allCompetitions);
+        setShowedNews(allNews);
     }else{
-        setShowedCompetitions(allCompetitions.slice(0,4));
+        setShowedNews(allNews.slice(0,4));
     }
   },[showAll]);
 
-  if(allCompetitions.length === 0){
+  if(allNews.length === 0){
     return(
-        <div ><h2 className="mb-6 bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex"><h6 className="text-xl font-semibold text-white">YARIŞMALAR</h6></h2>
-        <div className=" text-white text-center text-lg">HENÜZ DÜZENLENEN YARIŞMA BULUNMAMAKTADIR.</div>
+        <div ><h2 className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex"><h6 className="text-xl font-semibold text-white">DUYURULAR</h6></h2>
+                <div className=" text-white text-center text-lg">HENÜZ YAYINLANMIŞ DUYURU BULUNMAMAKTADIR.</div>
 
-</div>
-
-
+        </div>
     )
   }
 
-  return (  
+  return (
     <div >
-              <div className="mb-6 bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex"><h6 className="text-xl font-semibold text-white">YARIŞMALAR</h6></div>
+              <div className="mb-6 bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex"><h6 className="text-xl font-semibold text-white">DUYURULAR</h6></div>
 
-      {showedCompetitions.map((competition) => {
+      {showedNews.map((news) => {
         return (
             <div className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
           <div className="p-4 mb-4 flex ">
             <div className="flex-shrink-0 ">
               <img
-                src={competition?.picture}
+                src={news?.picture}
                 alt="Map 1"
                 className="w-48 object-cover rounded"
               />
@@ -67,16 +65,15 @@ const Competitions = () => {
                     />
                   </svg>
                 </div>
-                <h2 className="text-xl font-semibold">{competition?.name}</h2>
+                <h2 className="text-xl font-semibold">BAŞLIK : {news?.title}</h2>
               </div>
               <div className="flex">
                 <div className="mr-4">
                   <p>
-                    Son Katılım Tarihi :{" "}
-                    {format(competition?.due_date.toDate(), "dd/MM/yyyy")}
+                    Tarih :{" "}
+                    {format(news?.date.toDate(), "dd/MM/yyyy")}
                   </p>
-                  <p>Durumu : {competition?.isActive ? "Aktif" : "Pasif"}</p>
-                  <p>Ödül : {competition?.award?.name}</p>
+
                 </div>
 
               </div>
@@ -85,14 +82,14 @@ const Competitions = () => {
 
           </div>
           <div className=" flex-1 pl-4">
-                  <p>{competition?.body}</p>
+                  <p>{news?.body}</p>
                 </div>
           </div>
           
         );
       })}
 
-{   allCompetitions.length > 5 ?  <div className="flex justify-center mt-4">
+{   allNews.length > 5 ?  <div className="flex justify-center mt-4">
         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full" onClick={()=>setShowAll(!showAll)}>
           {!showAll ? "TÜMÜNÜ GÖSTER" : "GİZLE"}
         </button>
@@ -101,4 +98,4 @@ const Competitions = () => {
   );
 };
 
-export default Competitions;
+export default News;

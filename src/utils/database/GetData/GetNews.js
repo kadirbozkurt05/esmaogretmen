@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
-const getAllNews = async () => {
+const getNews = async () => {
   try {
     const competitionsRef = collection(db, "News");
     const querySnapshot = await getDocs(competitionsRef);
@@ -15,4 +15,4 @@ const getAllNews = async () => {
   }
 };
 
-export default getAllNews;
+export default getNews;

@@ -6,6 +6,7 @@ import getUserInfo from "../../utils/database/GetData/GetUserInfo";
 import AddNews from "./AddNews";
 import AddCompetition from "./AddCompetition";
 import Competitions from "./Competitions";
+import News from "./News";
 const MainComponent = () => {
   const [user, setUser] = useState();
 
@@ -39,7 +40,10 @@ const MainComponent = () => {
             <AddNews />
             <hr className="my-6" />
             <AddCompetition />
+            <hr className="my-6" />
             <Competitions />
+            <hr className="my-6" />
+            <News />
 
 
 
