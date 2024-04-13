@@ -11,8 +11,8 @@ const signIn = async (email, password) => {
     const user = userCredential.user;
     return user;
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    throw error;
+
   }
 };
 const logOut = async () => {

@@ -248,8 +248,8 @@ const Nav = () => {
             )}
                             <li>
               <Link
-                to="/deneme"
-                className={href === "/deneme" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
+                to="/teacher-dashboard"
+                className={href === "/teacher-dashboard" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
                 aria-current="page"
               >
                 ÖĞRETMEN

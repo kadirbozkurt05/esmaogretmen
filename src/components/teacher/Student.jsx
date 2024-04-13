@@ -14,7 +14,7 @@ const Student = ({ student }) => {
   return (
     <div className="p-4 flex flex-row justify-between items-center  bg-gray-800 border border-gray-800 shadow-lg rounded-2xl">
       <div className="flex flex-col justify-center">
-        <div className="text-2xl text-gray-100 font-medium">
+        <div className=" text-gray-100 font-medium">
           {user?.firstName} {user?.lastName}
         </div>
         <div className="text-sm text-gray-500">
