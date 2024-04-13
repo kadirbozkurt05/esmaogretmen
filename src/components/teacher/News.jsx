@@ -42,7 +42,7 @@ const News = () => {
           <div className="p-4 mb-4 flex ">
             <div className="flex-shrink-0 ">
               <img
-                src={news?.picture}
+                src={news?.picture || "https://i.ibb.co/ScxG2ty/announce.png"}
                 alt="Map 1"
                 className="w-48 object-cover rounded"
               />

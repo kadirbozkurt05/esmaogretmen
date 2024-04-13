@@ -25,7 +25,7 @@ const MainComponent = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">
       <div className="container  m-4">
-        <div className="max-w-3xl w-full mx-auto grid gap-4 grid-cols-1">
+        <div className=" max-w-5xl w-full mx-auto grid gap-4 grid-cols-1">
           <div className="flex flex-col sticky top-0 z-10">
             <TopProfile />
           </div>

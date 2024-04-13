@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import getCompetitions from "../../utils/database/GetData/GetCompetitions";
 import { format } from "date-fns";
+import updateCompetitionStatus from "../../utils/database/UpdateData/UpdateCompetitionStatus";
 
 const Competitions = () => {
   const [allCompetitions, setAllCompetitions] = useState([]);
@@ -8,9 +9,15 @@ const Competitions = () => {
   const [showAll, setShowAll] = useState(false);
   useEffect(() => {
     const getAllCompetitions = async () => {
-      const competitions = await getCompetitions();
-      setAllCompetitions(competitions);
-      setShowedCompetitions(competitions.slice(0,4))
+      try {
+        const competitions = await getCompetitions();
+        await Promise.all(competitions.map(updateCompetitionStatus));
+        setAllCompetitions(competitions);
+        setShowedCompetitions(competitions.slice(0,4))
+      } catch (error) {
+        console.log(error);
+      }
+
     };
     getAllCompetitions();
   }, []);
@@ -44,7 +51,7 @@ const Competitions = () => {
           <div className="p-4 mb-4 flex ">
             <div className="flex-shrink-0 ">
               <img
-                src={competition?.picture}
+                src={competition?.picture || "https://i.ibb.co/486KHRD/trophy.png"}
                 alt="Map 1"
                 className="w-48 object-cover rounded"
               />

@@ -70,7 +70,7 @@ const Nav = () => {
           )}
           {isClicked ? (
             <div
-              className="absolute top-10 transition right-0 xl:right-36 my-4 w-48 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+              className="absolute z-50 top-10 transition right-0 xl:right-36 my-4 w-48 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
               id="user-dropdown"
             >
               <div className="px-4 py-3">

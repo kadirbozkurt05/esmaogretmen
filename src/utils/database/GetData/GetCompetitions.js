@@ -9,6 +9,10 @@ const getCompetitions = async () => {
     querySnapshot.forEach((doc) => {
       competitions.push({ id: doc.id, ...doc.data() });
     });
+
+    // Sort competitions by due_date in descending order
+    competitions.sort((a, b) => b.due_date - a.due_date);
+
     return competitions;
   } catch (error) {
     throw error;

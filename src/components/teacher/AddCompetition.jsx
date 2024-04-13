@@ -1,12 +1,17 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import addCompetition from "../../utils/database/AddData/AddCompetition";
+import addImageAndGetUrl from "../../utils/database/AddData/AddImageAndGetUrl";
+import { Timestamp } from "firebase/firestore";
 
 const AddCompetition = () => {
   const [title, setTitle] = useState("");
   const [award, setAward] = useState("");
   const [number, setNumber] = useState(1);
   const [awardImage, setAwardImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [awardImageUrl, setAwardImageUrl] = useState("");
 
 
   const [image, setImage] = useState(null);
@@ -27,16 +32,45 @@ const AddCompetition = () => {
     setDate(selectedDate);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission with title, image, date, and text
-    console.log("Title:", title);
-    console.log("Image:", image);
-    console.log("Date:", date);
-    console.log("Text:", text);
-    console.log("AwardText:", awardText);
-    console.log("Number:",number);
-    console.log("AwardImage:",awardImage);
+
+    try {
+      const imageUrl = await addImageAndGetUrl(image,'competitionImages')
+      console.log(imageUrl);
+      setImageUrl(imageUrl);
+
+      const awardImageUrl = await addImageAndGetUrl(awardImage,'awardImages')
+      setAwardImageUrl(awardImageUrl)
+      console.log(awardImageUrl);
+      
+    } catch (error) {
+
+      console.log(error);
+      
+    }
+
+    const competitionData = {
+      name: title,
+      picture: imageUrl,
+      due_date: Timestamp.fromDate(date),
+      isActive: true,
+      winner: [],
+      participants: [],
+      winner: [],
+      award: {
+        name: award,
+        number,
+        picture: awardImageUrl,
+        spesifications: awardText,
+      },
+    };
+    try {
+      await addCompetition(competitionData);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -44,7 +78,10 @@ const AddCompetition = () => {
       <h2 className="text-2xl font-semibold text-white mb-6">Yarışma Ekle</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="title"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Başlık
           </label>
           <input
@@ -59,7 +96,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="image" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="image"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Görsel
           </label>
           <input
@@ -74,7 +114,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="date" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="date"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Bitiş Tarihi
           </label>
           <DatePicker
@@ -85,7 +128,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="text" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="text"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Metin
           </label>
           <textarea
@@ -99,10 +145,15 @@ const AddCompetition = () => {
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
           ></textarea>
         </div>
-        <hr className="my-6"/>
-        <div><h2 className="block text-gray-300 text-lg font-bold mb-2">ÖDÜL</h2></div>
+        <hr className="my-6" />
+        <div>
+          <h2 className="block text-gray-300 text-lg font-bold mb-2">ÖDÜL</h2>
+        </div>
         <div className="mb-4">
-          <label htmlFor="award" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="award"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Başlık
           </label>
           <input
@@ -117,7 +168,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="number" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="number"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Adet
           </label>
           <input
@@ -132,7 +186,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="awardImage" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="awardImage"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Görsel
           </label>
           <input
@@ -146,7 +203,10 @@ const AddCompetition = () => {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="awardText" className="block text-gray-300 text-sm font-bold mb-2">
+          <label
+            htmlFor="awardText"
+            className="block text-gray-300 text-sm font-bold mb-2"
+          >
             Özellikler
           </label>
           <textarea

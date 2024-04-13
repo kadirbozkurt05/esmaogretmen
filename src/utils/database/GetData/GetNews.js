@@ -3,13 +3,17 @@ import { db } from "../../config/firebaseConfig";
 
 const getNews = async () => {
   try {
-    const competitionsRef = collection(db, "News");
-    const querySnapshot = await getDocs(competitionsRef);
-    const competitions = [];
+    const newsRef = collection(db, "News");
+    const querySnapshot = await getDocs(newsRef);
+    const news = [];
     querySnapshot.forEach((doc) => {
-      competitions.push({ id: doc.id, ...doc.data() });
+      news.push({ id: doc.id, ...doc.data() });
     });
-    return competitions;
+
+    // Sort news items by date in descending order
+    news.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return news;
   } catch (error) {
     throw error;
   }
