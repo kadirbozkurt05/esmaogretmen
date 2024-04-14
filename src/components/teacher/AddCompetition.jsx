@@ -58,6 +58,7 @@ const AddCompetition = () => {
       winner: [],
       participants: [],
       winner: [],
+      body:text,
       award: {
         name: award,
         number,

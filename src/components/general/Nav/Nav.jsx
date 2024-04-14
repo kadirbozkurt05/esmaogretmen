@@ -3,12 +3,32 @@ import auth from "./../../../utils/config/firebaseConfig";
 import { logOut } from "./../../../utils/auth/LoginAndLogout";
 import { Link, useHref } from "react-router-dom";
 import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Nav = () => {
   const [user, setUser] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
+
+
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const getUser = async () => {
+        try {
+          const userInfo = await getUserInfo(auth.currentUser.uid);
+          setUser(userInfo);
+        } catch (error) {}
+      };
+      getUser();
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 
   const handleLogout = async () => {
     try {
@@ -19,15 +39,6 @@ const Nav = () => {
     }
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const user = await getUserInfo(auth.currentUser.uid);
-        setUser(user);
-      } catch (error) {}
-    };
-    getUser();
-  }, []);
 
 
   return (
@@ -155,107 +166,104 @@ const Nav = () => {
           }
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 ">
-            <li>
-              <Link
-                to="/"
-                className={
-                  href === "/"
-                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                }
-                aria-current="page"
-              >
-                Anasayfa
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className={
-                  href === "/about"
-                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                }
-              >
-                Hakkımda
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/services"
-                className={
-                  href === "/services"
-                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                }
-              >
-                Hizmetler
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/pricing"
-                className={
-                  href === "/pricing"
-                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                }
-              >
-                Ücretler
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className={
-                  href === "/contact"
-                    ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                    : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                }
-              >
-                İletişim
-              </Link>
-            </li>
-            {!user && (
-              <>
-                {" "}
-                <li>
-                  <Link
-                    to="/sign-up"
-                    className={
-                      href === "/sign-up"
-                        ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                        : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                    }
-                  >
-                    Üye Ol
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/sign-in"
-                    className={
-                      href === "/sign-in"
-                        ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                        : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
-                    }
-                  >
-                    Giriş Yap
-                  </Link>
-                </li>
-              </>
-            )}
-                            <li>
-              <Link
-                to="/teacher-dashboard"
-                className={href === "/teacher-dashboard" ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0": "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"}
-                aria-current="page"
-              >
-                ÖĞRETMEN
-              </Link>
-            </li>
-          </ul>
+          {!user ? (
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 ">
+              <li>
+                <Link
+                  to="/"
+                  className={
+                    href === "/"
+                      ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                      : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                  }
+                  aria-current="page"
+                >
+                  Anasayfa
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className={
+                    href === "/about"
+                      ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                      : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                  }
+                >
+                  Hakkımda
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services"
+                  className={
+                    href === "/services"
+                      ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                      : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                  }
+                >
+                  Hizmetler
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pricing"
+                  className={
+                    href === "/pricing"
+                      ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                      : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                  }
+                >
+                  Ücretler
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className={
+                    href === "/contact"
+                      ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                      : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                  }
+                >
+                  İletişim
+                </Link>
+              </li>
+              {!user && (
+                <>
+                  {" "}
+                  <li>
+                    <Link
+                      to="/sign-up"
+                      className={
+                        href === "/sign-up"
+                          ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                          : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                      }
+                    >
+                      Üye Ol
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/sign-in"
+                      className={
+                        href === "/sign-in"
+                          ? "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                          : "block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-white md:p-0"
+                      }
+                    >
+                      Giriş Yap
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          ) : (
+            <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
+            <h6 className="text-l font-semibold text-white w-96 text-center">KULLANICI PANELİ</h6>
+          </div>
+          )}
         </div>
       </div>
     </nav>

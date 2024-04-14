@@ -1,29 +1,46 @@
 import { useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import addNews from "../../utils/database/AddData/AddNews";
+import { Timestamp } from "firebase/firestore";
+import addImageAndGetUrl from "../../utils/database/AddData/AddImageAndGetUrl";
 
 const AddNews = () => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
-  const [date, setDate] = useState(new Date());
   const [text, setText] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
   };
 
-  const handleDateChange = (selectedDate) => {
-    setDate(selectedDate);
-  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission with title, image, date, and text
-    console.log("Title:", title);
-    console.log("Image:", image);
-    console.log("Date:", date);
-    console.log("Text:", text);
+
+    try {
+      const imageUrl = await addImageAndGetUrl(image,'newsImages')
+      setImageUrl(imageUrl);
+      
+    } catch (error) {
+
+      console.log(error);
+      
+    }
+
+    const newsData = {
+      title,
+      picture: imageUrl,
+      date: Timestamp.fromDate(new Date()),
+      body:text
+    };
+    try {
+      await addNews(newsData);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

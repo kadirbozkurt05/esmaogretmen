@@ -9,7 +9,7 @@ const getUserInfo = async (documentId) => {
     if (docSnapshot.exists()) {
       return docSnapshot.data();
     } else {
-      throw new Error("User nıt found!");
+      throw new Error("User not found!");
     }
   } catch (error) {
     throw error;

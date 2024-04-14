@@ -9,6 +9,8 @@ import Competitions from "./Competitions";
 import News from "./News";
 const MainComponent = () => {
   const [user, setUser] = useState();
+  const [addNews, setAddNews] = useState(false);
+  const [showNews, setShowNews] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -16,7 +18,7 @@ const MainComponent = () => {
         const userFromDb = await getUserInfo(auth?.currentUser?.uid);
         setUser(userFromDb);
       } catch (error) {
-        console.log("ERRORORORORORRO", error);
+        console.log(error);
       }
     };
     getUser();
@@ -31,24 +33,75 @@ const MainComponent = () => {
           </div>
           <hr />
           <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
-           <h6 className="text-xl font-semibold text-white">ÖĞRENCİLER</h6> 
-            </div>
+            <h6 className="text-xl font-semibold text-white">ÖĞRENCİLER</h6>
+          </div>
           {user && <StudentList students={user?.students} />}
           <hr />
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
+            <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">
+              <div className="flex-auto bg-gray-200">
+                <div
+                  onClick={() => setAddNews(true)}
+                  className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
+                >
+                  <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
+                    <i className="far fa-cog text-2xl pt-1"></i>
+                    <span className="  hover:text-lg  ml-3 align-bottom pb-1">
+                      DUYURU EKLE
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="flex-auto ">
+                <div
+                  onClick={() => setAddNews(false)}
+                  className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
+                >
+                  <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
+                    <i className="far fa-cog text-2xl pt-1"></i>
+                    <span className="  hover:text-lg  ml-3 align-bottom pb-1">
+                      YARIŞMA EKLE
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
 
-            <AddNews />
+            {addNews ? <AddNews /> : <AddCompetition />}
             <hr className="my-6" />
-            <AddCompetition />
+
+            <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">
+              <div className="flex-auto  ">
+                <div
+                  onClick={() => setShowNews(false)}
+                  className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
+                >
+                  <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
+                    <i className="far fa-cog text-2xl pt-1"></i>
+                    <span className="  hover:text-lg ml-3 align-bottom pb-1">
+                      Yarışmalar
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="flex-auto  bg-gray-200">
+                <a
+                  onClick={() => setShowNews(true)}
+                  className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
+                >
+                  <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
+                    <i className="far fa-cog text-2xl pt-1"></i>
+                    <span className="  hover:text-lg ml-3 align-bottom pb-1">
+                      Duyurular
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            {showNews ? <News /> : <Competitions />}
             <hr className="my-6" />
-            <Competitions />
-            <hr className="my-6" />
-            <News />
-
-
-
           </div>
-
         </div>
       </div>
     </div>
