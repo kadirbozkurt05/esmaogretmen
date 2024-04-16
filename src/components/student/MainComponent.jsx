@@ -1,12 +1,8 @@
-import StudentList from "../teacher/StudentList";
 import TopProfile from "./TopProfile";
 import { useEffect, useState } from "react";
 import auth from "../../utils/config/firebaseConfig";
 import getUserInfo from "../../utils/database/GetData/GetUserInfo";
-import AddNews from "../teacher/AddNews";
-import AddCompetition from "../teacher/AddCompetition";
-import Competitions from "../teacher/Competitions";
-import News from "../teacher/News";
+
 const MainComponent = () => {
   const [user, setUser] = useState();
   const [addNews, setAddNews] = useState(false);
