@@ -1,4 +1,3 @@
-import Nav from "../../components/general/Nav/Nav";
 import MainComponent from "../../components/student/MainComponent";
 
 const StudentDashboard = () => {
