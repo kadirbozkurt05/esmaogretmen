@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Info from "../../components/general/MainPage/Info.jsx";
 import Slider from "../../components/general/MainPage/Slider.jsx";
 import NewsLetter from "../../components/general/MainPage/NewsLetter.jsx";
