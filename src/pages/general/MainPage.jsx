@@ -23,7 +23,7 @@ const MainPage = () => {
       // ...
     } else {
       // User is signed out
-      // ...
+
     }
   });
 
