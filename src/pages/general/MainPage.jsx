@@ -20,7 +20,6 @@ const MainPage = () => {
         } catch (error) {}
       };
       getUser();
-      // ...
     } else {
       // User is signed out
 
