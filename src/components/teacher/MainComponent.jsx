@@ -35,7 +35,7 @@ const MainComponent = () => {
           <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
             <h6 className="text-xl font-semibold text-white">ÖĞRENCİLER</h6>
           </div>
-          {user && <StudentList students={user?.students} />}
+          {user?.isTeacher && <StudentList students={user?.students} />}
           <hr />
           <div className="flex flex-col ">
             <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">
