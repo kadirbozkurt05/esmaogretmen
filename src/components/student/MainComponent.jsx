@@ -5,12 +5,14 @@ import getUserInfo from "../../utils/database/GetData/GetUserInfo";
 import Homework from "./Homework";
 import NextClasses from "./NextClasses";
 import PreviousClasses from "./PreviousLessons";
+import TeacherNotes from "./TeacherNotes";
 
 const MainComponent = () => {
   const [user, setUser] = useState();
   const [homeworkList, setHomeworkList] = useState([]);
   const [nextClasses, setNextClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
+  const [teacherNotes, setTeacherNotes] = useState([]);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -18,6 +20,7 @@ const MainComponent = () => {
         const homeworks = userFromDb?.homework.filter(homework => homework.date?.toDate() > new Date());
         setNextClasses(userFromDb?.nextClasses)
         setPreviousClasses(userFromDb?.previousLessons)
+        setTeacherNotes(userFromDb?.teacherNotes)
         setHomeworkList(homeworks);
         setUser(userFromDb);
       } catch (error) {
@@ -103,8 +106,8 @@ const MainComponent = () => {
                     <>
                       <PreviousClasses
                         name={previousClass?.name}
-                        teacher={previousClass.teacher}
-                        date={previousClass.date}
+                        teacher={previousClass?.teacher}
+                        date={previousClass?.date}
                       />
                     </>
                   );
@@ -114,17 +117,18 @@ const MainComponent = () => {
             <div>
               <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
                 <h6 className="text-l font-semibold text-white  text-center">
-                  ÖDEVLER
+                  ÖĞRETMEN NOTLARI
                 </h6>
               </div>
               <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                {homeworkList.map((homework) => {
+                {teacherNotes.map((note) => {
                   return (
                     <>
-                      <Homework
-                        title={homework?.title}
-                        message={homework.message}
-                        date={homework.date}
+                      <TeacherNotes
+                        title={note?.title}
+                        message={note?.message}
+                        date={note?.date}
+                        teacher={note?.teacher}
                       />
                     </>
                   );
