@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-const NextClasses = (props) => {
+const PreviousClasses = (props) => {
 
 
 
@@ -28,4 +28,4 @@ const NextClasses = (props) => {
   );
 };
 
-export default NextClasses;
+export default PreviousClasses;
