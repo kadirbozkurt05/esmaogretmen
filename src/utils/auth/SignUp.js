@@ -78,7 +78,7 @@ const signUp = async (email, password, firstName, lastName, reference, studentCl
       referenceTo: [],
       referenceFrom: reference,
       registerDate: Timestamp.fromDate(new Date()),
-      upcomingLessons: [],
+      nextClasses: [],
       previousLessons: [],
       competitions: [],
       homeworks: [],
