@@ -1,4 +1,4 @@
-import MainComponent from "../../components/student/MainComponent";
+import MainComponent from "../../components/student/dashboard/MainComponent";
 
 const StudentDashboard = () => {
   return (

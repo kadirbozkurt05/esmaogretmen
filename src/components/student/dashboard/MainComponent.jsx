@@ -1,12 +1,12 @@
-import TopProfile from "./TopProfile";
+import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
-import auth from "../../utils/config/firebaseConfig";
-import getUserInfo from "../../utils/database/GetData/GetUserInfo";
+import auth from "../../../utils/config/firebaseConfig";
+import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import Homework from "./Homework";
 import NextClasses from "./NextClasses";
 import PreviousClasses from "./PreviousLessons";
 import TeacherNotes from "./TeacherNotes";
-import updateClassesAndLessons from "../../utils/database/UpdateData/UpdateNextAndPreviousLessons";
+import updateClassesAndLessons from "../../../utils/database/UpdateData/UpdateNextAndPreviousLessons";
 
 const MainComponent = () => {
   const [user, setUser] = useState();

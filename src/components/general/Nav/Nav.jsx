@@ -10,9 +10,16 @@ const Nav = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
+  const [title, setTitle] = useState(null);
 
 
-
+useEffect(()=>{
+  if(href==="/"){
+    setTitle("KULLANICI PANELİ")
+  }else if(href==="/profile"){
+    setTitle("PROFİL")
+  }
+},[href])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -95,7 +102,7 @@ const Nav = () => {
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
                   <Link
-                    to="/student-dashboard"
+                    to="/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
                     Profil
@@ -261,7 +268,7 @@ const Nav = () => {
             </ul>
           ) : (
             <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
-            <h6 className="text-l font-semibold text-white w-96 text-center">KULLANICI PANELİ</h6>
+            <h6 className="text-l font-semibold text-white w-96 text-center">{title}</h6> 
           </div>
           )}
         </div>
