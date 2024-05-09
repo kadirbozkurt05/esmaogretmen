@@ -2,11 +2,13 @@ import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
 import auth from "../../../utils/config/firebaseConfig";
 import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
-import AboutMe from "./AboutMe";
+import Info from "./Info";
+import EditInfo from "./EditInfo";
 
 
 const MainComponent = () => {
   const [user, setUser] = useState();
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -19,6 +21,8 @@ const MainComponent = () => {
     };
     getUser();
   }, []);
+
+
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900 px-2">
@@ -39,8 +43,17 @@ const MainComponent = () => {
             </div>
           </div>
         </div>
-        <AboutMe />
+        {isEdit ? <EditInfo user={user}/> : <Info user = {user} />}
+        {!isEdit ? <div className=" w-full border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={()=>setIsEdit(true)}> Düzenle</div> :
+        <div className=" grid grid-cols-2 gap-4">
+          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={()=>setIsEdit(false)}>Vazgeç</div>
+          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer">Güncelle</div>
+        </div>
+        
+        }
+
       </div>
+
     </div>
   );
 };
