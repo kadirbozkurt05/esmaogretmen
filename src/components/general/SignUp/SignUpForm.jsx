@@ -19,6 +19,7 @@ const SignUpForm = () => {
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
+    console.log(e.target.value);
     const newValue = type === "checkbox" ? checked : value;
     setFormData({ ...formData, [id]: newValue });
   };
@@ -27,6 +28,7 @@ const SignUpForm = () => {
     e.preventDefault();
     console.log("aaaa");
     try {
+      console.log(formData);
       await signUp(
         formData.email,
         formData.password,
@@ -103,11 +105,12 @@ const SignUpForm = () => {
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
-            Telefon Numarası (Opsiyonel)
+            Telefon Numarası
           </label>
           <input
             onChange={handleChange}
             type="tel"
+            required
             id="phone"
             className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="555-211-12-12"
@@ -119,7 +122,7 @@ const SignUpForm = () => {
             htmlFor="class"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
-            Sınıf (Opsiyonel)
+            Sınıf
           </label>
           <input
             onChange={handleChange}
@@ -127,6 +130,7 @@ const SignUpForm = () => {
             id="class"
             className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="4"
+            required
           />
         </div>
         <div>
@@ -134,14 +138,15 @@ const SignUpForm = () => {
             htmlFor="school"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
-            Okul (Opsiyonel)
+            Okul 
           </label>
           <input
             onChange={handleChange}
-            type="number"
+            type="text"
             id="school"
             className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="Cumhuriyet İlkokulu"
+            required
           />
         </div>
       </div>

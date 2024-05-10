@@ -66,7 +66,7 @@ const signUp = async (email, password, firstName, lastName, reference, studentCl
         },
       },
       educationDetails: {
-        schoolName: school,
+        schoolName: school || "",
         class: studentClass || 0,
         teacherName: "",
       },
@@ -85,6 +85,7 @@ const signUp = async (email, password, firstName, lastName, reference, studentCl
       isActive: true,
       isTeacher: false,
       isAdmin: false,
+      aboutMe:`Adım ${firstName} ${lastName} ${studentClass}. sınıf öğrencisiyim. ${school} okulunda okuyorum.`,
       referenceNumber: user.uid.substring(0, 8),
       teachers: ["6qR1HqZhoYMxttCDf816acvsuU03"],
     });
@@ -93,7 +94,7 @@ const signUp = async (email, password, firstName, lastName, reference, studentCl
     console.log(error);
     if (error.message.includes("auth/email-already-in-use")) {
       throw new Error(
-        "The email address is already in use by another account."
+        "Bu e-posta adresi zaten kullanılıyor. Şifrenizi unuttuysanız öğretmeninizle irtibata geçiniz."
       );
     } else {
       throw error;

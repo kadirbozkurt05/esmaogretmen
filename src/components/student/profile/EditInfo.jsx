@@ -1,16 +1,41 @@
 import { useState } from "react";
+import auth from "../../../utils/config/firebaseConfig";
+import updateProfile from "../../../utils/database/UpdateData/UpdateProfile";
+import Info from "./Info";
 
 const EditInfo = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
-  const [text, setText] = useState("abc");
+  const [cancel, setCancel] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
     setUserInfo({
       ...userInfo,
       [name]: value,
     });
   };
+
+  const handleSubmit = async ()=>{
+    try {
+      await updateProfile(auth.currentUser?.uid,userInfo);
+      setIsUpdated(true);
+      
+      setCancel(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if(isUpdated){
+    return(<Info user={userInfo}/>)
+  }
+
+  if(cancel){
+    return(<Info user={user}/>)
+  }
 
   return (
     <div className="">
@@ -42,23 +67,23 @@ const EditInfo = ({ user }) => {
             <input
             className=" text-black p-1 rounded-l ml-2"
               type="text"
+              disabled
               name="referenceNumber"
               value={userInfo.referenceNumber}
-              onChange={handleInputChange}
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col">
         <h1 className="text-white mb-2">Hakkımda</h1>
-        <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg flex flex-row justify-between rounded-2xl p-2">
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <input
-            className=" text-black p-1 rounded-l ml-2"
-              type="text"
-              name="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+        <div className="mb-4 bg-gray-800 w-full border border-gray-800 shadow-lg flex flex-row justify-between rounded-2xl p-2">
+          <div className="rounded-md border p-4 w-full flex flex-row text-gray-200 cursor-default items-center">
+            <textarea
+            className=" text-black p-1 rounded-l ml-2 w-full"
+              type="input"
+              name="aboutMe"
+              value={userInfo?.aboutMe}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -73,11 +98,13 @@ const EditInfo = ({ user }) => {
               type="text"
               name="phone"
               value={userInfo.contact.phone}
-              onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
-                  contact: { ...userInfo.contact, phone: e.target.value },
-                })
+              onChange={(e)=>{setUserInfo({
+                ...userInfo,
+                contact:{
+                  ...userInfo.contact,
+                  phone:e.target.value
+                }
+              })}
               }
             />
           </div>
@@ -86,9 +113,9 @@ const EditInfo = ({ user }) => {
             <input
             className=" text-black p-1 rounded-l ml-2"
               type="text"
+              disabled
               name="email"
               value={userInfo.email}
-              onChange={handleInputChange}
             />
           </div>
           <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
@@ -331,6 +358,10 @@ const EditInfo = ({ user }) => {
           </div>
         </div>
       </div>
+      <div className=" grid grid-cols-2 gap-4">
+          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={()=>setCancel(true)}>Vazgeç</div>
+          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={handleSubmit}>Güncelle</div>
+        </div>
     </div>
   );
 };
