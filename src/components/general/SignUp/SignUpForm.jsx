@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signUp from "../../../utils/auth/SignUp";
+import Modal from "../Modal/Modal";
 
 const SignUpForm = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -26,9 +30,14 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("aaaa");
+
+    if(formData.password !== formData.confirm_password){
+      setErrorMessage("Şifreler uyuşmuyor. Lütfen iki şifrenin de aynı olduğundan emin olun.")
+      setShowErrorModal(true);
+      return;
+    }
+
     try {
-      console.log(formData);
       await signUp(
         formData.email,
         formData.password,
@@ -39,18 +48,28 @@ const SignUpForm = () => {
         formData.school,
         formData.phone
       );
-      //TODO: BURAYA POPUP EKLE
-      navigate("/");
+      setShowModal(true);
+      setTimeout(()=>{
+        setShowModal(false);
+        navigate("/");
+      },1000)
     } catch (error) {
-      //TODO: BURAYA POPUP EKLE
+      if (error.message.includes("auth/email-already-in-use")) {
+        setErrorMessage("Bu e-posta adresi zaten kullanılıyor. Şifrenizi unuttuysanız öğretmeninizle irtibata geçiniz.")
+      }
+      setShowErrorModal(true);
     }
   };
 
-  return (
+  return (<>
+  {showModal && <Modal title={"Kayıt Başarılı"} text={"Anasayfaya yönlendiriliyorsunuz..."}/>}
+  {showErrorModal && <Modal title={"Hata"} text={errorMessage} positiveButton = {"Anladım"} positiveFunction = {()=> setShowErrorModal(false)}/>}
+
     <form
       className="bg-white max-w-screen-lg p-10 rounded-md shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]  mx-auto text-[#333] font-[sans-serif]"
       onSubmit={handleSubmit}
     >
+
       <div className=" text-center text-3xl mb-6">ÜYE FORMU</div>
       <div className="grid gap-6 mb-6 md:grid-cols-2">
         <div>
@@ -114,7 +133,7 @@ const SignUpForm = () => {
             id="phone"
             className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
             placeholder="555-211-12-12"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+            pattern="[0-9+]+"
           />
         </div>
         <div>
@@ -230,6 +249,7 @@ const SignUpForm = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

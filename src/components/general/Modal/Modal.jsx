@@ -1,12 +1,11 @@
 const Modal = (props) => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center">
       <div x-data="{ showModal: true }">
         <div
           x-show="showModal"
           className="fixed inset-0 transition-opacity"
           aria-hidden="true"
-          onClick="showModal = false"
         >
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>

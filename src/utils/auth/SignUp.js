@@ -91,14 +91,7 @@ const signUp = async (email, password, firstName, lastName, reference, studentCl
     });
     return user;
   } catch (error) {
-    console.log(error);
-    if (error.message.includes("auth/email-already-in-use")) {
-      throw new Error(
-        "Bu e-posta adresi zaten kullanılıyor. Şifrenizi unuttuysanız öğretmeninizle irtibata geçiniz."
-      );
-    } else {
-      throw error;
-    }
+    throw error;
   }
 };
 
