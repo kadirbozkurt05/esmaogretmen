@@ -10,6 +10,7 @@ import Contact from './pages/general/Contact.jsx';
 import Pricing from './pages/general/Pricing.jsx';
 import Services from './pages/general/Services.jsx';
 import Profile from './pages/student/Profile.jsx';
+import Settings from './pages/student/Settings.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')).render(
       <Route element={<Pricing />} path="/pricing" />
       <Route element={<Services />} path="/services" />
       <Route element={<Profile />} path="/profile" />
+      <Route element={<Settings />} path="/settings" />
 
 
     </Routes>

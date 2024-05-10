@@ -81,7 +81,7 @@ const TopProfile = () => {
                 </div>
                 <div className="flex-auto text-gray-400 my-1">
                   <span className="mr-3 ">
-                    {user?.educationDetails?.class}. Sınıf
+                    {user?.educationDetails?.className}. Sınıf
                   </span>
                   <span className="mr-3 border-r border-gray-600  max-h-0"></span>
                   <span>{user?.contact?.address?.province}</span>
@@ -93,7 +93,7 @@ const TopProfile = () => {
           <div className="flex pt-2  text-sm text-gray-400">
             <div className="flex-1 inline-flex items-center">
               <svg
-                class="w-6 h-6 text-gray-800 dark:text-white"
+                className="w-6 h-6 text-gray-800 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -102,9 +102,9 @@ const TopProfile = () => {
                 viewBox="0 0 24 24"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
 
@@ -112,7 +112,7 @@ const TopProfile = () => {
             </div>
             <div className="flex-1 inline-flex items-center">
               <svg
-                class="w-6 h-6 text-gray-800 dark:text-white"
+                className="w-6 h-6 text-gray-800 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -122,9 +122,9 @@ const TopProfile = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
                 />
               </svg>

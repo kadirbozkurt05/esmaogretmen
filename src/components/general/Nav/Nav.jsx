@@ -4,6 +4,7 @@ import { logOut } from "./../../../utils/auth/LoginAndLogout";
 import { Link, useHref } from "react-router-dom";
 import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const [user, setUser] = useState(null);
@@ -11,13 +12,16 @@ const Nav = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
   const [title, setTitle] = useState(null);
+  const navigate = useNavigate();
 
 
 useEffect(()=>{
   if(href==="/"){
-    setTitle("KULLANICI PANELİ")
+    setTitle("ÖĞRENCİ PANELİ")
   }else if(href==="/profile"){
     setTitle("PROFİL")
+  }else if(href==="/settings"){
+    setTitle("AYARLAR")
   }
 },[href])
 
@@ -40,7 +44,8 @@ useEffect(()=>{
   const handleLogout = async () => {
     try {
       await logOut();
-      window.location.reload();
+      navigate("/")
+      
     } catch (error) {
       //TODO: Buraya popup koy
     }
@@ -100,6 +105,14 @@ useEffect(()=>{
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
+              <li>
+                  <Link
+                    to="/"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  >
+                    Öğrenci Paneli
+                  </Link>
+                </li>
                 <li>
                   <Link
                     to="/profile"
@@ -109,28 +122,21 @@ useEffect(()=>{
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/settings"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
-                    Settings
-                  </a>
+                    Ayarlar
+                  </Link>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Earnings
-                  </a>
-                </li>
+
                 <li>
                   <a
                     href="#"
                     onClick={handleLogout}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
-                    Sign out
+                    Çıkış Yap
                   </a>
                 </li>
               </ul>
