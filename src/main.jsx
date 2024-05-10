@@ -25,6 +25,8 @@ createRoot(document.getElementById('root')).render(
       <Route element={<Services />} path="/services" />
       <Route element={<Profile />} path="/profile" />
       <Route element={<Settings />} path="/settings" />
+      <Route element={<App />} path="/homepage" />
+      
 
 
     </Routes>

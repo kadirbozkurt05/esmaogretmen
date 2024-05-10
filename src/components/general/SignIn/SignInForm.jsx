@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { signIn } from "../../../utils/auth/LoginAndLogout";
 import { useNavigate, Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import ResetPassword from "../ResetPassword/ResetPassword";
 
 const SignInForm = () => {
   const navigate = useNavigate();
+  const [showResetPassword, setShowResetPassword] = useState(false);
   const [checked, setChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     "Giriş sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edip yeniden deneyin."
@@ -69,7 +71,7 @@ const SignInForm = () => {
       <section>
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            {showResetPassword ? <ResetPassword /> :<div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight ">
                 Giriş Yap
               </h1>
@@ -136,12 +138,12 @@ const SignInForm = () => {
                       </label>
                     </div>
                   </div>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  <div
+                    onClick={()=>setShowResetPassword(true)}
+                    className=" cursor-pointer text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Şifremi Unuttum
-                  </a>
+                  </div>
                 </div>
                 <div className=" text-center">
                   <button className="border p-2 rounded-xl w-1/2 bg-orange-300" type="submit">Giriş Yap</button>
@@ -157,7 +159,7 @@ const SignInForm = () => {
                   </Link>
                 </p>
               </form>
-            </div>
+            </div>}
           </div>
         </div>
       </section>

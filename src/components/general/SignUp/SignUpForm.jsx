@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signUp from "../../../utils/auth/SignUp";
 import Modal from "../Modal/Modal";
+import TermsAndConditions from "../TermsAndConditions.jsx/TermsAndConditions";
 
 const SignUpForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("")
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -23,7 +25,6 @@ const SignUpForm = () => {
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
-    console.log(e.target.value);
     const newValue = type === "checkbox" ? checked : value;
     setFormData({ ...formData, [id]: newValue });
   };
@@ -124,7 +125,7 @@ const SignUpForm = () => {
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
-            Telefon Numarası
+            Telefon Numarası*
           </label>
           <input
             onChange={handleChange}
@@ -157,7 +158,7 @@ const SignUpForm = () => {
             htmlFor="school"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
           >
-            Okul 
+            Okul*
           </label>
           <input
             onChange={handleChange}
@@ -234,12 +235,13 @@ const SignUpForm = () => {
           htmlFor="remember"
           className="ms-2 text-sm font-medium text-gray-900 "
         >
-          <a href="#" className="text-blue-600 hover:underline ">
+          <div onClick={()=>setShowTerms(!showTerms)} className="text-blue-600 hover:underline cursor-pointer">
             Şartlar ve koşulları{" "}
-          </a>
+          </div>
           kabul ediyorum.
         </label>
       </div>
+      {showTerms && <TermsAndConditions />}
       <div className="text-center mt-6">
         <button
           type="submit"
