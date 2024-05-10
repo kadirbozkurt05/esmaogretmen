@@ -1,6 +1,5 @@
 import { HiArrowSmallRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-
 const Info = () => {
   return (
     <div className="sm:grid sm:gap-4 sm:grid-cols-2">

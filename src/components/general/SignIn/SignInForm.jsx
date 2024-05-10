@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { signIn } from '../../../utils/auth/LoginAndLogout';
 import { useNavigate, Link } from 'react-router-dom';
+import Modal from '../Modal/Modal';
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const SignInForm = () => {
     password: '',
     remember: false,
   });
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -16,22 +18,27 @@ const SignInForm = () => {
     setFormData({ ...formData, [name]: newValue });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setShowModal(true);
+    setTimeout(async()=>{
+      try {
+        
+        await signIn(formData.email,formData.password)
+        setShowModal(false)
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
 
-  try {
-    console.log("aaa");
-    await signIn(formData.email,formData.password)
-    console.log("bbb");
-    navigate("/");
-  } catch (error) {
-    console.log(error);
-  }
+    },1000)
+  
     
   };
 
   return (
     <section>
+      {showModal && <Modal title={"Giriş Başarılı"} text={"Anasayfaya yönlendiriliyorsunuz..."}/>}
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
