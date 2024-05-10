@@ -58,6 +58,23 @@ const MainPage = () => {
       body: "ddddddd",
     },
   ];
+
+  if(!auth.currentUser){
+    return (
+      <div className="xl:px-32">
+        <Info />
+        <div className="bg-orange-200">
+          <Slider slides={slides} title={"YARIŞMALAR"} />
+        </div>
+        <div className=" bg-red-300">
+          <Slider slides={slides} title={"DUYURULAR"} />
+        </div>
+        <NewsLetter />
+      </div>
+    );
+    
+
+  }
   
 if(auth?.currentUser){
 

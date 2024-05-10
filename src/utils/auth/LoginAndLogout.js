@@ -18,7 +18,7 @@ const signIn = async (email, password) => {
 const logOut = async () => {
   try {
     const response = await signOut(auth);
-    window.location.reload();
+
     return true;
   } catch (error) {
     throw error;
