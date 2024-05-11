@@ -27,7 +27,7 @@ const ManageStudent = ()=>{
     return(
         < div className=" bg-orange-200 w-full">
             <Nav />
-        <MainComponent id={id}/>
+        <MainComponent id={id} teacher={`${user?.firstName} ${user?.lastName}`}/>
         <Footer />
 
       </div>
