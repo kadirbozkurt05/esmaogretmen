@@ -11,6 +11,7 @@ import Pricing from './pages/general/Pricing.jsx';
 import Services from './pages/general/Services.jsx';
 import Profile from './pages/student/Profile.jsx';
 import Settings from './pages/student/Settings.jsx';
+import ManageStudent from './pages/teacher/ManageStudent.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
       <Route element={<Profile />} path="/profile" />
       <Route element={<Settings />} path="/settings" />
       <Route element={<App />} path="/homepage" />
+      <Route  element={<ManageStudent />} path=":id" />
       
 
 

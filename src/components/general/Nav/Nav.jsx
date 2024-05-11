@@ -20,7 +20,12 @@ const Nav = () => {
 
 useEffect(()=>{
   if(href==="/"){
-    setTitle("ÖĞRENCİ PANELİ")
+    if(user?.isTeacher){
+      setTitle("ÖĞRETMEN PANELİ")
+    }else{
+      setTitle("ÖĞRENCİ PANELİ")
+
+    }
   }else if(href==="/profile"){
     setTitle("PROFİL")
   }else if(href==="/settings"){
@@ -32,7 +37,7 @@ useEffect(()=>{
     if (user) {
       const getUser = async () => {
         try {
-          const userInfo = await getUserInfo(auth.currentUser.uid);
+          const userInfo = await getUserInfo(auth.currentUser?.uid);
           setUser(userInfo);
         } catch (error) {}
       };
@@ -132,7 +137,7 @@ user &&
                 to="/"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
-                Öğrenci Paneli
+                {user?.isTeacher ? "Öğretmen Paneli" : "Öğrenci Paneli"}
               </Link>
             </li>
             <li>
