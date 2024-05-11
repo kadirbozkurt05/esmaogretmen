@@ -23,34 +23,43 @@ const MainComponent = ({ id, teacher }) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">
-      <div className="container  m-4">
-        <StudentInfo user={user} />
-        <div className=" mt-2 md:grid md:grid-cols-2 md:gap-2 flex flex-col">
-          <div>
-            <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-              <h6 className="text-l font-semibold text-white  text-center">
-                ÖDEV VER
-              </h6>
-            </div>
-            <GiveHomework id={id} />
+      <div className="w-full  max-w-5xl m-4">
+        <div className=" mx-auto grid gap-4 grid-cols-1">
+          <div className="flex flex-col sticky top-0 z-10">
+            <StudentInfo user={user} />
           </div>
-          <div>
-            <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-              <h6 className="text-l font-semibold text-white  text-center">
-                NOT EKLE
-              </h6>
+          <hr />
+
+          <div className=" md:grid md:grid-cols-2 md:gap-2 flex flex-col">
+            <div>
+              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold text-white  text-center">
+                  ÖDEV VER
+                </h6>
+              </div>
+              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <GiveHomework id={id} />
+              </div>
             </div>
-            <SendNote id={id} teacherName={teacher} />
+
+
+
+            <div>
+              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold text-white  text-center">
+                  NOT EKLE
+                </h6>
+              </div>
+              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <SendNote id={id} />
+              </div>
+            </div>
+
+
+
+
+
           </div>
-
-
-
-
-
-
-
-
-
         </div>
       </div>
     </div>

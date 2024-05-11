@@ -35,7 +35,7 @@ const MainComponent = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-900 px-2">
+    <div className="flex flex-col items-center justify-center bg-gray-900 px-6">
       <div className=" w-full  max-w-5xl m-4">
         <div className=" mx-auto grid gap-4 grid-cols-1">
           <div className="flex flex-col sticky top-0 z-10">

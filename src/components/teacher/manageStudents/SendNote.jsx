@@ -25,10 +25,10 @@ const SendNote = ({id, teacherName}) => {
 }
 
   return (
-    <div className=" border rounded-xl bg-pink-200 w-full h-full p-4">
+    <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">
 
-      <form className=" h-full"  onSubmit={handleSubmit(onSubmit)}>
-      <div className=" h-full flex flex-col justify-between">
+      <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col justify-between">
       <div className="flex flex-col ">
         <label htmlFor="title" className=" text-black">Başlık : </label>
         <input {...register("title")}  required />

@@ -28,7 +28,7 @@ const GiveHomework = ({id}) => {
 }
 
   return (
-    <div className=" border rounded-xl bg-pink-200 p-4 w-full h-full">
+    <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2 h-72">
       <form className="  flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="title" className=" text-black">Ders : </label>
         <input {...register("title")}  required />
