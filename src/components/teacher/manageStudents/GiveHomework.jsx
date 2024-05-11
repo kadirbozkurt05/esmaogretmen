@@ -28,7 +28,7 @@ const GiveHomework = ({id}) => {
 }
 
   return (
-    <div className=" border rounded-xl bg-pink-200 p-4">
+    <div className=" border rounded-xl bg-pink-200 p-4 w-full h-full">
       <form className="  flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="title" className=" text-black">Ders : </label>
         <input {...register("title")}  required />
@@ -43,7 +43,7 @@ const GiveHomework = ({id}) => {
             dateFormat="dd/MM/yyyy"
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
           />
-        <input type="submit" />
+        <input value={"GÖNDER"} type="submit" />
       </form>
     </div>
   );
