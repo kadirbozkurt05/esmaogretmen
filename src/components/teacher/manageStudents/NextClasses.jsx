@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import { format } from "date-fns";
-import updateLessonDone from "../../../utils/database/UpdateData/UpdateLessonDone";
 
 const NextClasses = ({ id }) => {
   const [nextClasses, setNextClasses] = useState([]);
@@ -28,44 +27,7 @@ const NextClasses = ({ id }) => {
                     </h6>
                   </div>
                   <div></div>
-                  <div>
-                    {!nextClass?.isDone ? (
-                      <>
-                        {" "}
-                        <label htmlFor="checkbox" className="mr-2">
-                          Yapıldı olarak işaretle!
-                        </label>
-                        <input
-                          type="checkbox"
-                          onChange={async (e) => {
-                            console.log(
-                              "E.CHECKED",
-                              id,
-                              nextClass?.id,
-                              e.target.checked
-                            );
-                            await updateLessonDone(
-                              id,
-                              nextClass?.id,
-                              e.target.checked
-                            );
-                          }}
-                        />
-                      </>
-                    ) : (
-                      <div className="rounded-full h-10 w-10">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                        >
-                          <path
-                            fill="#83f745"
-                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
-                          />
-                        </svg>{" "}
-                      </div>
-                    )}
-                  </div>
+                  
                 </li>
               );
             })}

@@ -6,10 +6,10 @@ import GiveHomework from "./GiveHomework";
 import SendNote from "./SendNote";
 import AddNextLesson from "./AddNextLesson";
 import NextClasses from "./NextClasses";
+import PreviousClasses from "./PreviousClasses";
 
 const MainComponent = ({ id, teacher }) => {
   const [user, setUser] = useState();
-
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -43,6 +43,16 @@ const MainComponent = ({ id, teacher }) => {
               </div>
               <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
                 <NextClasses id={id} />
+              </div>
+            </div>
+            <div>
+              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold text-white  text-center">
+                  GEÇMİŞ DERSLER
+                </h6>
+              </div>
+              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <PreviousClasses id={id} />
               </div>
             </div>
 

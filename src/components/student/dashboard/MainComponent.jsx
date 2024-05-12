@@ -14,25 +14,42 @@ const MainComponent = () => {
   const [nextClasses, setNextClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
   const [teacherNotes, setTeacherNotes] = useState([]);
+  const [isUpdateDone, setIsUpdateDone] = useState(false);
   useEffect(() => {
-    const getUser = async () => {
+    const update = async () => {
       try {
-        const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-        updateClassesAndLessons(auth?.currentUser?.uid);
-        const homeworks = userFromDb?.homework.filter(
-          (homework) => homework.date?.toDate() > new Date()
-        );
-        setNextClasses(userFromDb?.nextClasses);
-        setPreviousClasses(userFromDb?.previousLessons);
-        setTeacherNotes(userFromDb?.teacherNotes);
-        setHomeworkList(homeworks);
-        setUser(userFromDb);
+        await updateClassesAndLessons(auth?.currentUser?.uid);
+        setIsUpdateDone(true)
+
       } catch (error) {
         console.log(error);
       }
     };
-    getUser();
+    update();
   }, []);
+
+  useEffect(()=>{
+    if(isUpdateDone){
+
+      const getUser = async () => {
+        try {
+          const userFromDb = await getUserInfo(auth?.currentUser?.uid);
+          const homeworks = userFromDb?.homework.filter(
+            (homework) => homework.date?.toDate() > new Date()
+          );
+          setNextClasses(userFromDb?.nextClasses);
+          setPreviousClasses(userFromDb?.previousLessons);
+          setTeacherNotes(userFromDb?.teacherNotes);
+          setHomeworkList(homeworks);
+          setUser(userFromDb);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getUser();
+
+    }
+  },[isUpdateDone])
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900 px-6">
@@ -88,7 +105,7 @@ const MainComponent = () => {
                     return (
                       <>
                         <NextClasses
-                          name={nextClass?.name}
+                          name={nextClass?.title}
                           teacher={nextClass?.teacher}
                           date={nextClass?.date}
                         />
@@ -116,7 +133,7 @@ const MainComponent = () => {
                     return (
                       <>
                         <PreviousClasses
-                          name={previousClass?.name}
+                          name={previousClass?.title}
                           teacher={previousClass?.teacher}
                           date={previousClass?.date}
                         />
