@@ -13,7 +13,7 @@ const NextClasses = ({ id }) => {
   }, []);
 
   return (
-    <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">
+    <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
       <div className="flex flex-col justify-between">
         <div className="flex flex-col ">
           <ol>

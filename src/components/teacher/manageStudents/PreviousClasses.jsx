@@ -14,10 +14,10 @@ const PreviousClasses = ({ id }) => {
   }, []);
 
   return (
-    <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">
-      <div className="flex flex-col justify-between">
+    <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
+      
         <div className="flex flex-col ">
-          <ol>
+          <ol >
             {previousLessons.map((previousClass) => {
               return (
                 <li className=" text-white border p-2 rounded-xl mb-1 flex flex-row justify-between">
@@ -71,7 +71,7 @@ const PreviousClasses = ({ id }) => {
             })}
           </ol>
         </div>
-      </div>
+      
     </div>
   );
 };
