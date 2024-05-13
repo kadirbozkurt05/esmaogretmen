@@ -11,7 +11,6 @@ const Nav = () => {
   const [user, setUser] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [positive, setPositive] = useState(false);
   const href = useHref();
   const [title, setTitle] = useState(null);
   const navigate = useNavigate();
@@ -125,7 +124,7 @@ user &&
         >
           <div className="px-4 py-3">
             <span className="block text-sm text-gray-900 dark:text-white">
-              {auth.currentUser?.displayName}
+              {user?.firstname} {user?.lastName}
             </span>
             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
               {auth.currentUser?.email}

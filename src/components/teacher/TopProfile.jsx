@@ -35,7 +35,7 @@ const TopProfile = ()=>{
             <div className="flex items-center justify-between sm:mt-2">
               <div className="flex items-center">
                 <div className="flex flex-col">
-                  <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">{auth?.currentUser?.displayName}</div>
+                  <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">{user?.firstName} {user?.lastName}</div>
                   <div className="flex-auto text-gray-400 my-1">
                     <span className="mr-3 ">Sınıf Öğretmeni</span><span className="mr-3 border-r border-gray-600  max-h-0"></span><span>{user?.contact?.address?.province}</span>
                   </div>
