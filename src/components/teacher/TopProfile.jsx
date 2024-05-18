@@ -1,29 +1,38 @@
 import { useEffect, useState } from "react";
-import auth from "../../utils/config/firebaseConfig";
-import getUserInfo from "../../utils/database/GetData/GetUserInfo";
+import { useUser } from "../../context/userContext";
+import useFetch from "../../hooks/useFetch";
+
 
 const TopProfile = ()=>{
+  const {user} = useUser();
+    const [userInfo, setUserInfo] = useState(null);
 
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const getUser = async () => {
-          try {
-            const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-            setUser(userFromDb);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        getUser();
-      }, []);
+
+  
+    useEffect(()=>{
+      performFetch();
+    },[])
+  
+
+  
+    const onSuccess = (data) => {
+      setUserInfo(data);
+    }
+
+
+
+
+    const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user?.uid}`,onSuccess);
+
+
 
 
     return(
         <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
         <div className="flex-none sm:flex">
           <div className=" relative h-32 w-32   sm:mb-0 mb-3">
-            <img src={user && user?.picture} alt="aji" className=" w-32 h-32 object-cover rounded-2xl"/>
+            <img src={userInfo && userInfo?.picture} alt="aji" className=" w-32 h-32 object-cover rounded-2xl"/>
             <a href="#" className="absolute -right-2 bottom-2   -ml-3  text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
@@ -35,9 +44,9 @@ const TopProfile = ()=>{
             <div className="flex items-center justify-between sm:mt-2">
               <div className="flex items-center">
                 <div className="flex flex-col">
-                  <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">{user?.firstName} {user?.lastName}</div>
+                  <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">{userInfo?.firstName} {userInfo?.lastName}</div>
                   <div className="flex-auto text-gray-400 my-1">
-                    <span className="mr-3 ">Sınıf Öğretmeni</span><span className="mr-3 border-r border-gray-600  max-h-0"></span><span>{user?.contact?.address?.province}</span>
+                    <span className="mr-3 ">Sınıf Öğretmeni</span><span className="mr-3 border-r border-gray-600  max-h-0"></span><span>{userInfo?.contact?.address?.province}</span>
                   </div>
                 </div>
               </div>
@@ -49,7 +58,7 @@ const TopProfile = ()=>{
                   <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
                   </path>
                 </svg>
-                <p className="">{user?.students?.length} Öğrenci</p>
+                <p className="">{userInfo?.students?.length} Öğrenci</p>
               </div>
               <div className="flex-1 inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">

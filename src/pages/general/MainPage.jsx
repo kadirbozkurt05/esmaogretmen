@@ -1,31 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Info from "../../components/general/MainPage/Info.jsx";
 import Slider from "../../components/general/MainPage/Slider.jsx";
 import NewsLetter from "../../components/general/MainPage/NewsLetter.jsx";
-import auth from "../../utils/config/firebaseConfig.js";
-import getUserInfo from "../../utils/database/GetData/GetUserInfo.js";
 import TeacherDashboard from "../teacher/TeacherDashboard.jsx";
 import StudentDashboard from "../student/StudentDashboard.jsx";
-import { onAuthStateChanged } from "firebase/auth";
+import useFetch from "../../hooks/useFetch.js";
 
-const MainPage = () => {
-  const [user, setUser] = useState(null);
+const MainPage = ({user}) => {
+  const [userInfo, setUserInfo] = useState(null);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const getUser = async () => {
-        try {
-          const userInfo = await getUserInfo(auth.currentUser.uid);
-          setUser(userInfo);
-        } catch (error) {}
-      };
-      getUser();
-    } else {
-      // User is signed out
+  const onSuccess = (data) => {
+    setUserInfo(data);
+  };
 
-    }
-  });
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    `/user/${user?.uid}`,
+    onSuccess
+  );
 
+  useEffect(()=>{
+    performFetch();
+  },[user])
 
   const slides = [
     {
@@ -59,7 +54,13 @@ const MainPage = () => {
     },
   ];
 
-  if(!auth.currentUser){
+  if (user) {
+    if (userInfo?.isTeacher || userInfo?.isAdmin) {
+      return <TeacherDashboard />;
+    } else {
+      return <StudentDashboard />;
+    }
+  } else {
     return (
       <div className="xl:px-32">
         <Info />
@@ -72,34 +73,7 @@ const MainPage = () => {
         <NewsLetter />
       </div>
     );
-    
-
   }
-  
-if(auth?.currentUser){
-
-  if (user?.isTeacher || user?.isAdmin) {
-    return( <TeacherDashboard />);
-  }else
-
-  if (!user?.isTeacher && !user?.isAdmin) {
-    return( <StudentDashboard />);
-  }
-
-}else{
-return (
-    <div className="xl:px-32">
-      <Info />
-      <div className="bg-orange-200">
-        <Slider slides={slides} title={"YARIŞMALAR"} />
-      </div>
-      <div className=" bg-red-300">
-        <Slider slides={slides} title={"DUYURULAR"} />
-      </div>
-      <NewsLetter />
-    </div>
-  );
-}
 };
 
 export default MainPage;

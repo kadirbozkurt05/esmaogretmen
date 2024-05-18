@@ -1,17 +1,20 @@
-import getUserInfo from "../../utils/database/GetData/GetUserInfo";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 const Student = ({ student }) => {
   const [user, setUser] = useState(null);
 
+  const onSuccess = (data) => {
+    setUser(user);
+  }
+
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${student}`,onSuccess);
+
+
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const user = await getUserInfo(student);
-        setUser(user);
-      } catch (error) {}
-    };
-    getUser();
+
+performFetch();
   }, []);
   return (
     <Link

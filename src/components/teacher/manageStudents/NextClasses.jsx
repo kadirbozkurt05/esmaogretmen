@@ -1,16 +1,31 @@
 import { useEffect, useState } from "react";
-import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import { format } from "date-fns";
+import useFetch from "../../../hooks/useFetch";
 
 const NextClasses = ({ id }) => {
   const [nextClasses, setNextClasses] = useState([]);
+
+
+
+
+  useEffect(()=>{
+    cancelFetch();
+  },[])
+
+  const onSuccess = (data) => {
+    setNextClasses(data?.nextClasses);
+  }
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${id}`,onSuccess)
+
   useEffect(() => {
-    const getUserFromDb = async () => {
-      const userFromDb = await getUserInfo(id);
-      setNextClasses(userFromDb?.nextClasses);
-    };
-    getUserFromDb();
+    performFetch();
   }, []);
+
+  if(error){
+    console.log(console.log(error.message));
+  }
+
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">

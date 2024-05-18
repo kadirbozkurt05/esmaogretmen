@@ -1,55 +1,40 @@
 import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
-import auth from "../../../utils/config/firebaseConfig";
-import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import Homework from "./Homework";
 import NextClasses from "./NextClasses";
 import PreviousClasses from "./PreviousLessons";
 import TeacherNotes from "./TeacherNotes";
-import updateClassesAndLessons from "../../../utils/database/UpdateData/UpdateNextAndPreviousLessons";
+import useFetch from "../../../hooks/useFetch";
+import { useUser } from "../../../context/userContext";
 
 const MainComponent = () => {
-  const [user, setUser] = useState();
   const [homeworkList, setHomeworkList] = useState([]);
   const [nextClasses, setNextClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
   const [teacherNotes, setTeacherNotes] = useState([]);
-  const [isUpdateDone, setIsUpdateDone] = useState(false);
-  useEffect(() => {
-    const update = async () => {
-      try {
-        await updateClassesAndLessons(auth?.currentUser?.uid);
-        setIsUpdateDone(true)
+  const {user} = useUser();
 
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    update();
-  }, []);
 
-  useEffect(()=>{
-    if(isUpdateDone){
+useEffect(()=>{
+  performFetch();
+},[])
 
-      const getUser = async () => {
-        try {
-          const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-          const homeworks = userFromDb?.homework.filter(
-            (homework) => homework.date?.toDate() > new Date()
-          );
-          setNextClasses(userFromDb?.nextClasses);
-          setPreviousClasses(userFromDb?.previousLessons);
-          setTeacherNotes(userFromDb?.teacherNotes);
-          setHomeworkList(homeworks);
-          setUser(userFromDb);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getUser();
+  const onSuccess = (data) => {
+    setNextClasses(data?.nextClasses);
+    setPreviousClasses(data?.previousLessons);
+    setTeacherNotes(data?.teacherNotes);
+    setHomeworkList(data?.homeworks);
+  };
 
-    }
-  },[isUpdateDone])
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    `/user/${user.uid}`,
+    onSuccess
+  );
+
+
+  if (error) {
+    console.log("Error : ", error);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900 px-6">

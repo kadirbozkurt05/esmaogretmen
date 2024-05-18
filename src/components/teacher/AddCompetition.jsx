@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import addCompetition from "../../utils/database/AddData/AddCompetition";
-import addImageAndGetUrl from "../../utils/database/AddData/AddImageAndGetUrl";
 import { Timestamp } from "firebase/firestore";
+import useFetch from "../../hooks/useFetch";
 
 const AddCompetition = () => {
   const [title, setTitle] = useState("");
@@ -12,12 +11,42 @@ const AddCompetition = () => {
   const [awardImage, setAwardImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [awardImageUrl, setAwardImageUrl] = useState("");
-
-
   const [image, setImage] = useState(null);
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState("");
   const [awardText, setAwardText] = useState("");
+
+  useEffect(()=>{
+    cancelFetch();
+    awardCancelfetch();
+    imageCancelfetch();
+  },[])
+
+  const onSuccessAward = (data) => {
+    setAwardImageUrl(data);
+  };
+  const onSuccessImage = (data) => {
+    setImageUrl(data);
+  };
+
+  const onSuccess = (data) => {};
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    "/competition/create",
+    onSuccess
+  );
+
+  const {
+    error: awardError,
+    isLoading: awardIsLoading,
+    performFetch: awardPerformFetch,
+    cancelFetch: awardCancelfetch,
+  } = useFetch("/user/add-image", onSuccessAward);
+  const {
+    error: imageError,
+    isLoading: imageIsLoading,
+    performFetch: imagePerformFetch,
+    cancelFetch: imageCancelfetch,
+  } = useFetch("/user/add-image", onSuccessImage);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -35,30 +64,30 @@ const AddCompetition = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const imageUrl = await addImageAndGetUrl(image,'competitionImages')
-      console.log(imageUrl);
-      setImageUrl(imageUrl);
+    awardPerformFetch({
+      method: "POST",
+      body: {
+        file: awardImage,
+        folderName: "awardImages",
+      },
+    });
 
-      const awardImageUrl = await addImageAndGetUrl(awardImage,'awardImages')
-      setAwardImageUrl(awardImageUrl)
-      console.log(awardImageUrl);
-      
-    } catch (error) {
-
-      console.log(error);
-      
-    }
+    imagePerformFetch({
+      method: "POST",
+      body: {
+        file: image,
+        folderName: "awardImages",
+      },
+    });
 
     const competitionData = {
       name: title,
       picture: imageUrl,
       due_date: Timestamp.fromDate(date),
       isActive: true,
-      winner: [],
       participants: [],
       winner: [],
-      body:text,
+      body: text,
       award: {
         name: award,
         number,
@@ -66,13 +95,16 @@ const AddCompetition = () => {
         spesifications: awardText,
       },
     };
-    try {
-      await addCompetition(competitionData);
-      
-    } catch (error) {
-      console.log(error);
-    }
+
+    performFetch({
+      method: "POST",
+      body: competitionData,
+    });
   };
+
+  if(error || imageError || awardError){
+    console.log("ERROR in ADDCOMPETITION");
+  }
 
   return (
     <div className="p-8 bg-gray-800 rounded-md shadow-md form-container">

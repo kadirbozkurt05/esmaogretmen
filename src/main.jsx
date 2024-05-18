@@ -12,12 +12,15 @@ import Services from './pages/general/Services.jsx';
 import Profile from './pages/student/Profile.jsx';
 import Settings from './pages/student/Settings.jsx';
 import ManageStudent from './pages/teacher/ManageStudent.jsx';
+import { UserProvider } from "./context/userContext.jsx";
+import ComingSoon from './pages/comingSoon/ComingSoon.jsx';
 
 
 createRoot(document.getElementById('root')).render(
+  <UserProvider>
   <Router>
     <Routes>
-      <Route element={<App />} path="/" />
+      <Route element={<ComingSoon />} path="/" />
       <Route element={<SignUp />} path="/sign-up" />
       <Route element={<SignIn />} path="/sign-in" />
       <Route element={<About />} path="/about" />
@@ -33,4 +36,5 @@ createRoot(document.getElementById('root')).render(
 
     </Routes>
   </Router>
+  </UserProvider>
 );

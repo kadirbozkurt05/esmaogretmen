@@ -1,64 +1,162 @@
 import { useEffect, useState, useRef } from "react";
-import auth from "../../utils/config/firebaseConfig";
-import getUserInfo from "../../utils/database/GetData/GetUserInfo";
-import uploadProfilePicture from "../../utils/database/AddData/AddProfilePhoto";
+import useFetch from "../../hooks/useFetch";
+import { useUser } from "../../context/userContext";
+import { setDate } from "date-fns";
+import { appendErrors } from "react-hook-form";
 
 const TopProfile = () => {
-  const [user, setUser] = useState(null);
-  const fileInputRef = useRef(null);
-  const [profilePictureUrl, setProfilePictureUrl] = useState(null);
-
-
   const [file, setFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [base64, setBase64] = useState("");
 
 
-
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-        setProfilePictureUrl(userFromDb?.picture);
-        setUser(userFromDb);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, []);
-
-  const handleChangeProfilePicture = () => {
-    fileInputRef.current.click();
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
   };
 
-  const handleFileChange = async (event) => {
-    setFile(URL.createObjectURL(event.target.files[0]));
-    const file = event.target.files[0];
-    try {
-      await uploadProfilePicture(file, auth.currentUser?.uid);
-      setProfilePictureUrl(user?.picture)
-    } catch (error) {
-      console.log(error);
-    }
+
+  useEffect(()=>{
+    console.log("aaaa",base64);
+  },[base64])
+  
+
+  const handleUpload =  (e) => {
+
+    console.log(e);
+    // try {
+    //   const formData = new FormData();
+
+
+    //   performFetchPicture({
+    //     headers:{
+    //       "content-type":"*/*"
+    //     },
+    //     method:"POST",
+    //     body:{file}
+    //   })
+
+
+
+
+
+      // const response = await fetch("/api/user/upload-photo", {
+      //   method: "POST",
+      //   body: formData,
+      // });
+
+      // if (response.ok) {
+      //   const url = await response.json();
+      //   setImageUrl(url);
+      // } else {
+      //   console.error("Failed to upload profile picture");
+      // }
+    // } catch (error) {
+    //   console.error("Error uploading profile picture:", error);
+    // }
   };
+
+
+
+
+
+  const { user } = useUser();
+  const [userInfo, setUserInfo] = useState(null);
+  // const fileInputRef = useRef(null);
+  const [profilePictureUrl, setProfilePictureUrl] = useState(userInfo?.picture);
+  // const [data, setData] = useState(null);
+
+  // const [file, setFile] = useState({});
+
+  // useEffect(() => {
+  //   performFetch();
+  // }, []);
+
+  // const onSuccess = (data) => {
+  //   setUserInfo(data);
+  // };
+
+  const onSuccessPicture = (data) => {
+    console.log("2222",data);
+    setProfilePictureUrl(userInfo?.picture);
+  };
+
+  // const { error, isLoading, performFetch, cancelFetch } = useFetch(
+  //   `/user/${user?.uid}`,
+  //   onSuccess
+  // );
+  const {
+    error: errorPicture,
+    isLoading: isLoadingPicture,
+    performFetch: performFetchPicture,
+    cancelFetch: cancelFetchPicture,
+  } = useFetch(`/user/upload-photo`, onSuccessPicture);
+
+  // if (errorPicture) {
+  //   console.log("Error ZAAAA : ", errorPicture);
+  // }
+
+  // const handleChangeProfilePicture = async () => {
+  //   await fileInputRef.current.click();
+  // };
+
+  // const handleFileChange = async (event) => {
+  //   setFile(URL.createObjectURL(event.target.files[0]));
+  //   handleSubmit();
+  // };
+
+  // const handleOnChange = async (e) => {
+  //   setFile(e.target);
+  // };
+
+  // const handleSubmit = (e) => {
+  //   const formData = new FormData();
+  //   formData.append("filename",file);
+  //   performFetchPicture({
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     method:"POST",
+  //     body:{buffer:"BUFFFFFF"}
+  //   })
+  // }
 
   return (
     <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-      <input
-        ref={fileInputRef}
-        type="file"
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
+      {/* <form >
+        <input
+          ref={fileInputRef}
+          type="file"
+          name="filename"
+          style={{ display: "none" }}
+          onChange={handleOnChange}
+        />
+        <button type="button" onClick={handleSubmit}>UPLOAD</button>
+      </form> */}
+
+
+
+<form onSubmit={handleUpload}  id="formPost" method="post" enctype="multipart/form-data"> 
+      <input type="file" name="fileName" accept="image/*" onChange={handleFileChange} />
+      <input type="submit" value={"UPLOAD"}/>
+      {imageUrl && <img src={imageUrl} alt="Profile" />}
+    </form>
+
+
+
+
+
+
+
 
       <div className="flex-none sm:flex">
         <div className=" relative h-32 w-32   sm:mb-0 mb-3">
           <img
-            src={file || profilePictureUrl}
+            src={file || userInfo?.picture}
             alt="profile picture"
             className=" w-32 h-32 object-cover rounded-2xl"
           />
-          <div
+          {/* <div
             onClick={handleChangeProfilePicture}
             className="absolute -right-2 bottom-2   -ml-3  text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300"
           >
@@ -70,21 +168,21 @@ const TopProfile = () => {
             >
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
             </svg>
-          </div>
+          </div> */}
         </div>
         <div className="flex-auto sm:ml-5 justify-evenly">
           <div className="flex items-center justify-between sm:mt-2">
             <div className="flex items-center">
               <div className="flex flex-col">
                 <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">
-                  {user?.firstName} {user?.lastName}
+                  {userInfo?.firstName} {userInfo?.lastName}
                 </div>
                 <div className="flex-auto text-gray-400 my-1">
                   <span className="mr-3 ">
-                    {user?.educationDetails?.className}. Sınıf
+                    {userInfo?.educationDetails?.class}. Sınıf
                   </span>
                   <span className="mr-3 border-r border-gray-600  max-h-0"></span>
-                  <span>{user?.contact?.address?.province}</span>
+                  <span>{userInfo?.contact?.address?.province}</span>
                 </div>
               </div>
             </div>
@@ -108,7 +206,9 @@ const TopProfile = () => {
                 />
               </svg>
 
-              <p className="">{user?.previousLessons?.length} ders yapıldı.</p>
+              <p className="">
+                {userInfo?.previousLessons?.length} ders yapıldı.
+              </p>
             </div>
             <div className="flex-1 inline-flex items-center">
               <svg
@@ -129,7 +229,7 @@ const TopProfile = () => {
                 />
               </svg>
 
-              <p className="">{user?.esCoin?.total} EsCoin</p>
+              <p className="">{userInfo?.esCoin?.total} EsCoin</p>
             </div>
           </div>
         </div>

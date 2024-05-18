@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import getCompetitions from "../../utils/database/GetData/GetCompetitions";
 import { format } from "date-fns";
-import updateCompetitionStatus from "../../utils/database/UpdateData/UpdateCompetitionStatus";
+import useFetch from "../../hooks/useFetch";
 
 const Competitions = () => {
   const [allCompetitions, setAllCompetitions] = useState([]);
   const [showedCompetitions, setShowedCompetitions] = useState([]);
   const [showAll, setShowAll] = useState(false);
+
+  const onSuccess = (data) => {
+    setAllCompetitions(data);
+    setShowedCompetitions(data.slice(0, 4));
+
+  };
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    "/competition/all",
+    onSuccess
+  );
   useEffect(() => {
-    const getAllCompetitions = async () => {
-      try {
-        const competitions = await getCompetitions();
-        await Promise.all(competitions.map(updateCompetitionStatus));
-        setAllCompetitions(competitions);
-        setShowedCompetitions(competitions.slice(0, 4));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllCompetitions();
+
+    performFetch();
   }, []);
 
   useEffect(() => {

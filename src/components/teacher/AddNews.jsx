@@ -1,8 +1,6 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import addNews from "../../utils/database/AddData/AddNews";
 import { Timestamp } from "firebase/firestore";
-import addImageAndGetUrl from "../../utils/database/AddData/AddImageAndGetUrl";
 
 const AddNews = () => {
   const [title, setTitle] = useState("");
@@ -15,19 +13,36 @@ const AddNews = () => {
     setImage(file);
   };
 
+  const onSuccessImage = (data) => {
+    setImageUrl(data);
+  };
+
+  const {
+    error: imageError,
+    isLoading: imageIsLoading,
+    performFetch: imagePerformFetch,
+    cancelFetch: imageCancelfetch,
+  } = useFetch("/user/add-image", onSuccessImage);
+
+  const onSuccess = (data) => {};
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    "/news/create",
+    onSuccess
+  );
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const imageUrl = await addImageAndGetUrl(image,'newsImages')
-      setImageUrl(imageUrl);
-      
-    } catch (error) {
-
-      console.log(error);
-      
-    }
+    imagePerformFetch({
+      method: "POST",
+      body: {
+        file: image,
+        folderName: 'newsImages',
+      },
+    });
+    
 
     const newsData = {
       title,
@@ -35,13 +50,16 @@ const AddNews = () => {
       date: Timestamp.fromDate(new Date()),
       body:text
     };
-    try {
-      await addNews(newsData);
-      
-    } catch (error) {
-      console.log(error);
-    }
+
+    performFetch({
+      method: "POST",
+      body: newsData,
+    });
   };
+
+  if(error || imageError){
+    console.log("ERROR in ADD NEWS");
+  }
 
   return (
     <div className="p-8 bg-gray-800 rounded-md shadow-md form-container">

@@ -1,28 +1,40 @@
 import StudentList from "./StudentList";
 import TopProfile from "./TopProfile";
 import { useEffect, useState } from "react";
-import auth from "../../utils/config/firebaseConfig";
-import getUserInfo from "../../utils/database/GetData/GetUserInfo";
 import AddNews from "./AddNews";
 import AddCompetition from "./AddCompetition";
 import Competitions from "./Competitions";
 import News from "./News";
+import { useUser } from "../../context/userContext";
+import useFetch from "../../hooks/useFetch";
 const MainComponent = () => {
-  const [user, setUser] = useState();
+  const {user} = useUser();
+  const [userInfo, setUserInfo] = useState(null);
   const [addNews, setAddNews] = useState(false);
   const [showNews, setShowNews] = useState(false);
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-        setUser(userFromDb);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [auth.currentUser]);
+
+
+
+
+  useEffect(()=>{
+    performFetch();
+  },[])
+
+
+
+  const onSuccess = (data) => {
+    setUserInfo(data);
+  }
+
+
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user?.uid}`,onSuccess);
+
+  if(error ) {
+    console.log("Error : ", error );
+  }
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">
@@ -31,11 +43,17 @@ const MainComponent = () => {
           <div className="flex flex-col sticky top-0 z-10">
             <TopProfile />
           </div>
+          
+          
+          {userInfo?.isTeacher && userInfo?.students.length > 0 &&  
+          <>
           <hr />
           <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
             <h6 className="text-xl font-semibold text-white">ÖĞRENCİLER</h6>
           </div>
-          {user?.isTeacher && user?.students.length > 0 &&  <StudentList students={user?.students} />}
+          <StudentList students={userInfo?.students} />
+          </>
+          }
           <hr />
           <div className="flex flex-col ">
             <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">

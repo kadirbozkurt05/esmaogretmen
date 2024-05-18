@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react";
-import auth from "../../../utils/config/firebaseConfig";
-import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import StudentInfo from "./StudentInfo";
 import GiveHomework from "./GiveHomework";
 import SendNote from "./SendNote";
 import AddNextLesson from "./AddNextLesson";
 import NextClasses from "./NextClasses";
 import PreviousClasses from "./PreviousClasses";
+import useFetch from "../../../hooks/useFetch";
 
 const MainComponent = ({ id, teacher }) => {
   const [user, setUser] = useState();
+
+  useEffect(()=>{
+    cancelFetch();
+  },[])
+
+  const onSuccess = (data) => {
+    setUser(data);
+  }
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${id}`,onSuccess)
+
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userFromDb = await getUserInfo(id);
-        setUser(userFromDb);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [auth.currentUser]);
+    performFetch();
+  }, []);
+
+  if(error){
+    console.log(console.log(error.message));
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">

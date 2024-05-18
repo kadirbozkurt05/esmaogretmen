@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import getNews from "../../utils/database/GetData/GetNews";
 
 const News = () => {
   const [allNews, setAllNews] = useState([]);
   const [showedNews, setShowedNews] = useState([]);
   const [showAll, setShowAll] = useState(false);
+
+  const onSuccess = (data) => {
+    setAllNews(data);
+    setShowedNews(data.slice(0, 4));
+  };
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    "/news/all",
+    onSuccess
+  );
   useEffect(() => {
-    const getAllNews = async () => {
-      const news = await getNews();
-      setAllNews(news);
-      setShowedNews(news.slice(0, 4));
-    };
-    getAllNews();
+    performFetch();
   }, []);
 
   useEffect(() => {
     if (showAll) {
-      setShowedNews(allNews);
+      setShowedNews(allCompetitions);
     } else {
-      setShowedNews(allNews.slice(0, 4));
+      setShowedNews(allCompetitions.slice(0, 4));
     }
   }, [showAll]);
 
@@ -38,11 +41,12 @@ const News = () => {
 
   return (
     <div>
-      
       {showedNews.map((news) => {
         return (
           <div className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
-            <h2 className="text-2xl font-semibold text-white mb-6">Duyurular</h2>
+            <h2 className="text-2xl font-semibold text-white mb-6">
+              Duyurular
+            </h2>
 
             <div className="p-4 mb-4 flex md:flex-row flex-col">
               <div className="flex-shrink-0 ">

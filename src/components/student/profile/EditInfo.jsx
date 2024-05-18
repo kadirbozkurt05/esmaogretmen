@@ -1,12 +1,12 @@
 import { useState } from "react";
-import auth from "../../../utils/config/firebaseConfig";
-import updateProfile from "../../../utils/database/UpdateData/UpdateProfile";
 import Info from "./Info";
 
 const EditInfo = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
   const [cancel, setCancel] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [userId, setUserId] = useState("");
+
 
 
   const handleInputChange = (e) => {
@@ -18,15 +18,35 @@ const EditInfo = ({ user }) => {
     });
   };
 
+  useEffect(()=>{
+    performFetchCurrentUser();
+  },[])
+
+  const onSuccessCurrentUser = (data) =>{
+    setUserId(data.uid);
+  }
+
+  const onSuccess = ()=>{
+    setIsUpdated(true);
+    setCancel(true);
+  }
+
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${userId}`,onSuccess);
+  const {error: errorCurrentUser, performFetch:performFetchCurrentUser, cancelFetch:cancelFetchCurrentUser} = useFetch(`/user/current-user`, onSuccessCurrentUser);
+
+
+
   const handleSubmit = async ()=>{
-    try {
-      await updateProfile(auth.currentUser?.uid,userInfo);
-      setIsUpdated(true);
-      
-      setCancel(true);
-    } catch (error) {
-      console.log(error);
-    }
+
+      performFetch({
+        method:"PUT",
+        body:{
+          userInfo
+        }
+      })
+
+
   }
 
   if(isUpdated){

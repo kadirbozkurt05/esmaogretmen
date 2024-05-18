@@ -1,25 +1,40 @@
 import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
-import auth from "../../../utils/config/firebaseConfig";
-import getUserInfo from "../../../utils/database/GetData/GetUserInfo";
 import Info from "./Info";
 
 
 
 const MainComponent = () => {
   const [user, setUser] = useState();
+  const [userId, setUserId] = useState("");
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userFromDb = await getUserInfo(auth?.currentUser?.uid);
-        setUser(userFromDb);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, []);
+  useEffect(()=>{
+    cancelFetch();
+    cancelFetchCurrentUser();
+  },[])
+
+  useEffect(()=>{
+    performFetchCurrentUser();
+  },[])
+
+  const onSuccessCurrentUser = (data) =>{
+    setUserId(data.uid);
+    performFetch();
+  }
+
+  const onSuccess = (data) => {
+    setUser(data);
+  }
+
+
+
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${userId}`,onSuccess);
+  const {error: errorCurrentUser, performFetch:performFetchCurrentUser, cancelFetch:cancelFetchCurrentUser} = useFetch(`/user/current-user`, onSuccessCurrentUser);
+
+  if(error || errorCurrentUser) {
+    console.log("Error : ", error || errorCurrentUser);
+  }
+
 
 
 

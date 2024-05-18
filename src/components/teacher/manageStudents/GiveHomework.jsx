@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import addHomeworkToUser from "../../../utils/database/AddData/AddHomework";
 import Modal from "../../general/Modal/Modal";
+import useFetch from "../../../hooks/useFetch";
 
 const GiveHomework = ({ id }) => {
   const [date, setDate] = useState(new Date());
@@ -20,20 +20,34 @@ const GiveHomework = ({ id }) => {
     formState: {},
   } = useForm();
 
-  const onSubmit = async (formData) => {
 
-    formData.date = date;
-    try {
-      await addHomeworkToUser(id, formData);
-      setShowSuccesModal(true);
+  const onSuccess = () => {
+    setShowSuccesModal(true);
       reset();
        setTimeout(() => {
          setShowSuccesModal(false);
        }, 1000);
-    } catch (error) {
-      setShowFailModal(true);
-    }
   };
+
+  const { error, loading, performFetch, cancelFetch } = useFetch(
+    "/user/give-homework",
+    onSuccess
+  );
+
+  const onSubmit = async (formData) => {
+
+    formData.date = date;
+    performFetch({
+      method: "POST",
+      body: { userId: id, formData },
+    });
+
+  };
+
+  if(error){
+    console.log(error);
+    setShowFailModal(true);
+  }
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2 h-72 text-white">

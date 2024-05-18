@@ -5,12 +5,14 @@ import WhatToGain from "../../components/general/About/WhatToGain";
 import WhyLesson from "../../components/general/About/WhyLesson";
 import Nav from "../../components/general/Nav/Nav";
 import Footer from "../../components/general/Footer/Footer"
+import { useUser } from "../../context/userContext";
 
 
 const About = () => {
+  const {user} = useUser();
   return (
     <>
-      <Nav />
+      <Nav user={user}/>
       <div className="xl:px-32 p-6">
         <AboutMe />
         <div className=" border-b-2 border-black"></div>

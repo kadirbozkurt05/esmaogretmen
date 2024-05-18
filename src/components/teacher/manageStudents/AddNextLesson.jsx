@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import addNextLessonToUser from "../../../utils/database/AddData/AddNextLesson";
+import useFetch from "../../../hooks/useFetch";
 const AddNextLesson = ({ id, teacherName }) => {
   const [date, setDate] = useState(null);
 
@@ -14,22 +14,32 @@ const AddNextLesson = ({ id, teacherName }) => {
     formState: {},
   } = useForm();
 
+
+  const onSuccess = () => {};
+
+  const { error, loading, performFetch, cancelFetch } = useFetch(
+    "/user/add-lesson",
+    onSuccess
+  );
+
   const onSubmit = async (formData) => {
     formData.date = Timestamp.fromDate(date),
       formData.teacher = teacherName;
       formData.isDone = false;
-    try {
-      await addNextLessonToUser(id, formData);
-      console.log("ADDED");
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(formData);
+
+      performFetch({
+        method: "POST",
+        body: { userId: id, formData },
+      });
   };
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
   };
+
+  if (error) {
+    console.log("ERROR IN SEND NOTE", error);
+  }
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">

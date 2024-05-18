@@ -1,41 +1,51 @@
-import React, { useState } from 'react';
-import { signIn } from '../../../utils/auth/LoginAndLogout';
-import { useNavigate, Link } from 'react-router-dom';
-import { updatePassword } from 'firebase/auth';
-import auth from '../../../utils/config/firebaseConfig';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useFetch from "../../../hooks/useFetch";
+
+
 
 const ChangePassword = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    password : '',
-    repeatPassword: '',
+    password: "",
+    repeatPassword: "",
     remember: false,
   });
+  useEffect(()=>{
+    cancelFetch();
+  },[])
+
+  const onSuccess = () => {
+    navigate("/");
+  };
+
+  const { error, loading, performFetch, cancelFetch } = useFetch(
+    "/user/change-password",
+    onSuccess
+  );
 
   const handleChange = (e) => {
-    const { name, value} = e.target;
+    const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(formData.password !== formData.repeatPassword){
-        alert("Parolalar eşleşmiyor!");
-        return;
-    }else{
-        try {
-            await updatePassword(auth.currentUser, formData.password)
-            navigate("/");
-          } catch (error) {
-            console.log(error);
-          }
-
+    if (formData.password !== formData.repeatPassword) {
+      alert("Parolalar eşleşmiyor!");
+      return;
+    } else {
+      performFetch({
+        method: "POST",
+        body: formData,
+      });
     }
-
-
-    
   };
+
+  if(error){
+    console.log(error.message);
+  }
 
   return (
     <section>
@@ -45,8 +55,11 @@ const ChangePassword = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight ">
               Parolayı Değiştir
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
-
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
               <div>
                 <label
                   htmlFor="password"
@@ -61,7 +74,8 @@ const ChangePassword = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"                   required
+                  className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
+                  required
                 />
               </div>
               <div>
@@ -78,15 +92,12 @@ const ChangePassword = () => {
                   value={formData.repeatPassword}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"                   required
+                  className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
+                  required
                 />
               </div>
-             
-              <button
-                type="submit"
-              >
-                Onayla
-              </button>
+
+              <button type="submit">Onayla</button>
             </form>
           </div>
         </div>
