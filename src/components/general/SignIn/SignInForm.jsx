@@ -6,7 +6,7 @@ import useFetch from "../../../hooks/useFetch";
 import {useUser} from "./../../../context/userContext.jsx"
 
 const SignInForm = () => {
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
@@ -28,6 +28,11 @@ const SignInForm = () => {
         "user",
         JSON.stringify(data)
       );
+
+      sessionStorage.setItem(
+        "user",
+        JSON.stringify(data)
+      )
     }else{
       sessionStorage.setItem(
         "user",

@@ -3,6 +3,7 @@ import Nav from "./components/general/Nav/Nav";
 import MainPage from "./pages/general/MainPage";
 import { useEffect } from "react";
 import { useUser } from "./context/userContext";
+import useFetch from "./hooks/useFetch";
 
 function App() {
   const {user, setUser } = useUser();
@@ -12,6 +13,7 @@ function App() {
     if(sessionStorage.getItem("user")){
       const user = JSON.parse(sessionStorage.getItem("user"));
       setUser(user);
+
     }
 
     if(localStorage.getItem("user")){
@@ -19,6 +21,8 @@ function App() {
       setUser(user);
     }
   },[])
+
+
   return (
     
     <div className=" bg-gray-900">
@@ -27,6 +31,8 @@ function App() {
       <Footer/>
     </div>
   );
+
+  
 }
 
 export default App;

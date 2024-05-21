@@ -7,37 +7,26 @@ import useFetch from "../../hooks/useFetch";
 import { useUser } from "../../context/userContext";
 
 const ManageStudent = () => {
-  const {user} = useUser(user);
+  const {user} = useUser();
   const { id } = useParams();
   const [teacherName, setTeacherName] = useState("");
 
-  const [userId, setUserId] = useState("");
 
-  useEffect(() => {
-    cancelFetch();
-    cancelFetchCurrentUser();
-  }, []);
-
-  const onSuccessCurrentUser = (data) => {
-    setUserId(data.uid);
+  useEffect(()=>{
     performFetch();
-  };
+  },[])
 
   const onSuccess = (data) => {
-    setTeacherName(`${userFromDb?.firstName} ${userFromDb?.lastName}`);
+    setTeacherName(`${data?.firstName} ${data?.lastName}`);
   };
 
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
-    `/user/${userId}`,
+  const { error, performFetch } = useFetch(
+    `/user/${user?.uid}`,
     onSuccess
   );
-  const {
-    error: errorCurrentUser,
-    performFetch: performFetchCurrentUser,
-    cancelFetch: cancelFetchCurrentUser,
-  } = useFetch(`/user/current-user`, onSuccessCurrentUser);
 
-  if (error || errorCurrentUser) {
+
+  if (error) {
     console.log("Error : ", error || errorCurrentUser);
   }
 

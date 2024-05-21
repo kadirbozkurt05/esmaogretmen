@@ -1,4 +1,5 @@
 const StudentInfo = ({ user }) => {
+  console.log("LOG : ",user);
   return (
     <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
       <div className="flex-none sm:flex">

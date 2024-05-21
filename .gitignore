@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+/src/App.jsx
+src/App.jsx
+App.jsx

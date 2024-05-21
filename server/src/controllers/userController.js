@@ -19,6 +19,8 @@ import {
   onAuthStateChanged,
   updatePassword as passwordUpdate,
   signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
 
 } from "firebase/auth";
 import User from "../models/User.js";
@@ -178,6 +180,7 @@ const deleteUser = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     await handleAuthState();
+    await setPersistence( auth, browserSessionPersistence);
     const credentials = req.body;
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -356,10 +359,10 @@ const addNextLessonToUser = async (userId, formData) => {
 const addHomeworkToUser = async (req, res, next) => {
   const data = req.body;
   try {
-    const userDocRef = doc(db, "Users", body.userId);
+    const userDocRef = doc(db, "Users", data.userId);
 
     await updateDoc(userDocRef, {
-      homework: arrayUnion(body.formData)
+      homework: arrayUnion(data.formData)
     });
     res.status(203).send("Homework added to user successfully!")
   } catch (error) {

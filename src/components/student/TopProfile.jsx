@@ -1,154 +1,33 @@
 import { useEffect, useState, useRef } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useUser } from "../../context/userContext";
-import { setDate } from "date-fns";
-import { appendErrors } from "react-hook-form";
+
 
 const TopProfile = () => {
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [base64, setBase64] = useState("");
-
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
-
-
-  useEffect(()=>{
-    console.log("aaaa",base64);
-  },[base64])
-  
-
-  const handleUpload =  (e) => {
-
-    console.log(e);
-    // try {
-    //   const formData = new FormData();
-
-
-    //   performFetchPicture({
-    //     headers:{
-    //       "content-type":"*/*"
-    //     },
-    //     method:"POST",
-    //     body:{file}
-    //   })
-
-
-
-
-
-      // const response = await fetch("/api/user/upload-photo", {
-      //   method: "POST",
-      //   body: formData,
-      // });
-
-      // if (response.ok) {
-      //   const url = await response.json();
-      //   setImageUrl(url);
-      // } else {
-      //   console.error("Failed to upload profile picture");
-      // }
-    // } catch (error) {
-    //   console.error("Error uploading profile picture:", error);
-    // }
-  };
-
-
-
-
-
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState(null);
-  // const fileInputRef = useRef(null);
-  const [profilePictureUrl, setProfilePictureUrl] = useState(userInfo?.picture);
-  // const [data, setData] = useState(null);
 
-  // const [file, setFile] = useState({});
 
-  // useEffect(() => {
-  //   performFetch();
-  // }, []);
 
-  // const onSuccess = (data) => {
-  //   setUserInfo(data);
-  // };
+  useEffect(() => {
+    performFetch();
+  }, []);
 
-  const onSuccessPicture = (data) => {
-    console.log("2222",data);
-    setProfilePictureUrl(userInfo?.picture);
+  const onSuccess = (data) => {
+    setUserInfo(data);
   };
 
-  // const { error, isLoading, performFetch, cancelFetch } = useFetch(
-  //   `/user/${user?.uid}`,
-  //   onSuccess
-  // );
-  const {
-    error: errorPicture,
-    isLoading: isLoadingPicture,
-    performFetch: performFetchPicture,
-    cancelFetch: cancelFetchPicture,
-  } = useFetch(`/user/upload-photo`, onSuccessPicture);
 
-  // if (errorPicture) {
-  //   console.log("Error ZAAAA : ", errorPicture);
-  // }
 
-  // const handleChangeProfilePicture = async () => {
-  //   await fileInputRef.current.click();
-  // };
+  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    `/user/${user?.uid}`,
+    onSuccess
+  );
 
-  // const handleFileChange = async (event) => {
-  //   setFile(URL.createObjectURL(event.target.files[0]));
-  //   handleSubmit();
-  // };
-
-  // const handleOnChange = async (e) => {
-  //   setFile(e.target);
-  // };
-
-  // const handleSubmit = (e) => {
-  //   const formData = new FormData();
-  //   formData.append("filename",file);
-  //   performFetchPicture({
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     method:"POST",
-  //     body:{buffer:"BUFFFFFF"}
-  //   })
-  // }
 
   return (
     <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-      {/* <form >
-        <input
-          ref={fileInputRef}
-          type="file"
-          name="filename"
-          style={{ display: "none" }}
-          onChange={handleOnChange}
-        />
-        <button type="button" onClick={handleSubmit}>UPLOAD</button>
-      </form> */}
-
-
-
-<form onSubmit={handleUpload}  id="formPost" method="post" enctype="multipart/form-data"> 
-      <input type="file" name="fileName" accept="image/*" onChange={handleFileChange} />
-      <input type="submit" value={"UPLOAD"}/>
-      {imageUrl && <img src={imageUrl} alt="Profile" />}
-    </form>
-
-
-
-
-
-
-
-
       <div className="flex-none sm:flex">
         <div className=" relative h-32 w-32   sm:mb-0 mb-3">
           <img
@@ -157,7 +36,7 @@ const TopProfile = () => {
             className=" w-32 h-32 object-cover rounded-2xl"
           />
           {/* <div
-            onClick={handleChangeProfilePicture}
+            onClick={()=>{}}
             className="absolute -right-2 bottom-2   -ml-3  text-white p-1 text-xs bg-green-400 hover:bg-green-500 font-medium tracking-wider rounded-full transition ease-in duration-300"
           >
             <svg

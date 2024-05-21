@@ -10,15 +10,12 @@ import useFetch from "../../../hooks/useFetch";
 const MainComponent = ({ id, teacher }) => {
   const [user, setUser] = useState();
 
-  useEffect(()=>{
-    cancelFetch();
-  },[])
 
   const onSuccess = (data) => {
     setUser(data);
   }
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${id}`,onSuccess)
+  const {error, performFetch} = useFetch(`/user/${id}`,onSuccess)
 
   useEffect(() => {
     performFetch();

@@ -3,6 +3,7 @@ import { Link, useHref } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import useFetch from "../../../hooks/useFetch";
+import { useUser } from "../../../context/userContext";
 
 const Nav = ({user}) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -12,12 +13,13 @@ const Nav = ({user}) => {
   const [title, setTitle] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const {setUser} = useUser();
 
   useEffect(() => {
     performInfo();
   }, [user]);
 
-  const onSuccess = () => {
+  const onLogout = () => {
     setIsNavOpen(false);
     setIsClicked(false);
     setShowModal(true);
@@ -27,18 +29,11 @@ const Nav = ({user}) => {
     setUserInfo(data);
   };
 
-  const { isLoading, error, performFetch } = useFetch(
-    "/user/logout",
-    onSuccess
-  );
+
   const { error: errorInfo, performFetch: performInfo } = useFetch(
     `/user/${user?.uid}`,
     onSuccessInfo
   );
-
-  if (error) {
-    console.log(error.message);
-  }
 
   useEffect(() => {
     if (href === "/") {
@@ -57,8 +52,10 @@ const Nav = ({user}) => {
   const approved = async () => {
     setShowModal(false);
     try {
-      performFetch();
-      navigate("/homepage");
+      setUser(null);
+      sessionStorage.removeItem("user");
+      localStorage.removeItem("user");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -163,7 +160,7 @@ const Nav = ({user}) => {
 
                     <li>
                       <div
-                        onClick={onSuccess}
+                        onClick={onLogout}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                       >
                         Çıkış Yap

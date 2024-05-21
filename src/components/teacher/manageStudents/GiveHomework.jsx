@@ -1,32 +1,36 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import Modal from "../../general/Modal/Modal";
 import useFetch from "../../../hooks/useFetch";
 
 const GiveHomework = ({ id }) => {
-  const [date, setDate] = useState(new Date());
   const [showSuccessModal, setShowSuccesModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
+  const [a,setA] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    message: '',
+    date: new Date()
+  });
 
-  const handleDateChange = (selectedDate) => {
-    setDate(selectedDate);
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      date: date
+    });
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: {},
-  } = useForm();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
 
   const onSuccess = () => {
     setShowSuccesModal(true);
-      reset();
-       setTimeout(() => {
-         setShowSuccesModal(false);
-       }, 1000);
   };
 
   const { error, loading, performFetch, cancelFetch } = useFetch(
@@ -34,14 +38,23 @@ const GiveHomework = ({ id }) => {
     onSuccess
   );
 
-  const onSubmit = async (formData) => {
 
-    formData.date = date;
-    performFetch({
-      method: "POST",
-      body: { userId: id, formData },
-    });
+  useEffect(() => {
+    if (a) {
+      performFetch({
+        method: "POST",
+        body: JSON.stringify({ userId: id, ...formData }),
+      });
+    }
+  }, [a]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  setA(true);
+
+
+
+     
   };
 
   if(error){
@@ -65,45 +78,46 @@ const GiveHomework = ({ id }) => {
         />
       )}
 
-      <form
-        className="flex flex-col justify-between h-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex flex-col">
-          <label htmlFor="title">Ders : </label>
-          <input
-            className="rounded-l text-black"
-            {...register("title")}
-            required
-          />
-          <label htmlFor="message" className="mt-2">
-            Ödev :{" "}
-          </label>
-          <textarea
-            className="rounded-l text-black"
-            {...register("message")}
-            required
-          />
-          <label className="mt-2" htmlFor="date">
-            Son Tarih :{" "}
-          </label>
-          <DatePicker
-            required
-            selected={date}
-            onChange={handleDateChange}
-            dateFormat="dd/MM/yyyy"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
-          />
-        </div>
+<form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
+      <div className="flex flex-col">
+        <label htmlFor="title">Ders : </label>
+        <input
+          className="rounded-l text-black"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+        <label htmlFor="message" className="mt-2">
+          Ödev :{' '}
+        </label>
+        <textarea
+          className="rounded-l text-black"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+        />
+        <label className="mt-2" htmlFor="date">
+          Son Tarih :{' '}
+        </label>
+        <DatePicker
+          required
+          selected={formData.date}
+          onChange={handleDateChange}
+          dateFormat="dd/MM/yyyy"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+        />
+      </div>
 
-        <div className="flex justify-center">
-          <input
-            className=" cursor-pointer middle none center rounded-lg bg-orange-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            value={"GÖNDER"}
-            type="submit"
-          />
-        </div>
-      </form>
+      <div className="flex justify-center">
+        <input
+          className="cursor-pointer middle none center rounded-lg bg-orange-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          value="GÖNDER"
+          type="submit"
+        />
+      </div>
+    </form>
     </div>
   );
 };
