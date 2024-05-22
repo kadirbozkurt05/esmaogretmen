@@ -1,68 +1,60 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import Modal from "../../general/Modal/Modal";
+import { Timestamp } from "firebase/firestore";
 import useFetch from "../../../hooks/useFetch";
+import { useForm } from "react-hook-form";
 
 const GiveHomework = ({ id }) => {
+  const [date, setDate] = useState(new Date());
+  const [showApproveModal, setApproveModal] = useState(false);
+  const [requestBody, setRequestBody] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    message: "",
-    date: new Date(),
-  });
-  const [showApproveModal, setApproveModal] = useState(false);
 
-  const handleDateChange = (date) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      date,
-    }));
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {},
+  } = useForm();
+
+  const onSuccess = () => {
+    setShowSuccessModal(true);
+    reset();
+    setTimeout(()=>{
+      setShowSuccessModal(false);
+    },1000)
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const { error, loading, performFetch } = useFetch(
+    "/user/give-homework",
+    onSuccess
+  );
 
-  const { loading, performFetch } = useFetch("/user/give-homework");
+  const onSubmit = async (formData) => {
+    formData.date = Timestamp.fromDate(date);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    setRequestBody(JSON.stringify({ userId: id, formData }));
     setApproveModal(true);
   };
+
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate);
+  };
+
+  
+  if (error) {
+    setShowFailModal(true);
+  }
 
   const approveHomework = () => {
     setApproveModal(false);
 
-    const requestBody = {
-      userId: id,
-      formData,
-    };
-
-    try {
-      performFetch({
-        method: "POST",
-        body: JSON.stringify(requestBody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setFormData({
-        title: "",
-        message: "",
-        date: new Date(),
-      });
-      setShowSuccessModal(true);
-      setTimeout(() => {
-        setShowSuccessModal(false);
-      }, 2000);
-    } catch (err) {
-      setShowFailModal(true);
-    }
+    performFetch({
+      method: "POST",
+      body: requestBody,
+    });
   };
 
   return (
@@ -91,33 +83,21 @@ const GiveHomework = ({ id }) => {
 
       <form
         className="flex flex-col justify-between h-full"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col">
           <label htmlFor="title">Ders : </label>
-          <input
-            className="rounded-l text-black"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
+          <input {...register("title")} required className=" text-black"/>
           <label htmlFor="message" className="mt-2">
             Ödev :{" "}
           </label>
-          <textarea
-            className="rounded-l text-black"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-          />
+          <textarea {...register("message")} required className=" text-black" />
           <label className="mt-2" htmlFor="date">
             Son Tarih :{" "}
           </label>
           <DatePicker
             required
-            selected={formData.date}
+            selected={date}
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"

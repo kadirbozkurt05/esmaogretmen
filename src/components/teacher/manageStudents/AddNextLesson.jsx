@@ -3,34 +3,46 @@ import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import useFetch from "../../../hooks/useFetch";
+import Modal from "../../general/Modal/Modal";
+
+
 const AddNextLesson = ({ id, teacherName }) => {
-  const [date, setDate] = useState(null);
-
-
+  const [date, setDate] = useState(new Date());
+  const [showApproveModal, setApproveModal] = useState(false);
+  const [requestBody, setRequestBody] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: {},
   } = useForm();
 
+  const onSuccess = (data) => {
+    console.log(data);
+    setShowSuccessModal(true);
+    reset();
+    setTimeout(()=>{
+      setShowSuccessModal(false);
+    },1000)
+  };
 
-  const onSuccess = () => {};
-
-  const { error, loading, performFetch, cancelFetch } = useFetch(
+  const { error, loading, performFetch } = useFetch(
     "/user/add-lesson",
     onSuccess
   );
 
   const onSubmit = async (formData) => {
-    formData.date = Timestamp.fromDate(date),
-      formData.teacher = teacherName;
-      formData.isDone = false;
+    formData.date = Timestamp.fromDate(date);
+    formData.teacher = teacherName;
+    formData.isDone = false;
 
-      performFetch({
-        method: "POST",
-        body: { userId: id, formData },
-      });
+    setRequestBody(JSON.stringify({ userId: id, formData }));
+    setApproveModal(true);
+
+
   };
 
   const handleDateChange = (selectedDate) => {
@@ -38,11 +50,41 @@ const AddNextLesson = ({ id, teacherName }) => {
   };
 
   if (error) {
-    console.log("ERROR IN SEND NOTE", error);
+    setShowFailModal(true);
+
   }
+  const approveHomework = () => {
+    setApproveModal(false);
+
+    performFetch({
+      method: "POST",
+      body: requestBody,
+    });
+  };
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">
+            {showSuccessModal && (
+        <Modal title={"Ders Eklendi"} text={"Ders başarıyla eklenmiştir."} />
+      )}
+      {showFailModal && (
+        <Modal
+          title={"Hata"}
+          text={
+            "Ders eklenirken bir hata oluştu. Lütfen internet bağlantınızı kontrol edin ve daha sonra yeniden deneyin."
+          }
+          positiveButton={"Anladım"}
+          positiveFunction={() => setShowFailModal(false)}
+        />
+      )}
+      {showApproveModal && (
+        <Modal
+          title={"Ders Ekle"}
+          text={"Dersi eklemek istediğinizden emin misiniz?"}
+          positiveButton={"EVET"}
+          positiveFunction={approveHomework}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col justify-between">
           <div className="flex flex-col ">

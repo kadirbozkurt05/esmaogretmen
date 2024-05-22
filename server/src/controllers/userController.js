@@ -30,6 +30,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import ShortUniqueId from "short-unique-id";
 const db = getFirestore(firebase);
 export const auth = getAuth();
 
@@ -339,20 +340,20 @@ const addNoteToUser = async (req, res, next) => {
   }
 };
 
-const addNextLessonToUser = async (userId, formData) => {
+const addNextLessonToUser = async (req, res, next) => {
   const data = req.body;
   try {
     const { randomUUID } = new ShortUniqueId({ length: 10 });
-    formData.id = randomUUID();
+    data.formData.id = randomUUID();
     const userDocRef = doc(db, "Users", data.userId);
 
     await updateDoc(userDocRef, {
       nextClasses: arrayUnion(data.formData) 
     });
-    res.status(201).send(data.formData);
+    res.status(201).send({message:"Ders eklenmiştir."});
 
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({message:error.message});
   }
 };
 
@@ -364,9 +365,9 @@ const addHomeworkToUser = async (req, res, next) => {
     await updateDoc(userDocRef, {
       homework: arrayUnion(data.formData)
     });
-    res.status(203).send("Homework added to user successfully!")
+    res.status(201).send({message:"Ders eklenmiştir."});
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({message:error.message});
 
   }
 };
