@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import useFetch from "../../../hooks/useFetch";
+import { Timestamp } from "firebase/firestore";
 
 const NextClasses = ({ id }) => {
   const [nextClasses, setNextClasses] = useState([]);
 
-
-
-
-  useEffect(()=>{
-    cancelFetch();
-  },[])
-
   const onSuccess = (data) => {
+    console.log(new Date(data.nextClasses[0].date.seconds*1000));
     setNextClasses(data?.nextClasses);
   }
 
@@ -38,7 +33,7 @@ const NextClasses = ({ id }) => {
                   <div>
                     <h1>Ders : {nextClass?.title} </h1>
                     <h6>
-                      Tarih : {format(nextClass.date.toDate(), "dd/MM/yyyy")}{" "}
+                      Tarih : {format(new Date(nextClass.date.seconds*1000), "dd/MM/yyyy")}{" "}
                     </h6>
                   </div>
                   <div></div>

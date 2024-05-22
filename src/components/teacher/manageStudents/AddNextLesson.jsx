@@ -20,8 +20,7 @@ const AddNextLesson = ({ id, teacherName }) => {
     formState: {},
   } = useForm();
 
-  const onSuccess = (data) => {
-    console.log(data);
+  const onSuccess = () => {
     setShowSuccessModal(true);
     reset();
     setTimeout(()=>{
@@ -53,7 +52,7 @@ const AddNextLesson = ({ id, teacherName }) => {
     setShowFailModal(true);
 
   }
-  const approveHomework = () => {
+  const approveLesson = () => {
     setApproveModal(false);
 
     performFetch({
@@ -82,7 +81,7 @@ const AddNextLesson = ({ id, teacherName }) => {
           title={"Ders Ekle"}
           text={"Dersi eklemek istediğinizden emin misiniz?"}
           positiveButton={"EVET"}
-          positiveFunction={approveHomework}
+          positiveFunction={approveLesson}
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
