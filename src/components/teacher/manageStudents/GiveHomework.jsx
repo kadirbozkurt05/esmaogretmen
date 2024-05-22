@@ -1,66 +1,69 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import Modal from "../../general/Modal/Modal";
 import useFetch from "../../../hooks/useFetch";
 
 const GiveHomework = ({ id }) => {
-  const [showSuccessModal, setShowSuccesModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
-  const [a,setA] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    message: '',
-    date: new Date()
+    title: "",
+    message: "",
+    date: new Date(),
   });
+  const [showApproveModal, setApproveModal] = useState(false);
 
   const handleDateChange = (date) => {
-    setFormData({
-      ...formData,
-      date: date
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      date,
+    }));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-
-  const onSuccess = () => {
-    setShowSuccesModal(true);
-  };
-
-  const { error, loading, performFetch, cancelFetch } = useFetch(
-    "/user/give-homework",
-    onSuccess
-  );
-
-
-  useEffect(() => {
-    if (a) {
-      performFetch({
-        method: "POST",
-        body: JSON.stringify({ userId: id, ...formData }),
-      });
-    }
-  }, [a]);
+  const { loading, performFetch } = useFetch("/user/give-homework");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  setA(true);
-
-
-
-     
+    setApproveModal(true);
   };
 
-  if(error){
-    console.log(error);
-    setShowFailModal(true);
-  }
+  const approveHomework = () => {
+    setApproveModal(false);
+
+    const requestBody = {
+      userId: id,
+      formData,
+    };
+
+    try {
+      performFetch({
+        method: "POST",
+        body: JSON.stringify(requestBody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setFormData({
+        title: "",
+        message: "",
+        date: new Date(),
+      });
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 2000);
+    } catch (err) {
+      setShowFailModal(true);
+    }
+  };
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2 h-72 text-white">
@@ -77,47 +80,58 @@ const GiveHomework = ({ id }) => {
           positiveFunction={() => setShowFailModal(false)}
         />
       )}
+      {showApproveModal && (
+        <Modal
+          title={"Ödev Ekle"}
+          text={"Ödevi eklemek istediğinizden emin misiniz?"}
+          positiveButton={"EVET"}
+          positiveFunction={approveHomework}
+        />
+      )}
 
-<form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
-      <div className="flex flex-col">
-        <label htmlFor="title">Ders : </label>
-        <input
-          className="rounded-l text-black"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="message" className="mt-2">
-          Ödev :{' '}
-        </label>
-        <textarea
-          className="rounded-l text-black"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        />
-        <label className="mt-2" htmlFor="date">
-          Son Tarih :{' '}
-        </label>
-        <DatePicker
-          required
-          selected={formData.date}
-          onChange={handleDateChange}
-          dateFormat="dd/MM/yyyy"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
-        />
-      </div>
+      <form
+        className="flex flex-col justify-between h-full"
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col">
+          <label htmlFor="title">Ders : </label>
+          <input
+            className="rounded-l text-black"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="message" className="mt-2">
+            Ödev :{" "}
+          </label>
+          <textarea
+            className="rounded-l text-black"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          />
+          <label className="mt-2" htmlFor="date">
+            Son Tarih :{" "}
+          </label>
+          <DatePicker
+            required
+            selected={formData.date}
+            onChange={handleDateChange}
+            dateFormat="dd/MM/yyyy"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+          />
+        </div>
 
-      <div className="flex justify-center">
-        <input
-          className="cursor-pointer middle none center rounded-lg bg-orange-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          value="GÖNDER"
-          type="submit"
-        />
-      </div>
-    </form>
+        <div className="flex justify-center">
+          <input
+            className="cursor-pointer middle none center rounded-lg bg-orange-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            value="GÖNDER"
+            type="submit"
+          />
+        </div>
+      </form>
     </div>
   );
 };
