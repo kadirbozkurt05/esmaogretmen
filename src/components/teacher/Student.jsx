@@ -1,21 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 const Student = ({ student }) => {
-  const [user, setUser] = useState(null);
+  const [studentInfo, setStudentInfo] = useState();
+
 
   const onSuccess = (data) => {
-    setUser(user);
+    setStudentInfo(data);
   }
 
+  const {error, loading, performFetch} = useFetch(`/user/${student}`, onSuccess);
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${student}`,onSuccess);
+  useEffect(()=>{
+    performFetch();
+  },[])
 
+  if(error){
+    console.log("ERROR IN Students.jsx", error);
+  }
 
-  useEffect(() => {
-
-performFetch();
-  }, []);
   return (
     <Link
       to={`/${student}`}
@@ -23,13 +26,13 @@ performFetch();
     >
       <div className="flex flex-col justify-center">
         <div className=" text-gray-100 font-medium">
-          {user?.firstName} {user?.lastName}
+          {studentInfo?.firstName} {studentInfo?.lastName}
         </div>
         <div className="text-sm text-gray-500">
-          {user?.educationDetails?.class}. Sınıf
+          {studentInfo?.educationDetails?.class}. Sınıf
         </div>
       </div>
-      <img className=" h-14 rounded-lg" src={user?.picture} />
+      <img className=" h-14 rounded-lg" src={studentInfo?.picture} />
     </Link>
   );
 };

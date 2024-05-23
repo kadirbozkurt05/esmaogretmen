@@ -122,7 +122,7 @@ const getUser = async (req, res, next) => {
     if (docSnapshot.exists()) {
       res.status(201).send(docSnapshot.data());
     } else {
-      res.status(404).send("User not found!");
+      res.status(404).send({message:"User not found!"});
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -295,7 +295,7 @@ const updateLessonDone = async (req, res, next) => {
     const classIndex = previousLessons.findIndex(obj => obj.id === data.classId);
 
     if (classIndex === -1) {
-      res.status(404).send('Class with specified id not found in nextClasses array')
+      res.status(404).send('Class with specified id not found in scheduledClasses array')
       return;
     }
 
@@ -348,7 +348,7 @@ const addNextLessonToUser = async (req, res, next) => {
     const userDocRef = doc(db, "Users", data.userId);
 
     await updateDoc(userDocRef, {
-      nextClasses: arrayUnion(data.formData) 
+      scheduledClasses: arrayUnion(data.formData) 
     });
     res.status(201).send({message:"Ders eklenmiştir."});
 
@@ -428,12 +428,12 @@ const updateClassesAndLessons = async (userId) => {
 
     const currentDate = new Date();
 
-    const filteredNextClasses = userData.nextClasses.filter((nextClass) => {
+    const filteredscheduledClasses = userData.scheduledClasses.filter((nextClass) => {
       const classDate = nextClass.date.toDate();
       return classDate >= currentDate;
     });
 
-    const passedClasses = userData.nextClasses.filter((nextClass) => {
+    const passedClasses = userData.scheduledClasses.filter((nextClass) => {
       const classDate = nextClass.date.toDate();
       return classDate < currentDate;
     });
@@ -444,11 +444,11 @@ const updateClassesAndLessons = async (userId) => {
     ];
 
     await updateDoc(userDocRef, {
-      nextClasses: filteredNextClasses,
+      scheduledClasses: filteredscheduledClasses,
       previousLessons: updatedPreviousLessons,
     });
 
-    return { updatedPreviousLessons, filteredNextClasses };
+    return { updatedPreviousLessons, filteredscheduledClasses };
   } catch (error) {
     throw error;
   }

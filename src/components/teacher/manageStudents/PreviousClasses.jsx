@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import useFetch from "../../../hooks/useFetch";
+import { Timestamp } from "firebase/firestore";
 
 const PreviousClasses = ({ id }) => {
+  const today = new Date();
   const [previousLessons, setPreviousLessons] = useState([]);
-  useEffect(() => {
-    cancelFetch();
-    cancelFetchLesson();
-  }, []);
+
 
   const onSuccess = (data) => {
-    setPreviousLessons(data?.previousLessons);
-  };
-  const onSuccessUpdateLesson = () => {};
+    const classes = data?.scheduledClasses;
+    
+    const filteredClasses = classes.filter((clas) => new Date(clas.date.seconds*1000) < today)
 
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+    setPreviousLessons(filteredClasses);
+  };
+
+
+  const { error, isLoading, performFetch } = useFetch(
     `/user/${id}`,
     onSuccess
   );
-  const {
-    error: errorLesson,
-    isLoading: isLoadingLesson,
-    performFetch: performFetchLesson,
-    cancelFetch: cancelFetchLesson,
-  } = useFetch(`/user/update-lesson`, onSuccessUpdateLesson);
 
-  useEffect(() => {
+  useEffect(()=>{
     performFetch();
-  }, []);
+  },[])
 
-  if (error) {
-    console.log(console.log(error.message));
-  }
+  // if (error) {
+  //   console.log(console.log(error.message));
+  // }
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
@@ -43,7 +40,7 @@ const PreviousClasses = ({ id }) => {
                 <div>
                   <h1>Ders : {previousClass?.title} </h1>
                   <h6>
-                    Tarih : {format(previousClass.date.toDate(), "dd/MM/yyyy")}{" "}
+                    Tarih : {format(new Date(previousClass.date.seconds*1000), "dd/MM/yyyy")}{" "}
                   </h6>
                 </div>
                 <div></div>

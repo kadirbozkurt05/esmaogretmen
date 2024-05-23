@@ -13,7 +13,7 @@ const PreviousClasses = (props) => {
           </div>
           <div className="flex flex-col">
             <div className="mr-4 text-gray-400">
-              <p>Tarih : {format(props.date.toDate(), "dd/MM/yyyy")}</p>
+              <p>Tarih : {format(new Date(props.date.seconds*1000), "dd/MM/yyyy")}</p>
             </div>
           </div>
         </div>

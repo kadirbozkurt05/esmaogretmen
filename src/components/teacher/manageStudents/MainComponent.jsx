@@ -3,7 +3,7 @@ import StudentInfo from "./StudentInfo";
 import GiveHomework from "./GiveHomework";
 import SendNote from "./SendNote";
 import AddNextLesson from "./AddNextLesson";
-import NextClasses from "./NextClasses";
+import ScheduledClasses from "./ScheduledClasses";
 import PreviousClasses from "./PreviousClasses";
 import useFetch from "../../../hooks/useFetch";
 
@@ -45,7 +45,7 @@ const MainComponent = ({ id, teacher }) => {
                 </h6>
               </div>
               <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <NextClasses id={id} />
+                <ScheduledClasses id={id} />
               </div>
             </div>
             <div>

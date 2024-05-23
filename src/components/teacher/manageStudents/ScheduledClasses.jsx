@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import useFetch from "../../../hooks/useFetch";
-import { Timestamp } from "firebase/firestore";
 
-const NextClasses = ({ id }) => {
-  const [nextClasses, setNextClasses] = useState([]);
+const ScheduledClasses = ({ id }) => {
+  const [scheduledClasses, setscheduledClasses] = useState([]);
 
   const onSuccess = (data) => {
-    console.log(new Date(data.nextClasses[0].date.seconds*1000));
-    setNextClasses(data?.nextClasses);
+    setscheduledClasses(data?.scheduledClasses);
   }
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${id}`,onSuccess)
+  const {error, isLoading, performFetch} = useFetch(`/user/${id}`,onSuccess)
 
   useEffect(() => {
     performFetch();
@@ -27,9 +25,9 @@ const NextClasses = ({ id }) => {
       <div className="flex flex-col justify-between">
         <div className="flex flex-col ">
           <ol>
-            {nextClasses.map((nextClass) => {
+            {scheduledClasses.map((nextClass, index) => {
               return (
-                <li className=" text-white border p-2 rounded-xl mb-1 flex flex-row justify-between">
+                <li key={index} className=" text-white border p-2 rounded-xl mb-1 flex flex-row justify-between">
                   <div>
                     <h1>Ders : {nextClass?.title} </h1>
                     <h6>
@@ -48,4 +46,4 @@ const NextClasses = ({ id }) => {
   );
 };
 
-export default NextClasses;
+export default ScheduledClasses;

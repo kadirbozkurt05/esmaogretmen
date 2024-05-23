@@ -1,15 +1,15 @@
 import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
 import Homework from "./Homework";
-import NextClasses from "./NextClasses";
 import PreviousClasses from "./PreviousLessons";
 import TeacherNotes from "./TeacherNotes";
 import useFetch from "../../../hooks/useFetch";
 import { useUser } from "../../../context/userContext";
+import ScheduledClasses from "./ScheduledClasses";
 
 const MainComponent = () => {
   const [homeworkList, setHomeworkList] = useState([]);
-  const [nextClasses, setNextClasses] = useState([]);
+  const [scheduledClasses, setscheduledClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
   const [teacherNotes, setTeacherNotes] = useState([]);
   const {user} = useUser();
@@ -20,7 +20,7 @@ useEffect(()=>{
 },[])
 
   const onSuccess = (data) => {
-    setNextClasses(data?.nextClasses);
+    setscheduledClasses(data?.scheduledClasses);
     setPreviousClasses(data?.previousLessons);
     setTeacherNotes(data?.teacherNotes);
     setHomeworkList(data?.homeworks);
@@ -81,22 +81,23 @@ useEffect(()=>{
                   SIRADAKİ DERSLER
                 </h6>
               </div>
-              {nextClasses.length === 0 ? (
+              {scheduledClasses.length === 0 ? (
                 <div className="mb-6 md:mb-0 max-h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
                   {" "}
                   Planlanmış Dersiniz Bulunmamaktadır.
                 </div>
               ) : (
                 <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                  {nextClasses.map((nextClass) => {
+                  {scheduledClasses.map((nextClass, index) => {
                     return (
-                      <>
-                        <NextClasses
+                      
+                        <ScheduledClasses
+                          key = {index}
                           name={nextClass?.title}
                           teacher={nextClass?.teacher}
                           date={nextClass?.date}
                         />
-                      </>
+                      
                     );
                   })}
                 </div>
@@ -116,15 +117,16 @@ useEffect(()=>{
                 </div>
               ) : (
                 <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                  {previousClasses.map((previousClass) => {
+                  {previousClasses.map((previousClass, index) => {
                     return (
-                      <>
+                    
                         <PreviousClasses
                           name={previousClass?.title}
                           teacher={previousClass?.teacher}
                           date={previousClass?.date}
+                          key = {index}
                         />
-                      </>
+                    
                     );
                   })}
                 </div>
@@ -144,16 +146,17 @@ useEffect(()=>{
                 </div>
               ) : (
                 <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                  {teacherNotes.map((note) => {
+                  {teacherNotes.map((note,index) => {
                     return (
-                      <>
+                      
                         <TeacherNotes
                           title={note?.title}
                           message={note?.message}
                           date={note?.date}
                           teacher={note?.teacher}
+                          key = {index}
                         />
-                      </>
+                      
                     );
                   })}
                 </div>
