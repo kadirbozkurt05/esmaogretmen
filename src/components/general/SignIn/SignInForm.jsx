@@ -24,7 +24,7 @@ const SignInForm = () => {
   const onSuccess = (data) => {
     setUser(data?.uid);
     if (checked) {
-      localStorage.setItem("user", JSON.stringify(data.uid));
+      localStorage.setItem("user", data.uid);
 
       sessionStorage.setItem(
         "credential",
@@ -41,7 +41,7 @@ const SignInForm = () => {
         })
       );
 
-      sessionStorage.setItem("user", JSON.stringify(data.uid));
+      sessionStorage.setItem("user", data.uid);
     } else {
       if(data?.uid){
         sessionStorage.setItem("user", data?.uid);

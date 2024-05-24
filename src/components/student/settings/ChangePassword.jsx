@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
+import Modal from "../../general/Modal/Modal";
 
 
 
 const ChangePassword = () => {
   const navigate = useNavigate();
+
+const [showModal, setShowModal] = useState(false);
+const [showErrorModal, setShowErrorModal] = useState(false);
+  
+
+
+
   const [formData, setFormData] = useState({
     password: "",
     repeatPassword: "",
@@ -21,7 +29,6 @@ const ChangePassword = () => {
 
   useEffect(()=>{
     if(credential){
-      console.log(JSON.stringify(credential));
       performLogin({
         method:"POST",
         body: JSON.stringify(credential)
@@ -31,8 +38,29 @@ const ChangePassword = () => {
 
 
 
-  const onSuccess = () => {
-    navigate("/");
+  const onSuccess = (data) => {
+    
+     const credential = JSON.parse(sessionStorage.getItem("credential"));
+     console.log(credential);
+     try {
+      sessionStorage.setItem("credential",JSON.stringify({email:credential.email, password:formData.password}));
+      if(localStorage.getItem("credential")){
+      localStorage.setItem("credential",JSON.stringify({email:credential.email, password:formData.password}));
+    }
+
+     } catch (error) {
+      console.log("AAAA",error);
+     }
+
+    
+
+
+    setShowModal(true);
+    setTimeout(()=>{
+      setShowErrorModal(false);
+      navigate("/");
+    },1000)
+    
   };
 
   const { error, loading, performFetch } = useFetch(
@@ -60,11 +88,29 @@ const ChangePassword = () => {
   };
 
   if(error){
-    console.log(error.message);
+    setShowErrorModal(true);
   }
 
   return (
     <section>
+
+{showModal && (
+        <Modal
+          title={"Parola Değiştirildi"}
+          text={"Anasayfaya yönlendiriliyorsunuz..."}
+        />
+      )}
+      {showErrorModal && (
+        <Modal
+          title={"Hata"}
+          text={"Şifre değiştirilirken bir hata oluştu. Lütfen daha sonra yeniden deneyiniz..."}
+          positiveButton={"Anladım"}
+          positiveFunction={() => setShowErrorModal(false)}
+        />
+      )}
+
+
+
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

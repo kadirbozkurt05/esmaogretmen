@@ -66,15 +66,16 @@ useEffect(()=>{
                 </div>
               ) : (
                 <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                  {homeworkList.map((homework) => {
+                  {homeworkList.map((homework, index) => {
                     return (
-                      <>
+                      
                         <Homework
                           title={homework?.title}
                           message={homework.message}
                           date={homework.date}
+                          key = {index}
                         />
-                      </>
+                      
                     );
                   })}
                 </div>

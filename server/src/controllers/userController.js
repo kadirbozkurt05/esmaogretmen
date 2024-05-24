@@ -238,9 +238,9 @@ const updatePassword = async (req, res, next) => {
   const data = req.body;
   try {
     await passwordUpdate(auth.currentUser, data.password);
-    res.status(201).send("Password changed succesfully!")
+    res.status(201).send({message:"Password changed succesfully!"})
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({message:error.message});
   }
 }
 

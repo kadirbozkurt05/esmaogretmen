@@ -64,6 +64,8 @@ const Nav = () => {
       setUser(null);
       sessionStorage.removeItem("user");
       localStorage.removeItem("user");
+      sessionStorage.removeItem("credential");
+      localStorage.removeItem("credential");
       navigate("/");
     } catch (error) {
       console.log(error);
