@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Timestamp } from "firebase/firestore";
+import useFetch from "../../hooks/useFetch";
 
 const AddNews = () => {
   const [title, setTitle] = useState("");
@@ -21,11 +22,10 @@ const AddNews = () => {
     error: imageError,
     isLoading: imageIsLoading,
     performFetch: imagePerformFetch,
-    cancelFetch: imageCancelfetch,
   } = useFetch("/user/add-image", onSuccessImage);
 
   const onSuccess = (data) => {};
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+  const { error, isLoading, performFetch } = useFetch(
     "/news/create",
     onSuccess
   );
@@ -35,30 +35,21 @@ const AddNews = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    imagePerformFetch({
-      method: "POST",
-      body: {
-        file: image,
-        folderName: 'newsImages',
-      },
-    });
-    
-
     const newsData = {
       title,
-      picture: imageUrl,
+      picture: "",
       date: Timestamp.fromDate(new Date()),
       body:text
     };
 
     performFetch({
       method: "POST",
-      body: newsData,
+      body: JSON.stringify(newsData),
     });
   };
 
   if(error || imageError){
-    console.log("ERROR in ADD NEWS");
+    console.log("ERROR in ADD NEWS",error);
   }
 
   return (

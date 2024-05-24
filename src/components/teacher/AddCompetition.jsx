@@ -66,18 +66,19 @@ const AddCompetition = () => {
 
     awardPerformFetch({
       method: "POST",
-      body: {
+      body: JSON.stringify({
         file: awardImage,
         folderName: "awardImages",
-      },
+      }),
     });
 
     imagePerformFetch({
       method: "POST",
-      body: {
+      body: JSON.stringify({
+        
         file: image,
         folderName: "awardImages",
-      },
+      }),
     });
 
     const competitionData = {
@@ -98,7 +99,7 @@ const AddCompetition = () => {
 
     performFetch({
       method: "POST",
-      body: competitionData,
+      body: JSON.stringify(competitionData),
     });
   };
 

@@ -34,7 +34,7 @@ const getCompetitions = async (req, res, next) => {
     querySnapshot.forEach(async (doc) => {
       const competitionData = doc.data();
       if (
-        competitionData.due_date.toDate() < today &&
+        new Date(competitionData.due_date.seconds*1000)< today &&
         competitionData.isActive
       ) {
         await updateDoc(doc.ref, { isActive: false });
@@ -51,7 +51,7 @@ const getCompetitions = async (req, res, next) => {
 
     res.status(201).send(competitions);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({message:error.message});
   }
 };
 
@@ -81,20 +81,17 @@ const deleteCompetition = async (req, res, next) => {
 //FUNCTIONS
 const updateCompetitionStatus = async (competition) => {
   const currentDate = new Date();
-  const dueDate = competition.due_date.toDate(); 
+  const dueDate = new Date(competition.due_date.seconds*1000); 
 
   if (currentDate > dueDate) {
     try {
       await updateDoc(doc(db, 'Competitions', competition.id), {
         isActive: false
       });
-      console.log('Competition status updated successfully.');
     } catch (error) {
-      console.error('Error updating competition status:', error);
+      throw error;
     }
-  } else {
-    console.log('Due date has not passed yet. No action required.');
-  }
+  } 
 };
 
 

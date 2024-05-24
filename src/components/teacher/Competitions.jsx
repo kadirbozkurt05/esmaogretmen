@@ -9,15 +9,20 @@ const Competitions = () => {
 
   const onSuccess = (data) => {
     setAllCompetitions(data);
-    setShowedCompetitions(data.slice(0, 4));
+
+    if(allCompetitions.length >=5 ){
+      setShowedCompetitions(data.slice(0, 4));
+    }else{
+      setShowedCompetitions(data);
+    }
+   
 
   };
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+  const { error, isLoading, performFetch } = useFetch(
     "/competition/all",
     onSuccess
   );
   useEffect(() => {
-
     performFetch();
   }, []);
 
@@ -25,9 +30,19 @@ const Competitions = () => {
     if (showAll) {
       setShowedCompetitions(allCompetitions);
     } else {
-      setShowedCompetitions(allCompetitions.slice(0, 4));
+      if (allCompetitions.length>=5) {
+        setShowedCompetitions(allCompetitions?.slice(0, 4));
+      }else{
+        setShowedCompetitions(allCompetitions);
+      }
+      
     }
   }, [showAll]);
+
+
+  useEffect(()=>{
+    console.log(allCompetitions);
+  },[allCompetitions])
 
   if (allCompetitions.length === 0) {
     return (
@@ -44,9 +59,7 @@ const Competitions = () => {
 
   return (
     <div>
-
-
-      {showedCompetitions.map((competition, index) => {
+      {allCompetitions?.map((competition, index) => {
         return (
           <div key={index} className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
                   <h2 className="text-2xl font-semibold text-white mb-6">Yarışmalar</h2>
@@ -86,7 +99,7 @@ const Competitions = () => {
                   <div className="mr-4">
                     <p>
                       Son Katılım Tarihi :{" "}
-                      {format(competition?.due_date.toDate(), "dd/MM/yyyy")}
+                      {format(new Date(competition.due_date.seconds*1000), "dd/MM/yyyy")}
                     </p>
                     <p>Durumu : {competition?.isActive ? "Aktif" : "Pasif"}</p>
                     <p>Ödül : {competition?.award?.name}</p>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-
+import useFetch from "./../../hooks/useFetch"
 const News = () => {
   const [allNews, setAllNews] = useState([]);
   const [showedNews, setShowedNews] = useState([]);
   const [showAll, setShowAll] = useState(false);
+
+  
 
   const onSuccess = (data) => {
     setAllNews(data);
@@ -20,18 +22,18 @@ const News = () => {
 
   useEffect(() => {
     if (showAll) {
-      setShowedNews(allCompetitions);
+      setShowedNews(allNews);
     } else {
-      setShowedNews(allCompetitions.slice(0, 4));
+      setShowedNews(allNews.slice(0, 4));
     }
   }, [showAll]);
 
   if (allNews.length === 0) {
     return (
       <div>
-        <h2 className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
+        <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
           <h6 className="text-xl font-semibold text-white">DUYURULAR</h6>
-        </h2>
+        </div>
         <div className=" text-white text-center text-lg">
           HENÜZ YAYINLANMIŞ DUYURU BULUNMAMAKTADIR.
         </div>
@@ -41,9 +43,9 @@ const News = () => {
 
   return (
     <div>
-      {showedNews.map((news) => {
+      {showedNews.map((news, index) => {
         return (
-          <div className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
+          <div key={index} className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
             <h2 className="text-2xl font-semibold text-white mb-6">
               Duyurular
             </h2>
@@ -63,13 +65,13 @@ const News = () => {
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       className="w-3 h-3 text-white"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53 .53-.53-.53a.75.75 0 011.06 0z"
                       />
                     </svg>
@@ -80,7 +82,7 @@ const News = () => {
                 </div>
                 <div className="flex">
                   <div className="mr-4">
-                    <p>Tarih : {format(news?.date.toDate(), "dd/MM/yyyy")}</p>
+                    <p>Tarih : {format(new Date(news.date.seconds*1000), "dd/MM/yyyy")}</p>
                   </div>
                 </div>
               </div>

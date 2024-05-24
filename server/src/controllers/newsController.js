@@ -7,6 +7,7 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  setDoc
 } from "firebase/firestore";
 
 const db = getFirestore(firebase);
@@ -18,9 +19,9 @@ const createNews = async (req, res, next) => {
     const docRef = doc(newsCollection);
     const id = docRef.id;
     await setDoc(docRef, { ...data, id });
-    res.status(201).send(data);
+    res.status(201).send({ data });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({ message: error.message });
   }
 };
 
@@ -38,7 +39,7 @@ const getNews = async (req, res, next) => {
 
     res.status(201).send(news);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({ message: error.message });
   }
 };
 
