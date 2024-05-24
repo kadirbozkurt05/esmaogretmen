@@ -2,33 +2,25 @@ import { useEffect, useState, useRef } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useUser } from "../../context/userContext";
 
-
 const TopProfile = () => {
   const [file, setFile] = useState(null);
   const { user } = useUser();
   const [userInfo, setUserInfo] = useState(null);
 
-
-
   useEffect(() => {
-if(user){
-  performFetch();
-  
-}      
-    
+    if (user) {
+      performFetch();
+    }
   }, [user]);
 
   const onSuccess = (data) => {
     setUserInfo(data);
   };
 
-
-
   const { error, isLoading, performFetch, cancelFetch } = useFetch(
     `/user/${user}`,
     onSuccess
   );
-
 
   return (
     <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
@@ -90,7 +82,8 @@ if(user){
               </svg>
 
               <p className="">
-                {userInfo?.previousLessons?.length} ders yapıldı.
+                {!userInfo?.isTeacher && userInfo?.scheduledClasses.filter((clas) => clas.isDone).length}{" "}
+                ders yapıldı.
               </p>
             </div>
             <div className="flex-1 inline-flex items-center">
