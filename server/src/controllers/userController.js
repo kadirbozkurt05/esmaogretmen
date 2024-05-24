@@ -189,10 +189,9 @@ const login = async (req, res, next) => {
       credentials.password
     );
     const user = userCredential.user;
-    //await updateClassesAndLessons(user.uid);
     res.status(200).send(user);
   } catch (error) {
-    res.status(402).send(error);
+    res.status(402).send({message:error.message});
   }
 };
 
@@ -280,8 +279,11 @@ const uploadProfilePicture = async (req, res, next) => {
 
 const updateLessonDone = async (req, res, next) => {
   const data = req.body;
+
+  const userDocRef = doc(db, 'Users', data?.userId);
+
   try {
-    const userDocRef = doc(db, 'Users', data.userId);
+    const userDocRef = doc(db, 'Users', data?.userId);
     const userDocSnap = await getDoc(userDocRef);
     
     if (!userDocSnap.exists()) {
@@ -290,21 +292,21 @@ const updateLessonDone = async (req, res, next) => {
     }
 
     const userData = userDocSnap.data();
-    const previousLessons = userData.previousLessons || [];
+    const scheduledClasses = userData.scheduledClasses || [];
 
-    const classIndex = previousLessons.findIndex(obj => obj.id === data.classId);
+    const classIndex = scheduledClasses.findIndex(obj => obj.id === data.classId);
 
     if (classIndex === -1) {
-      res.status(404).send('Class with specified id not found in scheduledClasses array')
+      res.status(404).send({message:'Class with specified id not found in scheduledClasses array'})
       return;
     }
 
-    previousLessons[classIndex].isDone = data.isDone;
+    scheduledClasses[classIndex].isDone = data.isDone;
 
-    await updateDoc(userDocRef, { previousLessons });
-    res.status(201).send('Lesson status updated successfully.')
+    await updateDoc(userDocRef, { scheduledClasses });
+    res.status(201).send({message:'Lesson status updated successfully.'})
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({message:error.message});
   }
 }
 const addImageAndGetUrl = async (req, res, next) => {

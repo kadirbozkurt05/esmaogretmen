@@ -11,8 +11,12 @@ const TopProfile = () => {
 
 
   useEffect(() => {
-    performFetch();
-  }, []);
+if(user){
+  performFetch();
+  
+}      
+    
+  }, [user]);
 
   const onSuccess = (data) => {
     setUserInfo(data);
@@ -21,7 +25,7 @@ const TopProfile = () => {
 
 
   const { error, isLoading, performFetch, cancelFetch } = useFetch(
-    `/user/${user?.uid}`,
+    `/user/${user}`,
     onSuccess
   );
 

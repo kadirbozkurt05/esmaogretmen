@@ -9,31 +9,34 @@ import { useUser } from "../../context/userContext";
 const ManageStudent = () => {
   const {user} = useUser();
   const { id } = useParams();
-  const [teacherName, setTeacherName] = useState("");
+  const [teacherName, setTeacherName] = useState(null);
+  
 
 
   useEffect(()=>{
-    performFetch();
-  },[])
+    if(user){
+      performFetch();
+    }
+  },[user])
 
   const onSuccess = (data) => {
     setTeacherName(`${data?.firstName} ${data?.lastName}`);
   };
 
   const { error, performFetch } = useFetch(
-    `/user/${user?.uid}`,
+    `/user/${user}`,
     onSuccess
   );
 
 
   if (error) {
-    console.log("Error : ", error || errorCurrentUser);
+    console.log("Error : ", error);
   }
 
   return (
     <div className=" bg-orange-200 w-full">
       <Nav user={user} />
-      <MainComponent id={id} teacher={teacherName} />
+     { teacherName && <MainComponent id={id} teacher={teacherName} />}
       <Footer />
     </div>
   );

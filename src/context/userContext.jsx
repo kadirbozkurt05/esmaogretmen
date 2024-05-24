@@ -1,9 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const id = sessionStorage.getItem("user");
+
+  useEffect(()=>{
+    if(id){
+      setUser(id);
+    }
+  },[id])
+
 
 
   return (

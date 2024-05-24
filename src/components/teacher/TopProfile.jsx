@@ -23,7 +23,7 @@ const TopProfile = ()=>{
 
 
 
-    const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user?.uid}`,onSuccess);
+    const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user}`,onSuccess);
 
 
 

@@ -3,7 +3,6 @@ import Nav from "./components/general/Nav/Nav";
 import MainPage from "./pages/general/MainPage";
 import { useEffect } from "react";
 import { useUser } from "./context/userContext";
-import useFetch from "./hooks/useFetch";
 
 function App() {
   const {user, setUser } = useUser();
@@ -11,14 +10,14 @@ function App() {
 
   useEffect(()=>{
     if(sessionStorage.getItem("user")){
-      const user = JSON.parse(sessionStorage.getItem("user"));
+      const user = sessionStorage.getItem("user");
       setUser(user);
 
-    }
-
-    if(localStorage.getItem("user")){
-      const user = JSON.parse(localStorage.getItem("user"));
+    }else if(localStorage.getItem("user")){
+      const user = localStorage.getItem("user");
       setUser(user);
+    }else{
+      setUser(null)
     }
   },[])
 

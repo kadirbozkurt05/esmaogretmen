@@ -3,11 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import useFetch from "../../../hooks/useFetch";
-import {useUser} from "./../../../context/userContext.jsx"
+import { useUser } from "./../../../context/userContext.jsx";
 
 const SignInForm = () => {
   const { setUser } = useUser();
-  
+
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -22,53 +22,66 @@ const SignInForm = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   const onSuccess = (data) => {
-    setUser(data);
+    setUser(data?.uid);
     if (checked) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify(data)
-      );
+      localStorage.setItem("user", JSON.stringify(data.uid));
 
       sessionStorage.setItem(
-        "user",
-        JSON.stringify(data)
-      )
-    }else{
+        "credential",
+        JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+      localStorage.setItem(
+        "credential",
+        JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+
+      sessionStorage.setItem("user", JSON.stringify(data.uid));
+    } else {
+      if(data?.uid){
+        sessionStorage.setItem("user", data?.uid);
       sessionStorage.setItem(
-        "user",
-        JSON.stringify(data)
-      )
+        "credential",
+        JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+
+      }
+      
     }
-    setShowModal(true); 
+    setShowModal(true);
     setTimeout(() => {
       setShowModal(false);
       navigate("/");
     }, 1000);
   };
 
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+  const { isLoading, error, performFetch } = useFetch(
     "/user/login",
     onSuccess
   );
 
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
- setFormData(prevState => ({
-    ...prevState,
-    [name]: value
-  }));
-
-
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
+
     performFetch({
       method: "POST",
       headers: {
@@ -76,12 +89,11 @@ const SignInForm = () => {
       },
       body: JSON.stringify(formData),
     });
-
   };
 
-  useEffect(()=>{
-    if(error){
-      if (error.includes("invalid-credential")) {
+  useEffect(() => {
+    if (error) {
+      if (error.message.includes("invalid-credential")) {
         setErrorMessage(
           "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
         );
@@ -91,14 +103,11 @@ const SignInForm = () => {
         );
       }
       setShowErrorModal(true);
-      
     }
-  },[error])
+  }, [error]);
 
-
-  if(isLoading){
-console.log("LOADING");
-    
+  if (isLoading) {
+    console.log("LOADING");
   }
 
   return (

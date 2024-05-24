@@ -1,38 +1,34 @@
 import TopProfile from "../TopProfile";
 import { useEffect, useState } from "react";
 import Info from "./Info";
+import { useUser } from "../../../context/userContext";
+import useFetch from "../../../hooks/useFetch";
 
 
 
 const MainComponent = () => {
-  const [user, setUser] = useState();
-  const [userId, setUserId] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
+  const {user} = useUser();
 
-  useEffect(()=>{
-    cancelFetch();
-    cancelFetchCurrentUser();
-  },[])
 
-  useEffect(()=>{
-    performFetchCurrentUser();
-  },[])
 
-  const onSuccessCurrentUser = (data) =>{
-    setUserId(data.uid);
-    performFetch();
+
+  const onSuccess = (data) => {
+    setUserInfo(data);
   }
 
-  const onSuccess = (data) => {
-    setUser(data);
-  }
+  useEffect(()=>{
+    if(user){
+      performFetch();
+
+    }
+  },[user])
 
 
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user}`,onSuccess);
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${userId}`,onSuccess);
-  const {error: errorCurrentUser, performFetch:performFetchCurrentUser, cancelFetch:cancelFetchCurrentUser} = useFetch(`/user/current-user`, onSuccessCurrentUser);
-
-  if(error || errorCurrentUser) {
-    console.log("Error : ", error || errorCurrentUser);
+  if(error ) {
+    console.log("Error : ", error);
   }
 
 
@@ -49,7 +45,7 @@ const MainComponent = () => {
             
         </div>
         
-<Info user={user} />
+<Info user={userInfo} />
 
       </div>
 

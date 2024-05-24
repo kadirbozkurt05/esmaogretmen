@@ -11,15 +11,31 @@ const ChangePassword = () => {
     repeatPassword: "",
     remember: false,
   });
+
+  const credential = JSON.parse(sessionStorage.getItem("credential")) || JSON.parse(localStorage.getItem("credential"));
+  const onSuccessLogin = (data) => {
+    console.log(data);
+  };
+
+  const {error: errorLogin, performFetch:performLogin} = useFetch(`/user/login`,onSuccessLogin);
+
   useEffect(()=>{
-    cancelFetch();
+    if(credential){
+      console.log(JSON.stringify(credential));
+      performLogin({
+        method:"POST",
+        body: JSON.stringify(credential)
+      })
+    }
   },[])
+
+
 
   const onSuccess = () => {
     navigate("/");
   };
 
-  const { error, loading, performFetch, cancelFetch } = useFetch(
+  const { error, loading, performFetch } = useFetch(
     "/user/change-password",
     onSuccess
   );
@@ -38,7 +54,7 @@ const ChangePassword = () => {
     } else {
       performFetch({
         method: "POST",
-        body: formData,
+        body: JSON.stringify(formData),
       });
     }
   };

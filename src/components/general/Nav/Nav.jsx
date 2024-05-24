@@ -5,7 +5,7 @@ import Modal from "../Modal/Modal";
 import useFetch from "../../../hooks/useFetch";
 import { useUser } from "../../../context/userContext";
 
-const Nav = ({user}) => {
+const Nav = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -13,10 +13,13 @@ const Nav = ({user}) => {
   const [title, setTitle] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const {setUser} = useUser();
+  const {setUser, user} = useUser();
 
   useEffect(() => {
-    performInfo();
+    if(user){
+      performInfo();
+    }
+    
   }, [user]);
 
   const onLogout = () => {
@@ -31,7 +34,7 @@ const Nav = ({user}) => {
 
 
   const { error: errorInfo, performFetch: performInfo } = useFetch(
-    `/user/${user?.uid}`,
+    `/user/${user}`,
     onSuccessInfo
   );
 
@@ -46,8 +49,14 @@ const Nav = ({user}) => {
       setTitle("PROFİL");
     } else if (href === "/settings") {
       setTitle("AYARLAR");
+    }else{
+      if (userInfo?.isTeacher) {
+        setTitle("ÖĞRETMEN PANELİ");
+      } else {
+        setTitle("ÖĞRENCİ PANELİ");
+      }
     }
-  }, [href]);
+  }, [userInfo?.isTeacher]);
 
   const approved = async () => {
     setShowModal(false);

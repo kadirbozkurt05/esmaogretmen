@@ -14,7 +14,8 @@ import {
   addImageAndGetUrl,
   addNoteToUser,
   addNextLessonToUser,
-  addHomeworkToUser
+  addHomeworkToUser,
+  updatePassword
   
 } from "../controllers/userController.js";
 import multer from "multer";
@@ -35,9 +36,9 @@ userRouter.get("/user/logout", logout);
 userRouter.get("/user/auth-state", authStateChange);
 userRouter.get("/user/reset-password", authStateChange);
 userRouter.get("/user/current-user", getCurrentUser);
-userRouter.post("/user/change-password", authStateChange);
+userRouter.post("/user/change-password", updatePassword);
 userRouter.post("/user/upload-photo", upload.single('fileName'), uploadProfilePicture);
-userRouter.put("/user/update-lesson", updateLessonDone);
+userRouter.post("/user/update-lesson", updateLessonDone);
 userRouter.post("/user/add-image", addImageAndGetUrl);
 userRouter.post("/user/add-note", addNoteToUser);
 userRouter.post("/user/add-lesson", addNextLessonToUser);

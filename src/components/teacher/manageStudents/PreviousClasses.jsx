@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import useFetch from "../../../hooks/useFetch";
-import { Timestamp } from "firebase/firestore";
 
 const PreviousClasses = ({ id }) => {
   const today = new Date();
   const [previousLessons, setPreviousLessons] = useState([]);
+  const [requestBody, setRequestBody] = useState(null);
 
 
   const onSuccess = (data) => {
@@ -16,27 +16,52 @@ const PreviousClasses = ({ id }) => {
     setPreviousLessons(filteredClasses);
   };
 
+  const onSuccessLesson = (data) => {
+    window.location.reload();
+  };
+
+  useEffect(()=>{
+    if(requestBody){
+      console.log(requestBody);
+      performFetchLesson({
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: requestBody,
+      });
+
+    }
+
+
+
+  },[requestBody])
 
   const { error, isLoading, performFetch } = useFetch(
     `/user/${id}`,
     onSuccess
   );
 
+  const { error:errorPerformLesson, performFetch:performFetchLesson } = useFetch(
+    "/user/update-lesson",
+    onSuccessLesson
+  );
+
   useEffect(()=>{
     performFetch();
   },[])
 
-  // if (error) {
-  //   console.log(console.log(error.message));
-  // }
+  if (errorPerformLesson) {
+    console.log(errorPerformLesson);
+  }
 
   return (
     <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
       <div className="flex flex-col ">
         <ol>
-          {previousLessons.map((previousClass) => {
+          {previousLessons.map((previousClass,index) => {
             return (
-              <li className=" text-white border p-2 rounded-xl mb-1 flex flex-row justify-between">
+              <li key={index} className=" text-white  border p-2 rounded-xl mb-1 flex flex-row justify-between">
                 <div>
                   <h1>Ders : {previousClass?.title} </h1>
                   <h6>
@@ -53,15 +78,14 @@ const PreviousClasses = ({ id }) => {
                       </label>
                       <input
                         type="checkbox"
-                        onChange={async (e) => {
-                          performFetchLesson({
-                            method: "PUT",
-                            body: {
-                              userId: id,
-                              classId: previousClass?.id,
-                              isDone: e.target.checked,
-                            },
-                          });
+                        onChange={(e) => {
+                          const reqBody = {
+                            userId:id,
+                            classId:previousClass?.id,
+                            isDone:e.target.checked,
+                          }
+                          setRequestBody(JSON.stringify(reqBody))
+
                         }}
                       />
                     </>

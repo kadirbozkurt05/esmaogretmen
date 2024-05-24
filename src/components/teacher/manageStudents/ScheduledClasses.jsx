@@ -4,9 +4,13 @@ import useFetch from "../../../hooks/useFetch";
 
 const ScheduledClasses = ({ id }) => {
   const [scheduledClasses, setscheduledClasses] = useState([]);
+  const today = new Date();
 
   const onSuccess = (data) => {
-    setscheduledClasses(data?.scheduledClasses);
+    const classes = data?.scheduledClasses;
+    
+    const filteredClasses = classes.filter((clas) => new Date(clas.date.seconds*1000) >= today)
+    setscheduledClasses(filteredClasses);
   }
 
   const {error, isLoading, performFetch} = useFetch(`/user/${id}`,onSuccess)

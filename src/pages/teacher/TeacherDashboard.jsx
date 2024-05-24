@@ -22,7 +22,7 @@ const TeacherDashboard = ()=>{
 
 
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user.uid}`,onSuccess);
+  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user.u}`,onSuccess);
 
   if(error) {
     console.log("Error : ", error);

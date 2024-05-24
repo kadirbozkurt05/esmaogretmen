@@ -5,21 +5,26 @@ import NewsLetter from "../../components/general/MainPage/NewsLetter.jsx";
 import TeacherDashboard from "../teacher/TeacherDashboard.jsx";
 import StudentDashboard from "../student/StudentDashboard.jsx";
 import useFetch from "../../hooks/useFetch.js";
+import { useUser } from "../../context/userContext.jsx";
 
-const MainPage = ({user}) => {
+const MainPage = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const {user} = useUser();
 
   const onSuccess = (data) => {
-    setUserInfo(data);
+      setUserInfo(data);
+    
   };
 
   const { error, isLoading, performFetch, cancelFetch } = useFetch(
-    `/user/${user?.uid}`,
+    `/user/${user}`,
     onSuccess
   );
 
   useEffect(()=>{
-    performFetch();
+    if(user){
+      performFetch();
+    }
   },[user])
 
   const slides = [

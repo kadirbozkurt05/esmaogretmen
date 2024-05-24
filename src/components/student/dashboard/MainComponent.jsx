@@ -9,10 +9,12 @@ import ScheduledClasses from "./ScheduledClasses";
 
 const MainComponent = () => {
   const [homeworkList, setHomeworkList] = useState([]);
-  const [scheduledClasses, setscheduledClasses] = useState([]);
+  const [scheduledClasses, setScheduledClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
   const [teacherNotes, setTeacherNotes] = useState([]);
   const {user} = useUser();
+  const today = new Date();
+
 
 
 useEffect(()=>{
@@ -20,14 +22,17 @@ useEffect(()=>{
 },[])
 
   const onSuccess = (data) => {
-    setscheduledClasses(data?.scheduledClasses);
-    setPreviousClasses(data?.previousLessons);
+    const classes = data?.scheduledClasses;
+    const previous = classes.filter((clas) => new Date(clas.date.seconds*1000) < today)
+    const next = classes.filter((clas) => new Date(clas.date.seconds*1000) >= today)
+    setScheduledClasses(next);
+    setPreviousClasses(previous);
     setTeacherNotes(data?.teacherNotes);
-    setHomeworkList(data?.homeworks);
+    setHomeworkList(data?.homework);
   };
 
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
-    `/user/${user.uid}`,
+  const { error, isLoading, performFetch } = useFetch(
+    `/user/${user}`,
     onSuccess
   );
 
@@ -54,7 +59,7 @@ useEffect(()=>{
                 </h6>
               </div>
 
-              {homeworkList.length === 0 ? (
+              {homeworkList?.length === 0 ? (
                 <div className="mb-6 md:mb-0 max-h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
                   {" "}
                   Şu anda ödeviniz yoktur
