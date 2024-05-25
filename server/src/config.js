@@ -15,6 +15,8 @@ const {
   FIREBASE_MEASUREMENT_ID
 } = process.env;
 
+console.log("API",FIREBASE_API_KEY);
+
 
 const config = {
   apiKey: FIREBASE_API_KEY,

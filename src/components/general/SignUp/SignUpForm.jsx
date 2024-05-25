@@ -41,8 +41,7 @@ const SignUpForm = () => {
   );
   useEffect(() => {
     if (error) {
-      console.log(error);
-      if (error.includes("auth/email-already-in-use")) {
+      if (error.message.includes("auth/email-already-in-use")) {
         setErrorMessage(
           "Bu e-posta adresi zaten kullanılıyor. Şifrenizi unuttuysanız öğretmeninizle irtibata geçiniz."
         );

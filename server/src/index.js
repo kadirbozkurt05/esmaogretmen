@@ -3,7 +3,6 @@ import cors from "cors";
 import { config } from "./config.js";
 import userRouter from "./routes/userRoutes.js";
 import competitionRouter from "./routes/competitionRoutes.js";
-import bodyParser from "body-parser";
 import newsRouter from "./routes/newsRoutes.js";
 
 const app = express();
