@@ -1,10 +1,8 @@
-import { HiArrowSmallRight } from "react-icons/hi2";
-import { Link } from "react-router-dom";
 const Info = () => {
   return (
-    <div className="sm:grid sm:gap-4 sm:grid-cols-2">
-      <div className="md:p-10 px-6 pt-6 ">
-        <div className="flex flex-col justify-around rounded-3xl bg-cover bg-white bg-opacity-60 p-10 md:min-h-[424px]">
+    <div className="sm:grid sm:gap-4 sm:grid-cols-2 md:flex md:flex-row md:px-32 md:bg-gray-200 md:w-screen md:items-center">
+      <div className="rounded-2xl md:flex-none hidden md:flex md:w-1/3">
+        {/* <div className="flex flex-col justify-around rounded-3xl bg-cover bg-white bg-opacity-60 p-10 md:min-h-[424px]">
           <div className=" md:text-2xl font-serif">
             Hala üye değil misin? Hemen Üye Ol ve Ayrıcalıklardan faydalanmaya
             başla.
@@ -28,11 +26,12 @@ const Info = () => {
               </Link>{" "}
             </div>
           </div>
-        </div>
+        </div> */}
+        <img className=" rounded-3xl "  src="/student.png" alt="student" />
       </div>
 
-      <div className="py-10 px-6">
-        <div className="rounded-3xl bg-white p-10">
+      <div className="py-10 px-6 md:flex-1 md:w-1/3">
+        <div className="rounded-3xl p-10">
           <div className=" text-lg font-bold mb-4">
             ÖZEL DERS NEDEN GEREKLİDİR?
           </div>

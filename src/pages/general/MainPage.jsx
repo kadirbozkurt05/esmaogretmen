@@ -67,12 +67,12 @@ const MainPage = () => {
     }
   } else {
     return (
-      <div className="xl:px-32">
+      <div>
         <Info />
-        <div className="bg-orange-200">
+        <div >
           <Slider slides={slides} title={"YARIŞMALAR"} />
         </div>
-        <div className=" bg-red-300">
+        <div >
           <Slider slides={slides} title={"DUYURULAR"} />
         </div>
         <NewsLetter />

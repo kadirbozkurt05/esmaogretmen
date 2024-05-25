@@ -24,7 +24,7 @@ function App() {
 
   return (
     
-    <div className=" bg-gray-900">
+    <div>
       <Nav user={user} />
       <MainPage user={user}/> 
       <Footer/>
