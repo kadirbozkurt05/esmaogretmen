@@ -89,7 +89,7 @@ const Nav = () => {
         />
       )}
 
-      <nav className="bg-white border-gray-200 ">
+      <nav className={user ?"bg-teal-100 border-gray-200": " bg-teal-100 border-gray-200 sticky top-0 "}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to="/"

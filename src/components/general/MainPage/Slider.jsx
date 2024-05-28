@@ -31,7 +31,7 @@ const Slider = ({ slides, title }) => {
     }
   };
   return (
-    <div className="p-4">
+    <div className="p-4 md:px-48">
         <div className="mb-4 text-center italic text-2xl">{title}</div>
     <div className="flex flex-row justify-between">
         

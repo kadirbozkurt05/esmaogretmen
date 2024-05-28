@@ -67,14 +67,12 @@ const MainPage = () => {
     }
   } else {
     return (
-      <div>
+      <div >
         <Info />
         <div >
           <Slider slides={slides} title={"YARIŞMALAR"} />
         </div>
-        <div >
-          <Slider slides={slides} title={"DUYURULAR"} />
-        </div>
+
         <NewsLetter />
       </div>
     );

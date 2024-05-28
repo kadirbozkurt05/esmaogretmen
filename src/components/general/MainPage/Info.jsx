@@ -1,6 +1,6 @@
 const Info = () => {
   return (
-    <div className="sm:grid sm:gap-4 sm:grid-cols-2 md:flex md:flex-row md:px-32 md:bg-gray-200 md:w-screen md:items-center">
+    <div className="sm:grid sm:gap-4 sm:grid-cols-2 md:flex md:flex-row md:px-48 md:bg-gray-200 md:items-center">
       <div className="rounded-2xl md:flex-none hidden md:flex md:w-1/3">
         {/* <div className="flex flex-col justify-around rounded-3xl bg-cover bg-white bg-opacity-60 p-10 md:min-h-[424px]">
           <div className=" md:text-2xl font-serif">

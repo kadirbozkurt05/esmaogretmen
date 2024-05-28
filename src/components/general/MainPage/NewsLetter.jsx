@@ -1,7 +1,7 @@
 const NewsLetter = () => {
   return (
-    <div className="px-3 py-6 bg-black text-white">
-      <div className="mx-auto flex flex-col items-center justify-between gap-6 sm:flex-row max-w-screen-lg">
+    <div className="px-3 md:px-48 py-6 bg-black text-white">
+      <div className=" flex flex-col gap-6 items-center md:gap-32 justify-between  md:flex-row">
         <div className="sm:w-7/12">
           <div className="text-3xl font-bold">
             SON FIRSATLARI
