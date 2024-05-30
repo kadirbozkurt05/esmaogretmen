@@ -14,10 +14,13 @@ import Settings from './pages/student/Settings.jsx';
 import ManageStudent from './pages/teacher/ManageStudent.jsx';
 import { UserProvider } from "./context/userContext.jsx";
 import ApplyLesson from './pages/general/ApplyLesson.jsx';
+import { ThemeProvider } from "@material-tailwind/react";
+
 
 
 createRoot(document.getElementById('root')).render(
   <UserProvider>
+    <ThemeProvider>
   <Router>
     <Routes>
       <Route element={<App />} path="/" />
@@ -37,5 +40,6 @@ createRoot(document.getElementById('root')).render(
 
     </Routes>
   </Router>
+  </ThemeProvider>
   </UserProvider>
 );

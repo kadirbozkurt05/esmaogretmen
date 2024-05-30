@@ -1,61 +1,76 @@
-import { useEffect, useState } from "react";
-import { HiArrowSmallRight } from "react-icons/hi2";
-import { HiArrowSmallLeft } from "react-icons/hi2";
+import { Carousel, IconButton, Typography, Button } from "@material-tailwind/react";
 
 const Slider = ({ slides, title }) => {
-  const [slideIndex, setSlideIndex] = useState(0);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSlideIndex((prevIndex) =>
-        prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const handleNext = () => {
-    if (slideIndex < slides.length - 1) {
-      setSlideIndex((prev) => ++prev);
-    } else {
-      setSlideIndex(0);
-    }
-  };
-
-  const handlePrev = () => {
-    if (slideIndex > 0) {
-      setSlideIndex((prev) => --prev);
-    } else {
-      setSlideIndex(slides.length - 1);
-    }
-  };
   return (
-    <div className="p-4 md:px-48">
-        <div className="mb-4 text-center italic text-2xl">{title}</div>
-    <div className="flex flex-row justify-between">
-        
-        <div className="flex items-center">
-          <HiArrowSmallLeft onClick={handlePrev} size={42} />
-        </div>
-        <div className="flex flex-col content-center justify-center">
-          <img
-          
-            className="rounded-3xl max-h-80"
-            src={slides[slideIndex].image}
-            alt={slides[slideIndex].title}
-          />
-          <div className="rounded-md text-center bg-cyan-50 opacity-75 mt-6">
-           {slides[slideIndex].body}
-         </div>
-        </div>
-        <div className="flex items-center">
-          <HiArrowSmallRight onClick={handleNext} size={42} />
-        </div>
-      </div>
-    
+    <div className=" w-full flex justify-center py-6 px-6 md:px-36 ">
+      <Carousel
+      loop
+      autoplay
+      className="rounded-xl"
+      prevArrow={({ handlePrev }) => (
+        <IconButton
+          variant="text"
+          color="black"
+          size="3xl"
+          onClick={handlePrev}
+          className="!absolute top-2/4 left-4 -translate-y-2/4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
+        </IconButton>
+      )}
+      nextArrow={({ handleNext }) => (
+        <IconButton
+          variant="text"
+          color="black"
+          size="lg"
+          onClick={handleNext}
+          className="!absolute top-2/4 !right-4 -translate-y-2/4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </IconButton>
+      )}
+    >
+      {
+        slides.map((slide,index)=>{
+          return(
+<img
+        src="https://i.ibb.co/LrCkJZr/esma-ogretmen-here.png"
+        alt="image 1"
+        className="h-full w-full object-cover"
+        key={index}
+      />
+          )
+        })
+      }
+      
+    </Carousel>
     </div>
-    
   );
 };
 
