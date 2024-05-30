@@ -13,7 +13,7 @@ import Profile from './pages/student/Profile.jsx';
 import Settings from './pages/student/Settings.jsx';
 import ManageStudent from './pages/teacher/ManageStudent.jsx';
 import { UserProvider } from "./context/userContext.jsx";
-import ComingSoon from './pages/comingSoon/ComingSoon.jsx';
+import ApplyLesson from './pages/general/ApplyLesson.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -31,6 +31,7 @@ createRoot(document.getElementById('root')).render(
       <Route element={<Settings />} path="/settings" />
       <Route element={<App />} path="/homepage" />
       <Route  element={<ManageStudent />} path=":id" />
+      <Route element={<ApplyLesson />} path="/apply/:plan" />
       
 
 

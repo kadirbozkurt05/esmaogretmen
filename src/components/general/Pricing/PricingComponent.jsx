@@ -49,7 +49,7 @@ const PricingComponent = () => {
                   </span>
                 </p>
 
-                <Link to="/contact" className="">
+                <Link to={`/apply/basic`} className="">
                   <p className="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                     <span className="font-medium">Görüş</span>
                   </p>
@@ -78,7 +78,7 @@ const PricingComponent = () => {
                   </span>
                 </p>
 
-                <Link to="/contact" className="">
+                <Link to={`/apply/try`} className="">
                   <p className="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                     <span className="font-medium">Görüş</span>
                   </p>
@@ -116,7 +116,7 @@ const PricingComponent = () => {
                   </span>
                 </p>
 
-                <Link to="/contact" className="">
+                <Link to={`/apply/advanced`} className="">
                   <p className="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                     <span className="font-medium">Görüş</span>
                   </p>
