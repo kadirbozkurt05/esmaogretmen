@@ -1,14 +1,34 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useFetch from "../../../hooks/useFetch";
 
 const ApplyForm = () => {
     const params = useParams();
     const plan = params.plan;
+    const [requestBody,setRequestBody] = useState({});
     const planName = plan==="try" ? "Deneme Dersi": plan==="basic" ? "Temel Plan" : "Özel Plan";
 
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState: {},
+    } = useForm();
 
-    const handleSubmit = () => {
-      
+    const onSuccess = () => {
+      reset();
     }
+
+    const {error, loading, performFetch} = useFetch("/apply", onSuccess);
+
+
+    const onSubmit = async (formData) => {
+      performFetch({
+        method:"POST",
+        body:JSON.stringify( formData )
+      })
+    };
 
   return (
     <div className="grid max-w-screen-lg mx-auto sm:grid-cols-2 items-center gap-16 p-8 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
@@ -86,31 +106,25 @@ const ApplyForm = () => {
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="ml-auo space-y-4"
       >
         <input
-          type="text"
-          name="name"
-          placeholder="İsim"
+          {...register("name")} required placeholder="İsim"
           className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
         />
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
+          {...register("email")} required placeholder="email"
           className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
         />
         <input
-          type="number"
-          placeholder="Telefon"
-          name="subject"
+          {...register("phone")} required placeholder="Telefon Numarası"
           className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
         />
         <textarea
-          placeholder="Mesaj"
+          {...register("message")} required placeholder="Mesajınız"
           rows="6"
-          name="message"
+          
           className="w-full rounded-md px-4 border text-sm pt-2.5 outline-[#007bff]"
         ></textarea>
         <button

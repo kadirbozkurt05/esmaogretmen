@@ -15,19 +15,14 @@ import {
   getAuth,
   deleteUser as deleteUserFromAuth,
   createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
   updatePassword as passwordUpdate,
   signInWithEmailAndPassword,
-  setPersistence,
-  browserSessionPersistence,
 } from "firebase/auth";
 import User from "../models/User.js";
 import {
   getStorage,
   ref,
   uploadBytes,
-  uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
 import ShortUniqueId from "short-unique-id";
@@ -274,8 +269,6 @@ const addImageAndGetUrl = async (req, res, next) => {
 const addNoteToUser = async (req, res, next) => {
   const data = req.body;
   try {
-    const userDocRef = doc(db, "Users", data.userId);
-
     await updateDoc(userDocRef, {
       teacherNotes: arrayUnion(data.formData),
     });
