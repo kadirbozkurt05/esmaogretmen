@@ -16,6 +16,7 @@ import { useState } from "react";
 const useFetch = (route, onReceived) => {
   const host = import.meta.env.VITE_HOST;
   const port = import.meta.env.VITE_PORT;
+  const hostUrl = import.meta.env.HOST_URL;
   /**
    * We use the AbortController which is supported by all modern browsers to handle cancellations
    * For more info: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
@@ -53,7 +54,7 @@ const useFetch = (route, onReceived) => {
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
-      const url = `http://${host}:${port}/api${route}`;
+      const url = `http://${hostUrl}/api${route}`;
 
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 
