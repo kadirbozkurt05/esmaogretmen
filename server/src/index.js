@@ -8,7 +8,11 @@ import otherRouter from "./routes/otherRoutes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://www.esmaogretmen.com', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb' }));
 
