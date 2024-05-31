@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
@@ -6,7 +5,6 @@ import useFetch from "../../../hooks/useFetch";
 const ApplyForm = () => {
     const params = useParams();
     const plan = params.plan;
-    const [requestBody,setRequestBody] = useState({});
     const planName = plan==="try" ? "Deneme Dersi": plan==="basic" ? "Temel Plan" : "Özel Plan";
 
     const {
