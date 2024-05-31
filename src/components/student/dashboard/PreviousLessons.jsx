@@ -14,8 +14,8 @@ const PreviousClasses = ({ classes }) => {
   }, [showAll]);
 
   return (
-    <div className=" flex flex-col h-full justify-center items-center w-full">
-      <div className="relative w-full h-full flex justify-between pb-6 flex-col text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+    <div className=" flex flex-col md:h-full justify-center items-center w-full">
+      <div className="relative w-full md:h-full flex justify-between pb-6 flex-col text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
         <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
           {showedClasses.map((clas, index) => {
             return (
@@ -26,7 +26,7 @@ const PreviousClasses = ({ classes }) => {
                 <div className="grid mr-4 place-items-center">
                   <img
                     alt="candice"
-                    src="https://docs.material-tailwind.com/img/face-1.jpg"
+                    src="https://www.stockvault.net/data/2017/03/09/231443/preview16.jpg"
                     className="relative inline-block h-12 w-12 !rounded-full  object-cover object-center"
                   />
                 </div>

@@ -18,6 +18,7 @@ const Nav = () => {
   useEffect(() => {
     if (user) {
       performInfo();
+    
     }
   }, [user]);
 
@@ -179,7 +180,7 @@ const Nav = () => {
                 </ul>
               </div>
             ) : null}
-            <button
+            {!user && <button
               onClick={() => {
                 setIsClicked(false);
                 setIsNavOpen(!isNavOpen);
@@ -206,7 +207,7 @@ const Nav = () => {
                   d="M1 1h15M1 7h15M1 13h15"
                 />
               </svg>
-            </button>
+            </button>}
           </div>
 
           <div
