@@ -38,7 +38,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
 
 
 
-  const onSuccess = (data) => {
+  const onSuccess = () => {
     
      const credential = JSON.parse(sessionStorage.getItem("credential"));
      console.log(credential);
@@ -56,9 +56,10 @@ const [showErrorModal, setShowErrorModal] = useState(false);
 
 
     setShowModal(true);
+
     setTimeout(()=>{
-      setShowErrorModal(false);
-      navigate("/");
+      setShowModal(false);
+
     },1000)
     
   };
@@ -97,7 +98,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
 {showModal && (
         <Modal
           title={"Parola Değiştirildi"}
-          text={"Anasayfaya yönlendiriliyorsunuz..."}
+          text={"Parola başarıyla değiştirildi."}
         />
       )}
       {showErrorModal && (
