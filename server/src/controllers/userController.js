@@ -162,7 +162,7 @@ const login = async (req, res, next) => {
     const user = userCredential.user;
     res.status(200).send(user);
   } catch (error) {
-    res.status(402).send({ message: error.message });
+    res.status(405).send(error);
   }
 };
 const resetPassword = async (req, res, next) => {

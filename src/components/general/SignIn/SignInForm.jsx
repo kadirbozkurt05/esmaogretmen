@@ -22,45 +22,69 @@ const SignInForm = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   const onSuccess = (data) => {
-    setUser(data?.uid);
-    if (checked) {
-      localStorage.setItem("user", data.uid);
-
-      sessionStorage.setItem(
-        "credential",
-        JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        })
-      );
-      localStorage.setItem(
-        "credential",
-        JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        })
-      );
-
-      sessionStorage.setItem("user", data.uid);
-    } else {
-      if(data?.uid){
+    if(data.uid){
+      setUser(data?.uid);
+      if (checked) {
+        localStorage.setItem("user", data?.uid);
+  
+        sessionStorage.setItem(
+          "credential",
+          JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          })
+        );
+        localStorage.setItem(
+          "credential",
+          JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          })
+        );
+  
         sessionStorage.setItem("user", data?.uid);
-      sessionStorage.setItem(
-        "credential",
-        JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        })
-      );
-
+      } else {
+        if(data?.uid){
+          sessionStorage.setItem("user", data?.uid);
+        sessionStorage.setItem(
+          "credential",
+          JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          })
+        );
+  
+        }
+        
       }
-      
+
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/");
+      }, 1000);
+
     }
-    setShowModal(true);
-    setTimeout(() => {
-      setShowModal(false);
-      navigate("/");
-    }, 1000);
+
+
+
+    if(data.code){
+      const code = data?.code;
+      if (code.includes("auth/invalid-credential")) {
+        setErrorMessage(
+          "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
+        );
+        setShowErrorModal(true);
+      } else if (code.includes("has been temporarily disabled")) {
+        setErrorMessage(
+          "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
+        );
+      } 
+
+    }
+
+   
+    
   };
 
   const { isLoading, error, performFetch } = useFetch(
@@ -91,23 +115,19 @@ const SignInForm = () => {
     });
   };
 
-  useEffect(() => {
+
+  useEffect(()=>{
     if (error) {
-      if (error.message.includes("invalid-credential")) {
-        setErrorMessage(
-          "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
-        );
-      } else if (error.message.includes("has been temporarily disabled")) {
-        setErrorMessage(
-          "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
-        );
-      }
+      setErrorMessage("Giriş sırasında bir hata oluştu. Lütfen daha sonra yeniden deneyiniz.")
       setShowErrorModal(true);
-    }
-  }, [error]);
+  }
+
+  },[error])
+
+
 
   if (isLoading) {
-    console.log("LOADING");
+    
   }
 
   return (

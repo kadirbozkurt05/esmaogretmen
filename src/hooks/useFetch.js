@@ -53,9 +53,7 @@ const useFetch = (route, onReceived) => {
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
-      console.log(host,"---",port);
       const url = `http://${host}:${port}/api${route}`;
-      console.log(url);
 
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 
