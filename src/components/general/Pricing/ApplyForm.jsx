@@ -5,6 +5,11 @@ const ApplyForm = () => {
     const plan = params.plan;
     const planName = plan==="try" ? "Deneme Dersi": plan==="basic" ? "Temel Plan" : "Özel Plan";
 
+
+    const handleSubmit = () => {
+      
+    }
+
   return (
     <div className="grid max-w-screen-lg mx-auto sm:grid-cols-2 items-center gap-16 p-8 bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
       <div>
@@ -81,8 +86,7 @@ const ApplyForm = () => {
       </div>
 
       <form
-        action="https://fabform.io/f/xxxxx"
-        method="post"
+        onSubmit={handleSubmit}
         className="ml-auo space-y-4"
       >
         <input

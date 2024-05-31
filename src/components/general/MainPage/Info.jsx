@@ -1,55 +1,56 @@
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
+
+import { Link } from "react-router-dom";
+
 const Info = () => {
   return (
-    <div className="sm:grid sm:gap-4 sm:grid-cols-2 md:flex md:flex-row md:px-48 md:bg-gray-200 md:items-center">
-      <div className="rounded-2xl md:flex-none hidden md:flex md:w-1/3">
-        {/* <div className="flex flex-col justify-around rounded-3xl bg-cover bg-white bg-opacity-60 p-10 md:min-h-[424px]">
-          <div className=" md:text-2xl font-serif">
-            Hala üye değil misin? Hemen Üye Ol ve Ayrıcalıklardan faydalanmaya
-            başla.
-          </div>
-
-          <div className="flex flex-row justify-between">
-            <div className=" border-solid border-2 border-black p-2 w-1/3 cursor-pointer hover:bg-red-300 transition mx-auto rounded-3xl text-center mt-4">
-              <Link
-                className="flex flex-row justify-between items-center"
-                to="/sign-up"
-              >
-                Üye Ol <HiArrowSmallRight />{" "}
-              </Link>{" "}
-            </div>
-            <div className=" border-solid border-2 border-black p-2 w-1/3 cursor-pointer hover:bg-red-300 transition mx-auto rounded-3xl text-center mt-4">
-              <Link
-                className="flex flex-row justify-between items-center"
-                to="/sign-in"
-              >
-                Giriş Yap <HiArrowSmallRight />{" "}
-              </Link>{" "}
-            </div>
-          </div>
-        </div> */}
-        <img className=" rounded-3xl "  src="/student.png" alt="student" />
+    <div className="sm:grid md:h-[36rem] sm:gap-4 sm:grid-cols-2 md:flex md:flex-row md:px-36 md:bg-gray-200 md:items-center">
+      <div className="rounded-2xl md:flex-none  md:h-[24rem] hidden md:flex">
+        
+        <img className=" rounded-3xl "  src="https://i.ibb.co/dfZ62Kb/mainpage.png" alt="student" />
       </div>
 
-      <div className="py-10 px-6 md:flex-1 md:w-1/3">
-        <div className="rounded-3xl p-10">
-          <div className=" text-lg font-bold mb-4">
-            ÖZEL DERS NEDEN GEREKLİDİR?
-          </div>
-          <div>
-            Öğrenciler eğitim hayatlarında kalabalık sınıflı derslerde ön plana
-            çıkmakta ve gerçek seviyelerini göstermekte zorlanmaktadır.Eğitimin
-            en önemli faktörü iletişimdir. İletişimi yüksek olan öğretmenlerden
-            alınan özel dersler, öğrencilerin başarı seviyelerini çok daha fazla
-            artırıp, onlara öz güven katmaktadır. Öğretmenlerin verdiği özel
-            derslerde, öğrencilerle birebir ilgilenmesi, sosyal hayatlarında
-            onlara vizyon olması, öğrencinin başarı takibini raporlaması birçok
-            öğrencinin içindeki devi uyandırmaktadır. O yüzden özel ders eğitim
-            hayatında artık bir lüks değil, bir ihtiyaçtır. 
-          </div>
-          <div className=" border-solid border-2 border-black p-2 w-4/6 cursor-pointer hover:bg-orange-200 transition mx-auto rounded-3xl text-center mt-4">
-            <a href="/">Ücretsiz Deneme Dersi Talep Et</a>{" "}
-          </div>
-        </div>
+      <div className="md:flex-1">
+        
+    <Card className="flex md:h-[24rem] ml:h-[24rem] static">
+      <CardBody>
+        
+        <Typography variant="h5" color="blue-gray" className="mb-2">
+          Hemen Yerinizi Ayırtın
+        </Typography>
+        <Typography>
+          Çocuğunuza özel ders aldırmak için servet ödemenize gerek yok. Diğer platformların aksine burada benimle doğrudan iletişime geçin ve hiç bir komisyon ücreti ödemeden uygun fiyatlı ve yüksek kaliteli özel derslere başlayın. <br /><br /> <div className=" font-bold">ÜSTELİK HİÇ BİR PLATFORMDA OLMAYAN <Link to={"/pricing"} className=" text-black hover:underline">ÜCRETSİZ DENEME DERSİ</Link> HİZMETİ SAYESİNDE HİÇ BİR ÜCRET ÖDEMEDEN ÇOCUĞUNUZ İÇİN EN DOĞRU KARARI VEREBİLİRSİNİZ.</div><br />
+          Ayrıca yıllık, dönemlik gibi uzun süreli abonelikler almadan, dilediğiniz zaman derslere ara verebilir, istediğiniz zaman ders almayı bırakabilirsiniz.
+        </Typography>
+      </CardBody>
+      <CardFooter className="pt-0">
+        <Link to={"http://localhost:5173/apply/try"} className="inline-block">
+          <Button size="sm" variant="text" className="flex items-center gap-2">
+            Deneme Dersi Talebi Oluştur
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+              />
+            </svg>
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
       </div>
     </div>
   );

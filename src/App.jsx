@@ -27,6 +27,7 @@ function App() {
     <div>
       <Nav user={user} />
       <MainPage user={user}/> 
+      
       <Footer/>
     </div>
   );
