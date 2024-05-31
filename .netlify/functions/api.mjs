@@ -4,7 +4,6 @@ import userRouter from "../../server/src/routes/userRoutes.js";
 import competitionRouter from "../../server/src/routes/competitionRoutes.js";
 import newsRouter from "../../server/src/routes/newsRoutes.js";
 import cors from "cors";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const api = express();
 const corsOptions = {
@@ -13,7 +12,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"], // İzin verilen başlıklar
   credentials: true,
 };
-const auth = getAuth();
 
 
 api.use(cors(corsOptions));
