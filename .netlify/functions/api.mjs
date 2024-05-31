@@ -20,20 +20,7 @@ api.use(cors(corsOptions));
 api.use(express.json());
 api.use(express.urlencoded({ limit: "50mb" }));
 
-api.use("/api/user/login", async (req, res, next) => {
-  try {
-    const credentials = req.body;
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password
-    );
-    const user = userCredential.user;
-    res.status(200).send(user);
-  } catch (error) {
-    res.status(405).send(error);
-  }
-});
+api.use("/api/", userRouter);
 api.use("/api/", competitionRouter);
 api.use("/api/", newsRouter);
 
