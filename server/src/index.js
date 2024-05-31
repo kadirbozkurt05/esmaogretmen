@@ -8,11 +8,14 @@ import otherRouter from "./routes/otherRoutes.js";
 
 const app = express();
 
-app.use(cors({
-  origin: 'https://www.esmaogretmen.com', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+const corsOptions = {
+  origin: ['https://www.esmaogretmen.com', 'https://esmaogretmen.com'], // İzin verilen originler
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // İzin verilen metodlar
+  allowedHeaders: ['Content-Type', 'Authorization'], // İzin verilen başlıklar
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb' }));
 

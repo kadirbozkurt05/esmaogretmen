@@ -7,12 +7,14 @@ import newsRouter from "../../src/routes/newsRoutes.js";
 
 
 const api = express();
-
-api.use(cors({
-    origin: 'https://www.esmaogretmen.com', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+const corsOptions = {
+    origin: ['https://www.esmaogretmen.com', 'https://esmaogretmen.com'], // İzin verilen originler
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // İzin verilen metodlar
+    allowedHeaders: ['Content-Type', 'Authorization'], // İzin verilen başlıklar
     credentials: true
-  }));
+  };
+
+  api.use(cors(corsOptions));
 api.use(express.json());
 api.use(express.urlencoded({ limit: '50mb' }));
 
