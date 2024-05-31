@@ -20,7 +20,7 @@ const ServicesComponent = () => {
         <div className=" flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <div className=" mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+            src="https://i.ibb.co/Z68rzRh/one-to-one.jpg"
               alt="img-blur-shadow"
               layout="fill"
             />
@@ -54,7 +54,7 @@ const ServicesComponent = () => {
         <div className=" flex  flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <div className=" mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+            src="https://i.ibb.co/4V4MQkH/free-material.jpg"
               alt="img-blur-shadow"
               layout="fill"
             />
@@ -88,7 +88,7 @@ const ServicesComponent = () => {
         <div className=" flex  flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <div className=" mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+            src="https://i.ibb.co/QDf7MF5/weekli-feedbacks.jpg"
               alt="img-blur-shadow"
               layout="fill"
             />
@@ -122,8 +122,8 @@ const ServicesComponent = () => {
         <div className=" flex  flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <div className=" mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
-              alt="img-blur-shadow"
+src="https://i.ibb.co/TktP2kn/homework-check.jpg"
+alt="img-blur-shadow"
               layout="fill"
             />
           </div>
@@ -156,7 +156,7 @@ const ServicesComponent = () => {
         <div className=" flex  flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
           <div className=" mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
             <img
-              src="https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+            src="https://i.ibb.co/R0gzrvh/answer-questions.jpg"
               alt="img-blur-shadow"
               layout="fill"
             />
