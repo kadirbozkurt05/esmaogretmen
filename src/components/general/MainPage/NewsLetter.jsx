@@ -1,7 +1,10 @@
+import { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { useForm } from "react-hook-form";
+import Modal from "../Modal/Modal";
 
 const NewsLetter = () => {
+  const [showModal, setShowModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -10,6 +13,10 @@ const NewsLetter = () => {
   } = useForm();
 
   const onSuccess = () => {
+    setShowModal(true);
+    setTimeout(()=>{
+      setShowModal(false);
+    },2000)
     reset();
   }
 
@@ -23,8 +30,14 @@ const NewsLetter = () => {
     })
   }
 
-  return (
-    <div className="px-3 md:px-48 py-6 bg-black text-white">
+  return (<>
+{ showModal && <Modal
+          title={"Abonelik"}
+          text={"Artık bizden bilgilendirme e-postaları alacaksınız."}
+        />}
+
+
+<div className="px-3 md:px-48 py-6 bg-black text-white">
       <div className=" flex flex-col gap-6 items-center md:gap-32 justify-between  md:flex-row">
         <div className="sm:w-7/12">
           <div className="text-3xl font-bold">
@@ -50,6 +63,10 @@ const NewsLetter = () => {
         </div>
       </div>
     </div>
+
+
+  </>
+    
   );
 };
 
