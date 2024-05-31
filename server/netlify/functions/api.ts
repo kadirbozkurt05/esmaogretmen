@@ -8,7 +8,11 @@ import newsRouter from "../../src/routes/newsRoutes.js";
 
 const api = express();
 
-api.use(cors());
+api.use(cors({
+    origin: 'https://www.esmaogretmen.com', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true
+  }));
 api.use(express.json());
 api.use(express.urlencoded({ limit: '50mb' }));
 
