@@ -21,6 +21,15 @@ function App() {
     }
   },[])
 
+  useEffect(()=>{
+    const a = async () => {
+      const response = await fetch("http://www.esmaogretmen.com/api/hello");
+      const data = await response.json();
+
+      console.log("DATA - - -  -",data);
+    }
+    a();
+  },[])
 
   return (
     
