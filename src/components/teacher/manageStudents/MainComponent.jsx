@@ -22,7 +22,7 @@ const MainComponent = ({ id, teacher }) => {
   }, []);
 
   if(error){
-    console.log(console.log(error.message));
+    //MODAL
   }
 
   return (

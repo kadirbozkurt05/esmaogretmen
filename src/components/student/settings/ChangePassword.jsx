@@ -22,7 +22,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
 
   const credential = JSON.parse(sessionStorage.getItem("credential")) || JSON.parse(localStorage.getItem("credential"));
   const onSuccessLogin = (data) => {
-    console.log(data);
+    //MODAL
   };
 
   const {error: errorLogin, performFetch:performLogin} = useFetch(`/user/login`,onSuccessLogin);
@@ -41,7 +41,6 @@ const [showErrorModal, setShowErrorModal] = useState(false);
   const onSuccess = () => {
     
      const credential = JSON.parse(sessionStorage.getItem("credential"));
-     console.log(credential);
      try {
       sessionStorage.setItem("credential",JSON.stringify({email:credential.email, password:formData.password}));
       if(localStorage.getItem("credential")){
@@ -49,7 +48,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
     }
 
      } catch (error) {
-      console.log("AAAA",error);
+      //MODAL
      }
 
     

@@ -19,12 +19,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import User from "../models/User.js";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ShortUniqueId from "short-unique-id";
 const db = getFirestore(firebase);
 export const auth = getAuth();
@@ -162,7 +157,7 @@ const login = async (req, res, next) => {
     const user = userCredential.user;
     res.status(200).send(user);
   } catch (error) {
-    res.status(405).send(error);
+    res.status(405).send({ message: "a" });
   }
 };
 const resetPassword = async (req, res, next) => {
@@ -185,7 +180,6 @@ const updatePassword = async (req, res, next) => {
 };
 const uploadProfilePicture = async (req, res, next) => {
   try {
-    console.log(req.file);
     // const storageRef = ref(storage, `profile_picture/abcd.jpg`);
 
     // const uploadTask = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
@@ -261,9 +255,9 @@ const addImageAndGetUrl = async (req, res, next) => {
 
   try {
     const downloadUrl = await getDownloadURL(storageRef);
-    res.status(203).send({url:downloadUrl});
+    res.status(203).send({ url: downloadUrl });
   } catch (error) {
-    res.status(400).send({message:error.message});
+    res.status(400).send({ message: error.message });
   }
 };
 const addNoteToUser = async (req, res, next) => {

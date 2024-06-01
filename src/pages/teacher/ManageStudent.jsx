@@ -30,7 +30,7 @@ const ManageStudent = () => {
 
 
   if (error) {
-    console.log("Error : ", error);
+    //MODAL
   }
 
   return (

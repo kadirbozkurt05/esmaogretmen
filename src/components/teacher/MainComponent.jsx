@@ -32,7 +32,7 @@ const MainComponent = () => {
   const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user}`,onSuccess);
 
   if(error ) {
-    console.log("Error : ", error );
+    //MODAL
   }
 
 

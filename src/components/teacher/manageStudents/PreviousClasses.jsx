@@ -22,7 +22,6 @@ const PreviousClasses = ({ id }) => {
 
   useEffect(()=>{
     if(requestBody){
-      console.log(requestBody);
       performFetchLesson({
         method: "POST",
         headers: {
@@ -52,7 +51,7 @@ const PreviousClasses = ({ id }) => {
   },[])
 
   if (errorPerformLesson) {
-    console.log(errorPerformLesson);
+    //MODAL
   }
 
   return (

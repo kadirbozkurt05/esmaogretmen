@@ -16,7 +16,6 @@ const TeacherDashboard = ()=>{
 
 
   const onSuccess = (data) => {
-    console.log(data);
     setUserInfo(data);
   }
 
@@ -25,7 +24,7 @@ const TeacherDashboard = ()=>{
   const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user.u}`,onSuccess);
 
   if(error) {
-    console.log("Error : ", error);
+    //MODAL
   }
 
 

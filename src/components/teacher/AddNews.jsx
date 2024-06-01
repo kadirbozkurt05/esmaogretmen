@@ -49,7 +49,7 @@ const AddNews = () => {
   };
 
   if(error || imageError){
-    console.log("ERROR in ADD NEWS",error);
+    //MODAL
   }
 
   return (

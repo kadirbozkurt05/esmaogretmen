@@ -104,7 +104,7 @@ const AddCompetition = () => {
   };
 
   if(error || imageError || awardError){
-    console.log("ERROR in ADDCOMPETITION");
+    //MODAL
   }
 
   return (

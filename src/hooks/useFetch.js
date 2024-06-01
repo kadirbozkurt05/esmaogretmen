@@ -14,8 +14,7 @@ import { useState } from "react";
  * cancelFetch - this function will cancel the fetch, call it when your component is unmounted
  */
 const useFetch = (route, onReceived) => {
-  const host = import.meta.env.VITE_HOST;
-  const port = import.meta.env.VITE_PORT;
+
   const hostUrl = import.meta.env.VITE_HOST_URL;
   /**
    * We use the AbortController which is supported by all modern browsers to handle cancellations
@@ -55,9 +54,6 @@ const useFetch = (route, onReceived) => {
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
       const url = `${hostUrl}/api${route}`;
-      console.log(hostUrl);
-      console.log(port);
-      console.log(host);
 
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 

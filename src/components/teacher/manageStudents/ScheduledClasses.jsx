@@ -20,7 +20,7 @@ const ScheduledClasses = ({ id }) => {
   }, []);
 
   if(error){
-    console.log(console.log(error.message));
+   //MODAL
   }
 
 

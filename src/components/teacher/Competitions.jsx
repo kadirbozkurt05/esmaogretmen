@@ -40,10 +40,6 @@ const Competitions = () => {
   }, [showAll]);
 
 
-  useEffect(()=>{
-    console.log(allCompetitions);
-  },[allCompetitions])
-
   if (allCompetitions.length === 0) {
     return (
       <div>

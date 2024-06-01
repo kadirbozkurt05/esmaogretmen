@@ -29,7 +29,6 @@ const EditInfo = () => {
     setCancel(true);
   }
   const onSuccessGetUser = (data)=>{
-    console.log(data);
     setUserInfo(data);
   }
 
@@ -47,8 +46,6 @@ const EditInfo = () => {
 
 
   const handleSubmit = async ()=>{
-    console.log(userInfo);
-
       performFetch({
         method:"PUT",
         body:JSON.stringify(userInfo)

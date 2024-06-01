@@ -18,7 +18,6 @@ const SendNote = ({ id, teacherName }) => {
   } = useForm();
 
   const onSuccess = (data) => {
-    console.log(data);
     setShowSuccessModal(true);
     reset();
     setTimeout(() => {

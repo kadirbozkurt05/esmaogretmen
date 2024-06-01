@@ -16,7 +16,7 @@ const Student = ({ student }) => {
   },[])
 
   if(error){
-    console.log("ERROR IN Students.jsx", error);
+    //MODAL
   }
 
   return (

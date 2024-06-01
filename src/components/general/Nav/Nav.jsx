@@ -67,7 +67,7 @@ const Nav = () => {
       localStorage.removeItem("credential");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      //MODAL
     }
   };
 

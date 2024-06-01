@@ -166,7 +166,7 @@ const MainComponent = () => {
   );
 
   if (error) {
-    console.log("Error : ", error);
+    //MODAL
   }
 
   return (
