@@ -11,16 +11,10 @@ import {
   addImageAndGetUrl,
   addNoteToUser,
   addNextLessonToUser,
-  addHomeworkToUser, 
+  addHomeworkToUser,
   updatePassword,
   resetPassword,
 } from "../controllers/userController.js";
-import multer from "multer";
-
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
-});
 
 const userRouter = express.Router();
 
@@ -32,11 +26,7 @@ userRouter.delete("/user/delete", deleteUser);
 userRouter.post("/user/login", login);
 userRouter.get("/user/reset-password", resetPassword);
 userRouter.post("/user/change-password", updatePassword);
-userRouter.post(
-  "/user/upload-photo",
-  upload.single("fileName"),
-  uploadProfilePicture
-);
+userRouter.post("/user/upload-photo", uploadProfilePicture);
 userRouter.post("/user/update-lesson", updateLessonDone);
 userRouter.post("/user/add-image", addImageAndGetUrl);
 userRouter.post("/user/add-note", addNoteToUser);
