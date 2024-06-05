@@ -31,7 +31,7 @@ const SignUpForm = () => {
     setShowModal(true);
     setTimeout(() => {
       setShowModal(false);
-      navigate("/");
+      navigate("/sign-in");
     }, 1000);
   };
 
@@ -83,7 +83,7 @@ const SignUpForm = () => {
       {showModal && (
         <Modal
           title={"Kayıt Başarılı"}
-          text={"Anasayfaya yönlendiriliyorsunuz..."}
+          text={"Giriş sayfasına yönlendiriliyorsunuz..."}
         />
       )}
       {showErrorModal && (

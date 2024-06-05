@@ -15,7 +15,7 @@ const Slider = ({ slides }) => {
           <IconButton
             variant="text"
             color="black"
-            size="3xl"
+            size="lg"
             onClick={handlePrev}
             className="!absolute top-2/4 left-4 -translate-y-2/4"
           >

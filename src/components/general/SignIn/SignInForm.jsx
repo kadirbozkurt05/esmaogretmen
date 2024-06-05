@@ -26,7 +26,7 @@ const SignInForm = () => {
       setUser(data);
 
       if (checked) {
-        localStorage.setItem("user", data);
+        localStorage.setItem("user", JSON.stringify(data));
 
         sessionStorage.setItem(
           "credential",
@@ -43,7 +43,7 @@ const SignInForm = () => {
           })
         );
 
-        sessionStorage.setItem("user", data);
+        sessionStorage.setItem("user", JSON.stringify(data));
       } else {
         if (data) {
           sessionStorage.setItem("user", JSON.stringify(data));
@@ -223,7 +223,7 @@ const SignInForm = () => {
                     </button>
                   </div>
 
-                  <p className="text-sm font-light text-gray-500 ">
+                  <div className="text-sm font-light text-gray-500 ">
                     Henüz hesabın yok mu?{"   "}
                     <Link
                       to="/sign-up"
@@ -231,7 +231,7 @@ const SignInForm = () => {
                     >
                       Kayıt Ol
                     </Link>
-                  </p>
+                  </div>
                 </form>
               </div>
             )}

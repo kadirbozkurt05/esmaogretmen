@@ -17,13 +17,16 @@ import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
 
 import ChangePassword from "./../settings/ChangePassword";
 import ProfileCard from "../ProfileCard";
+import Modal from "../../general/Modal/Modal";
 const MainComponent = () => {
-  const [homeworkList, setHomeworkList] = useState([]);
+  
+  const today = new Date();
+  const { user, setUser } = useUser();
   const [scheduledClasses, setScheduledClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
-  const [teacherNotes, setTeacherNotes] = useState([]);
-  const { user } = useUser();
-  const today = new Date();
+  
+  const [showModal, setShowModal] = useState(false);
+
 
   const homeworkComponent = (
     <div >
@@ -31,14 +34,14 @@ const MainComponent = () => {
         <h6 className="text-l font-semibold text-center">ÖDEVLER</h6>
       </div>
 
-      {homeworkList?.length === 0 ? (
+      {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) >= today)?.length === 0 ? (
         <div className="mb-6 md:mb-0 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
           {" "}
           Şu anda ödeviniz yoktur
         </div>
       ) : (
         <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {homeworkList.map((homework, index) => {
+          {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) >= today).map((homework, index) => {
             return (
               <Homework
                 title={homework?.title}
@@ -97,14 +100,14 @@ const MainComponent = () => {
         <h6 className="text-l font-semibold text-center">ÖĞRETMEN NOTLARI</h6>
       </div>
 
-      {teacherNotes.length === 0 ? (
+      {user.teacherNotes.length === 0 ? (
         <div className="mb-6 md:mb-0 max-h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
           {" "}
           Henüz öğretmeniniz sizin için bir not yazmamış.
         </div>
       ) : (
         <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {teacherNotes.map((note, index) => {
+          {user.teacherNotes.map((note, index) => {
             return (
               <TeacherNotes
                 title={note?.title}
@@ -145,14 +148,46 @@ const MainComponent = () => {
     const next = classes.filter(
       (clas) => new Date(clas.date.seconds * 1000) >= today
     );
-    setScheduledClasses(next);
+    setScheduledClasses(next);  
     setPreviousClasses(previous);
-    setTeacherNotes(user?.teacherNotes);
-    setHomeworkList(user?.homework);
-  }, []);
+  }, [user]);
 
-  return (
-    <div className="flex w-full md:px-10 flex-col md:flex-row">
+  const logout = () => {
+    
+    setShowModal(true);
+  }
+  const approved = async () => {
+    setShowModal(false);
+    try {
+      setUser(null);
+      sessionStorage.removeItem("user");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("credential");
+      localStorage.removeItem("credential");
+      navigate("/");
+    } catch (error) {
+      //MODAL
+    }
+  };
+  const cancelled = () => {
+    setShowModal(false);
+  };
+
+  return (<>
+
+{showModal && (
+        <Modal
+          title={"Çıkış Yap"}
+          text={
+            "Çıkış yapmak istediğinize emin misiniz? Kaydedilen giriş bilgileri silinecektir."
+          }
+          positiveButton={"Çıkış Yap"}
+          negativeButton={"Vazgeç"}
+          positiveFunction={approved}
+          negativeFunction={cancelled}
+        />
+      )}
+      <div className="flex w-full md:px-10 flex-col md:flex-row">
       <Card className=" static md:h-screen md:max-w-[20rem] p-4 md:flex-1 md:w-32 shadow-xl shadow-blue-gray-900/5">
         <div>
           <ProfileCard />
@@ -232,7 +267,7 @@ const MainComponent = () => {
             </ListItemPrefix>
             AYARLAR
           </ListItem>
-          <ListItem onClick={() => setSelectedItem("e-6")}>
+          <ListItem onClick={logout}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -247,6 +282,9 @@ const MainComponent = () => {
         </div>
       </div>
     </div>
+  
+  </>
+    
   );
 };
 
