@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainComponent from "../../components/teacher/manageStudents/MainComponent";
+import MainComponent from "../../components/teacher/manageStudents/MainComponentManage";
 import { useParams } from "react-router-dom";
 import Nav from "../../components/general/Nav/Nav";
 import Footer from "../../components/general/Footer/Footer";

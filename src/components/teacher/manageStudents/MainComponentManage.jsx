@@ -7,7 +7,7 @@ import ScheduledClasses from "./ScheduledClasses";
 import PreviousClasses from "./PreviousClasses";
 import useFetch from "../../../hooks/useFetch";
 
-const MainComponent = ({ id, teacher }) => {
+const MainComponentManage = ({ id, teacher }) => {
   const [user, setUser] = useState();
 
 
@@ -27,10 +27,10 @@ const MainComponent = ({ id, teacher }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">
+    <div className="flex flex-col items-center justify-center min-h-screen  px-6">
       <div className="w-full  max-w-5xl m-4">
         <div className=" mx-auto grid gap-4 grid-cols-1">
-          <div className="flex flex-col sticky top-0 z-10">
+          <div className="flex flex-col">
             <StudentInfo user={user} />
           </div>
           <hr />
@@ -40,8 +40,8 @@ const MainComponent = ({ id, teacher }) => {
           <div className=" md:grid md:grid-cols-2 md:gap-2 flex flex-col">
 
           <div>
-              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold text-white  text-center">
+              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold   text-center">
                   SIRADAKİ DERSLER
                 </h6>
               </div>
@@ -50,8 +50,8 @@ const MainComponent = ({ id, teacher }) => {
               </div>
             </div>
             <div>
-              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold text-white  text-center">
+              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold   text-center">
                   GEÇMİŞ DERSLER
                 </h6>
               </div>
@@ -66,8 +66,8 @@ const MainComponent = ({ id, teacher }) => {
 
 
             <div>
-              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold text-white  text-center">
+              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold   text-center">
                   ÖDEV VER
                 </h6>
               </div>
@@ -79,8 +79,8 @@ const MainComponent = ({ id, teacher }) => {
 
 
             <div>
-              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold text-white  text-center">
+              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold   text-center">
                   NOT EKLE
                 </h6>
               </div>
@@ -91,8 +91,8 @@ const MainComponent = ({ id, teacher }) => {
 
 
             <div>
-              <div className="mb-4 bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold text-white  text-center">
+              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
+                <h6 className="text-l font-semibold   text-center">
                   SIRADAKİ DERS EKLE
                 </h6>
               </div>
@@ -112,4 +112,4 @@ const MainComponent = ({ id, teacher }) => {
   );
 };
 
-export default MainComponent;
+export default MainComponentManage;

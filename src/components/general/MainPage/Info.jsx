@@ -30,7 +30,7 @@ const Info = () => {
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Link to={"http://localhost:5173/apply/try"} className="inline-block">
+        <Link to={"/apply/try"} className="inline-block">
           <Button size="sm" variant="text" className="flex items-center gap-2">
             Deneme Dersi Talebi Oluştur
             <svg

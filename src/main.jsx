@@ -15,6 +15,7 @@ import ManageStudent from "./pages/teacher/ManageStudent.jsx";
 import { UserProvider } from "./context/userContext.jsx";
 import ApplyLesson from "./pages/general/ApplyLesson.jsx";
 import { ThemeProvider } from "@material-tailwind/react";
+import TeacherDashboard from "./pages/teacher/TeacherDashboard.jsx";
 
 createRoot(document.getElementById("root")).render(
   <UserProvider>
@@ -31,7 +32,7 @@ createRoot(document.getElementById("root")).render(
           <Route element={<Profile />} path="/profile" />
           <Route element={<Settings />} path="/settings" />
           <Route element={<App />} path="/homepage" />
-          <Route element={<ManageStudent />} path=":id" />
+          <Route element={<App />} path=":id" />
           <Route element={<ApplyLesson />} path="/apply/:plan" />
         </Routes>
       </Router>

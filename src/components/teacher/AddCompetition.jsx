@@ -108,13 +108,13 @@ const AddCompetition = () => {
   }
 
   return (
-    <div className="p-8 bg-gray-800 rounded-md shadow-md form-container">
-      <h2 className="text-2xl font-semibold text-white mb-6">Yarışma Ekle</h2>
+    <div className="p-8  rounded-md shadow-md form-container">
+      <h2 className="text-2xl font-semibold  mb-6">Yarışma Ekle</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             htmlFor="title"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Başlık
           </label>
@@ -126,13 +126,13 @@ const AddCompetition = () => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="image"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Görsel
           </label>
@@ -144,13 +144,13 @@ const AddCompetition = () => {
             accept="image/*"
             onChange={handleImageChange}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="date"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Bitiş Tarihi
           </label>
@@ -158,13 +158,13 @@ const AddCompetition = () => {
             selected={date}
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-6">
           <label
             htmlFor="text"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Metin
           </label>
@@ -176,17 +176,17 @@ const AddCompetition = () => {
             value={text}
             onChange={(event) => setText(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           ></textarea>
         </div>
         <hr className="my-6" />
         <div>
-          <h2 className="block text-gray-300 text-lg font-bold mb-2">ÖDÜL</h2>
+          <h2 className="block  text-lg font-bold mb-2">ÖDÜL</h2>
         </div>
         <div className="mb-4">
           <label
             htmlFor="award"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Başlık
           </label>
@@ -198,13 +198,13 @@ const AddCompetition = () => {
             value={award}
             onChange={(event) => setAward(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="number"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Adet
           </label>
@@ -216,13 +216,13 @@ const AddCompetition = () => {
             value={number}
             onChange={(event) => setNumber(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="awardImage"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Görsel
           </label>
@@ -233,13 +233,13 @@ const AddCompetition = () => {
             accept="image/*"
             onChange={handleAwardImageChange}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
         <div className="mb-6">
           <label
             htmlFor="awardText"
-            className="block text-gray-300 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
           >
             Özellikler
           </label>
@@ -251,13 +251,13 @@ const AddCompetition = () => {
             value={awardText}
             onChange={(event) => setAwardText(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           ></textarea>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-500  px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
         >
           Gönder
         </button>

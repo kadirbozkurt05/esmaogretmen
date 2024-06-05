@@ -43,10 +43,10 @@ const Competitions = () => {
   if (allCompetitions.length === 0) {
     return (
       <div>
-        <div className="mb-6 bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
-          <h6 className="text-xl font-semibold text-white">YARIŞMALAR</h6>
+        <div className="mb-6  border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
+          <h6 className="text-xl font-semibold ">YARIŞMALAR</h6>
         </div>
-        <div className=" text-white text-center text-lg">
+        <div className="  text-center text-lg">
           HENÜZ DÜZENLENEN YARIŞMA BULUNMAMAKTADIR.
         </div>
       </div>
@@ -55,10 +55,11 @@ const Competitions = () => {
 
   return (
     <div>
+      <h2 className="text-2xl font-semibold  mb-6">Yarışmalar</h2>
       {allCompetitions?.map((competition, index) => {
         return (
-          <div key={index} className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
-                  <h2 className="text-2xl font-semibold text-white mb-6">Yarışmalar</h2>
+          <div key={index} className="  rounded-md shadow-md p-8 mb-2">
+                  
 
             <div className="p-4 mb-4 flex md:flex-row flex-col">
               <div className="flex-shrink-0 ">
@@ -80,7 +81,7 @@ const Competitions = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-3 h-3 text-white"
+                      className="w-3 h-3 "
                     >
                       <path
                         strokeLinecap="round"
@@ -113,7 +114,7 @@ const Competitions = () => {
       {allCompetitions.length > 5 ? (
         <div className="flex justify-center mt-4">
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+            className="bg-green-500 hover:bg-green-700  font-bold py-2 px-4 rounded w-full"
             onClick={() => setShowAll(!showAll)}
           >
             {!showAll ? "TÜMÜNÜ GÖSTER" : "GİZLE"}

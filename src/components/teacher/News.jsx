@@ -31,10 +31,10 @@ const News = () => {
   if (allNews.length === 0) {
     return (
       <div>
-        <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
-          <h6 className="text-xl font-semibold text-white">DUYURULAR</h6>
+        <div className="  border border-gray-800 shadow-lg rounded-2xl  font-medium p-4 justify-center flex">
+          <h6 className="text-xl font-semibold ">DUYURULAR</h6>
         </div>
-        <div className=" text-white text-center text-lg">
+        <div className="  text-center text-lg">
           HENÜZ YAYINLANMIŞ DUYURU BULUNMAMAKTADIR.
         </div>
       </div>
@@ -45,8 +45,8 @@ const News = () => {
     <div>
       {showedNews.map((news, index) => {
         return (
-          <div key={index} className=" bg-gray-800 rounded-md shadow-md p-8 mb-2">
-            <h2 className="text-2xl font-semibold text-white mb-6">
+          <div key={index} className="  rounded-md shadow-md p-8 mb-2">
+            <h2 className="text-2xl font-semibold  mb-6">
               Duyurular
             </h2>
 
@@ -67,7 +67,7 @@ const News = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-3 h-3 text-white"
+                      className="w-3 h-3 "
                     >
                       <path
                         strokeLinecap="round"
@@ -97,7 +97,7 @@ const News = () => {
       {allNews.length > 5 ? (
         <div className="flex justify-center mt-4">
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+            className="bg-green-500 hover:bg-green-700  font-bold py-2 px-4 rounded w-full"
             onClick={() => setShowAll(!showAll)}
           >
             {!showAll ? "TÜMÜNÜ GÖSTER" : "GİZLE"}

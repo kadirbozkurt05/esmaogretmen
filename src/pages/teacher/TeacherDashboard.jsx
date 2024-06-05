@@ -1,37 +1,9 @@
-
-import { useEffect, useState } from "react";    
 import MainComponent from "../../components/teacher/MainComponent";
-import { useUser } from "../../context/userContext";
-import useFetch from "../../hooks/useFetch";
 
 const TeacherDashboard = ()=>{
-  // const {user} = useUser();
-
-  // const [userInfo, setUserInfo] = useState({});
-
-
-   
-  // useEffect(()=>{
-  //   performFetch();
-  //   },[])
-
-
-  // const onSuccess = (data) => {
-  //   setUserInfo(data);
-  // }
-
-
-
-  // const {error, isLoading, performFetch} = useFetch(`/user/${user}`,onSuccess);
-
-  // if(error) {
-  //   //MODAL
-  // }
-
-
-
+  
     return(
-        < div className=" bg-orange-200 w-full">
+        < div className="flex justify-center px-6 md:px-10 flex-col">
          <MainComponent/>
       </div>
     )

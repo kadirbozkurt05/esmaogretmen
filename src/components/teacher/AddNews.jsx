@@ -53,11 +53,11 @@ const AddNews = () => {
   }
 
   return (
-    <div className="p-8 bg-gray-800 rounded-md shadow-md form-container">
-      <h2 className="text-2xl font-semibold text-white mb-6">Duyuru Ekle</h2>
+    <div className="p-8 rounded-md shadow-md form-container">
+      <h2 className="text-2xl font-semibold  mb-6">Duyuru Ekle</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-300 text-sm font-bold mb-2">
+          <label htmlFor="title" className="block  text-sm font-bold mb-2">
             Başlık
           </label>
           <input
@@ -68,11 +68,11 @@ const AddNews = () => {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 "
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="image" className="block text-gray-300 text-sm font-bold mb-2">
+          <label htmlFor="image" className="block  text-sm font-bold mb-2">
             Görsel
           </label>
           <input
@@ -83,12 +83,12 @@ const AddNews = () => {
             accept="image/*"
             onChange={handleImageChange}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500  "
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="text" className="block text-gray-300 text-sm font-bold mb-2">
+          <label htmlFor="text" className="block  text-sm font-bold mb-2">
             Metin
           </label>
           <textarea
@@ -99,12 +99,12 @@ const AddNews = () => {
             value={text}
             onChange={(event) => setText(event.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           ></textarea>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-500  px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
         >
           Gönder
         </button>

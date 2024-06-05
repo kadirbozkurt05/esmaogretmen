@@ -1,16 +1,26 @@
 import SignUpForm from "../../components/general/SignUp/SignUpForm";
 import Nav from "../../components/general/Nav/Nav";
-import Footer from "../../components/general/Footer/Footer"
+import Footer from "../../components/general/Footer/Footer";
 import { useUser } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const {user} = useUser();
-  return (<>
-    <Nav user={user}/>
-    <div className="p-4 bg-back-ground md:p-20 ">
-      <SignUpForm />
-    </div>
-    <Footer/>
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(user);
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+  return (
+    <>
+      <Nav user={user} />
+      <div className="p-4 bg-back-ground md:p-20 ">
+        <SignUpForm />
+      </div>
+      <Footer />
     </>
   );
 };
