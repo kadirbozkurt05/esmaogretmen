@@ -7,7 +7,7 @@ const SignUp = () => {
   const {user} = useUser();
   return (<>
     <Nav user={user}/>
-    <div className="p-4 md:p-20 ">
+    <div className="p-4 bg-back-ground md:p-20 ">
       <SignUpForm />
     </div>
     <Footer/>

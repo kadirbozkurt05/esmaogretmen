@@ -19,6 +19,7 @@ module.exports = withMT({
       backgroundImage: {
         'logo-like': "url('https://i.ibb.co/prMYsS5/logo-no-background.png')",
         'footer-texture': "url('/img/footer-texture.png')",
+        'back-ground':"url('https://i.ibb.co/N1HpNLM/bg.jpg')"
       }
     },
   },

@@ -6,7 +6,7 @@ import Footer from "../../components/general/Footer/Footer"
 const SignIn = () => {
   return (<>
     <Nav/>
-    <div className=" h-screen ">
+    <div className=" bg-back-ground h-screen ">
       <SignInForm />
     </div>
     <Footer/>

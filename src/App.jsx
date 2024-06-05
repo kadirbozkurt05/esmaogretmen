@@ -24,7 +24,7 @@ function App() {
 
   return (
     
-    <div>
+    <div className=" back-ground">
       <Nav user={user} />
       <MainPage user={user}/> 
       
