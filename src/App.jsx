@@ -11,12 +11,15 @@ function App() {
   useEffect(()=>{
     if(sessionStorage.getItem("user")){
       const user = sessionStorage.getItem("user");
-      setUser(user);
+      setUser(JSON.parse(user));
+      console.log("sessiın");
 
     }else if(localStorage.getItem("user")){
       const user = localStorage.getItem("user");
+      console.log("local");
       setUser(user);
     }else{
+      console.log("nowhere");
       setUser(null)
     }
   },[])

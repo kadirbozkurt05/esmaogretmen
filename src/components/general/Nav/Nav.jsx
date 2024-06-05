@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useHref } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
-import useFetch from "../../../hooks/useFetch";
 import { useUser } from "../../../context/userContext";
 
 const Nav = () => {
-  const [userInfo, setUserInfo] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
@@ -15,31 +13,15 @@ const Nav = () => {
   const [showModal, setShowModal] = useState(false);
   const { setUser, user } = useUser();
 
-  useEffect(() => {
-    if (user) {
-      performInfo();
-    
-    }
-  }, [user]);
-
   const onLogout = () => {
     setIsNavOpen(false);
     setIsClicked(false);
     setShowModal(true);
   };
 
-  const onSuccessInfo = (data) => {
-    setUserInfo(data);
-  };
-
-  const { error: errorInfo, performFetch: performInfo } = useFetch(
-    `/user/${user}`,
-    onSuccessInfo
-  );
-
   useEffect(() => {
     if (href === "/") {
-      if (userInfo?.isTeacher) {
+      if (user?.isTeacher) {
         setTitle("ÖĞRETMEN PANELİ");
       } else {
         setTitle("ÖĞRENCİ PANELİ");
@@ -49,13 +31,13 @@ const Nav = () => {
     } else if (href === "/settings") {
       setTitle("AYARLAR");
     } else {
-      if (userInfo?.isTeacher) {
+      if (user?.isTeacher) {
         setTitle("ÖĞRETMEN PANELİ");
       } else {
         setTitle("ÖĞRENCİ PANELİ");
       }
     }
-  }, [userInfo?.isTeacher]);
+  }, [user?.isTeacher]);
 
   const approved = async () => {
     setShowModal(false);
@@ -90,7 +72,13 @@ const Nav = () => {
         />
       )}
 
-      <nav className={user ?"bg-teal-100 border-gray-200": " bg-teal-100 border-gray-200 sticky top-0 "}>
+      <nav
+        className={
+          user
+            ? "bg-teal-100 border-gray-200"
+            : " bg-teal-100 border-gray-200 sticky top-0 "
+        }
+      >
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to="/"
@@ -123,7 +111,7 @@ const Nav = () => {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="w-8 h-8 rounded-full"
-                  src={userInfo?.picture}
+                  src={user?.picture}
                   alt="user-photo"
                 />
               </button>
@@ -135,10 +123,10 @@ const Nav = () => {
               >
                 <div className="px-4 py-3">
                   <span className="block text-sm text-gray-900 ">
-                    {userInfo?.firstName} {userInfo?.lastName}
+                    {user?.firstName} {user?.lastName}
                   </span>
                   <span className="block text-sm  text-gray-500 truncate ">
-                    {userInfo?.contact?.email}
+                    {user?.contact?.email}
                   </span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">
@@ -147,9 +135,7 @@ const Nav = () => {
                       to="/"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                     >
-                      {userInfo?.isTeacher
-                        ? "Öğretmen Paneli"
-                        : "Öğrenci Paneli"}
+                      {user?.isTeacher ? "Öğretmen Paneli" : "Öğrenci Paneli"}
                     </Link>
                   </li>
                   <li>
@@ -180,34 +166,36 @@ const Nav = () => {
                 </ul>
               </div>
             ) : null}
-            {!user && <button
-              onClick={() => {
-                setIsClicked(false);
-                setIsNavOpen(!isNavOpen);
-              }}
-              data-collapse-toggle="navbar-user"
-              type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
-              aria-controls="navbar-user"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-5 h-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
+            {!user && (
+              <button
+                onClick={() => {
+                  setIsClicked(false);
+                  setIsNavOpen(!isNavOpen);
+                }}
+                data-collapse-toggle="navbar-user"
+                type="button"
+                className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                aria-controls="navbar-user"
+                aria-expanded="false"
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M1 1h15M1 7h15M1 13h15"
-                />
-              </svg>
-            </button>}
+                <span className="sr-only">Open main menu</span>
+                <svg
+                  className="w-5 h-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 17 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M1 1h15M1 7h15M1 13h15"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
 
           <div
@@ -238,8 +226,8 @@ const Nav = () => {
                     to="/about"
                     className={
                       href === "/about"
-                      ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
-                      : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
+                        ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
+                        : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
                     }
                   >
                     Hakkımda
@@ -250,8 +238,8 @@ const Nav = () => {
                     to="/services"
                     className={
                       href === "/services"
-                      ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
-                      : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
+                        ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
+                        : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
                     }
                   >
                     Hizmetler
@@ -262,8 +250,8 @@ const Nav = () => {
                     to="/pricing"
                     className={
                       href === "/pricing"
-                      ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
-                      : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
+                        ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
+                        : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
                     }
                   >
                     Ücretler
@@ -274,8 +262,8 @@ const Nav = () => {
                     to="/contact"
                     className={
                       href === "/contact"
-                      ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
-                      : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
+                        ? "block py-2 px-3   rounded md:bg-transparent text-blue-700 md:p-0"
+                        : "block py-2 px-3   rounded md:bg-transparent text-black md:p-0 md:hover:text-cyan-900"
                     }
                   >
                     İletişim
@@ -289,8 +277,8 @@ const Nav = () => {
                         to="/sign-up"
                         className={
                           href === "/sign-up"
-                          ? "block py-2 px-3 md:p-2 mt-4 md:mt-0  md:bg-gray-300   md:bg-transparent text-blue-700 md: border border-black rounded-2xl bg-gray-50"
-                          : "block py-2 px-3 md:p-2 mt-4 md:mt-0  md:bg-gray-300  md:bg-transparent text-black md: border border-black rounded-2xl bg-gray-50"
+                            ? "block py-2 px-3 md:p-2 mt-4 md:mt-0  md:bg-gray-300   md:bg-transparent text-blue-700 md: border border-black rounded-2xl bg-gray-50"
+                            : "block py-2 px-3 md:p-2 mt-4 md:mt-0  md:bg-gray-300  md:bg-transparent text-black md: border border-black rounded-2xl bg-gray-50"
                         }
                       >
                         Üye Ol
@@ -301,15 +289,13 @@ const Nav = () => {
                         to="/sign-in"
                         className={
                           href === "/sign-in"
-                          ? "block py-2 px-3 md:p-2 mt-4 md:mt-0 ml-4 md:bg-gray-300  md:bg-transparent text-blue-700 md: border border-black rounded-2xl bg-gray-50"
-                          : "block py-2 px-3 md:p-2 mt-4 md:mt-0 ml-4 md:bg-gray-300  md:bg-transparent text-black md: border border-black rounded-2xl bg-gray-50"
+                            ? "block py-2 px-3 md:p-2 mt-4 md:mt-0 ml-4 md:bg-gray-300  md:bg-transparent text-blue-700 md: border border-black rounded-2xl bg-gray-50"
+                            : "block py-2 px-3 md:p-2 mt-4 md:mt-0 ml-4 md:bg-gray-300  md:bg-transparent text-black md: border border-black rounded-2xl bg-gray-50"
                         }
                       >
                         Giriş Yap
                       </Link>
                     </li>
-
-                    
                   </div>
                 )}
               </ul>

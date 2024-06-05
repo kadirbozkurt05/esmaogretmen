@@ -12,7 +12,7 @@ const TopProfile = ()=>{
   
     useEffect(()=>{
       performFetch();
-    },[])
+      },[])
   
 
   
@@ -23,7 +23,7 @@ const TopProfile = ()=>{
 
 
 
-    const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user}`,onSuccess);
+    const {error, isLoading, performFetch} = useFetch(`/user/${user}`,onSuccess);
 
 
 

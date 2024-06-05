@@ -15,9 +15,10 @@ const ScheduledClasses = ({ id }) => {
 
   const {error, isLoading, performFetch} = useFetch(`/user/${id}`,onSuccess)
 
-  useEffect(() => {
+  
+  useEffect(()=>{
     performFetch();
-  }, []);
+    },[])
 
   if(error){
    //MODAL

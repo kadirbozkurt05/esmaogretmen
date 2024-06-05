@@ -1,18 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const id = sessionStorage.getItem("user");
-
-  useEffect(()=>{
-    if(id){
-      setUser(id);
-    }
-  },[id])
-
-
+  const localUser = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(localUser);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

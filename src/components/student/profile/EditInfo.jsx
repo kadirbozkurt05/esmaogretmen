@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Info from "./Info";
 import useFetch from "../../../hooks/useFetch";
 import { useUser } from "../../../context/userContext";
 
 const EditInfo = () => {
-  const {user} = useUser();
-  const [userInfo, setUserInfo] = useState(null);
+  const {user, setUser} = useUser();
   const [cancel, setCancel] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
 
@@ -14,8 +13,8 @@ const EditInfo = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    setUserInfo({
-      ...userInfo,
+    setUser({
+      ...user,
       [name]: value,
     });
   };
@@ -25,37 +24,34 @@ const EditInfo = () => {
 
 
   const onSuccess = ()=>{
+    sessionStorage.setItem("user",JSON.stringify(user));
+    if(localStorage.getItem("user")){
+      localStorage.setItem("user",JSON.stringify(user));
+    };
     setIsUpdated(true);
     setCancel(true);
   }
-  const onSuccessGetUser = (data)=>{
-    setUserInfo(data);
-  }
-
-  useEffect(()=>{
-    if(user){
-      performGetUser();
-    }
-  },[user])
 
 
-  const {error, isLoading, performFetch} = useFetch(`/user/${user}`,onSuccess);
-  const {error:errorGetUser,  performFetch:performGetUser} = useFetch(`/user/${user}`,onSuccessGetUser);
+
+
+  const {error, isLoading, performFetch} = useFetch(`/user/${user.id}`,onSuccess);
 
 
 
 
   const handleSubmit = async ()=>{
+    
       performFetch({
         method:"PUT",
-        body:JSON.stringify(userInfo)
+        body:JSON.stringify(user)
       })
 
 
   }
 
   if(isUpdated){
-    return(<Info user={userInfo}/>)
+    return(<Info user={user}/>)
   }
 
   if(cancel){
@@ -65,98 +61,98 @@ const EditInfo = () => {
   return (
     <div className="">
       <div className="flex flex-col">
-        <h1 className="text-white mb-2">Kişisel Bilgiler</h1>
-        <div className="mb-4 bg-gray-800 border gap-2 border-gray-800 shadow-lg grid grid-cols-2 text-white rounded-2xl p-2">
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>İsim:</div>
+        <h1 className=" mb-2">Kişisel Bilgiler</h1>
+        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex flex-1">İsim:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="firstName"
-              value={userInfo?.firstName}
+              value={user?.firstName}
               onChange={handleInputChange}
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Soy İsim:</div>
+          <div className="rounded-md  p-4 flex flex-row  cursor-default items-center">
+            <div className="flex flex-1">Soy İsim:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="lastName"
-              value={userInfo?.lastName}
+              value={user?.lastName}
               onChange={handleInputChange}
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Referans Numarası:</div>
+          <div className="rounded-md  p-4 flex flex-row  cursor-default items-center">
+            <div className="flex flex-1">Referans Numarası:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className= "text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               disabled
               name="referenceNumber"
-              value={userInfo?.referenceNumber}
+              value={user?.referenceNumber}
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col">
-        <h1 className="text-white mb-2">Hakkımda</h1>
-        <div className="mb-4 bg-gray-800 w-full border border-gray-800 shadow-lg flex flex-row justify-between rounded-2xl p-2">
-          <div className="rounded-md border p-4 w-full flex flex-row text-gray-200 cursor-default items-center">
+        <h1 className=" mb-2">Hakkımda</h1>
+        <div className="mb-4 w-full  shadow-lg flex flex-row justify-between rounded-2xl p-2">
+          <div className="rounded-md  p-4 w-full flex flex-row  cursor-default items-center">
             <textarea
-            className=" text-black p-1 rounded-l ml-2 w-full"
+            className= "text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="input"
               name="aboutMe"
-              value={userInfo?.aboutMe}
+              value={user?.aboutMe}
               onChange={handleInputChange}
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col">
-        <h1 className="text-white mb-2">İletişim</h1>
-        <div className="mb-4 bg-gray-800 border gap-2 border-gray-800 shadow-lg grid grid-cols-2 text-white rounded-2xl p-2">
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Telefon:</div>
+        <h1 className=" mb-2">İletişim</h1>
+        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Telefon:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="phone"
-              value={userInfo?.contact?.phone}
-              onChange={(e)=>{setUserInfo({
-                ...userInfo,
+              value={user?.contact?.phone}
+              onChange={(e)=>{setUser({
+                ...user,
                 contact:{
-                  ...userInfo?.contact,
+                  ...user?.contact,
                   phone:e.target.value
                 }
               })}
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>E-posta:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">E-posta:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               disabled
               name="email"
-              value={userInfo?.email}
+              value={user?.email}
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Şehir:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Şehir:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="province"
-              value={userInfo?.contact.address.province}
+              value={user?.contact.address.province}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   contact: {
-                    ...userInfo?.contact,
+                    ...user?.contact,
                     address: {
-                      ...userInfo?.contact.address,
+                      ...user?.contact.address,
                       province: e.target.value,
                     },
                   },
@@ -164,20 +160,20 @@ const EditInfo = () => {
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>İlçe:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">İlçe:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="district"
-              value={userInfo?.contact.address.district}
+              value={user?.contact.address.district}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   contact: {
-                    ...userInfo?.contact,
+                    ...user?.contact,
                     address: {
-                      ...userInfo?.contact.address,
+                      ...user?.contact.address,
                       district: e.target.value,
                     },
                   },
@@ -185,20 +181,20 @@ const EditInfo = () => {
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Adres:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Adres:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="streetAddress"
-              value={userInfo?.contact.address.streetAddress}
+              value={user?.contact.address.streetAddress}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   contact: {
-                    ...userInfo?.contact,
+                    ...user?.contact,
                     address: {
-                      ...userInfo?.contact.address,
+                      ...user?.contact.address,
                       streetAddress: e.target.value,
                     },
                   },
@@ -206,20 +202,20 @@ const EditInfo = () => {
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Posta Kodu:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Posta Kodu:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="zipCode"
-              value={userInfo?.contact.address.zipCode}
+              value={user?.contact.address.zipCode}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   contact: {
-                    ...userInfo?.contact,
+                    ...user?.contact,
                     address: {
-                      ...userInfo?.contact.address,
+                      ...user?.contact.address,
                       zipCode: e.target.value,
                     },
                   },
@@ -230,56 +226,56 @@ const EditInfo = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <h1 className="text-white mb-2">Okul Bilgileri</h1>
-        <div className="mb-4 bg-gray-800 border gap-2 border-gray-800 shadow-lg grid grid-cols-2 text-white rounded-2xl p-2">
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Sınıf:</div>
+        <h1 className=" mb-2">Okul Bilgileri</h1>
+        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Sınıf:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="class"
-              value={userInfo?.educationDetails.class}
+              value={user?.educationDetails.class}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   educationDetails: {
-                    ...userInfo?.educationDetails,
+                    ...user?.educationDetails,
                     class: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Okul Adı:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Okul Adı:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="schoolName"
-              value={userInfo?.educationDetails.schoolName}
+              value={user?.educationDetails.schoolName}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   educationDetails: {
-                    ...userInfo?.educationDetails,
+                    ...user?.educationDetails,
                     schoolName: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Öğretmen Adı:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Öğretmen Adı:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="teacherName"
-              value={userInfo?.educationDetails.teacherName}
+              value={user?.educationDetails.teacherName}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   educationDetails: {
-                    ...userInfo?.educationDetails,
+                    ...user?.educationDetails,
                     teacherName: e.target.value,
                   },
                 })
@@ -289,92 +285,92 @@ const EditInfo = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <h1 className="text-white mb-2">Veli Bilgileri</h1>
-        <div className="mb-4 bg-gray-800 border gap-2 border-gray-800 shadow-lg grid grid-cols-2 text-white rounded-2xl p-2">
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Sıfatı:</div>
+        <h1 className=" mb-2">Veli Bilgileri</h1>
+        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Sıfatı:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="gender"
-              value={userInfo?.parent.gender}
+              value={user?.parent.gender}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   parent: {
-                    ...userInfo?.parent,
+                    ...user?.parent,
                     gender: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Adı:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Adı:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="firstName"
-              value={userInfo?.parent.firstName}
+              value={user?.parent.firstName}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   parent: {
-                    ...userInfo?.parent,
+                    ...user?.parent,
                     firstName: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Soyadı:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Soyadı:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="lastName"
-              value={userInfo?.parent.lastName}
+              value={user?.parent.lastName}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   parent: {
-                    ...userInfo?.parent,
+                    ...user?.parent,
                     lastName: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Mesleği:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Mesleği:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="occupation"
-              value={userInfo?.parent.occupation}
+              value={user?.parent.occupation}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   parent: {
-                    ...userInfo?.parent,
+                    ...user?.parent,
                     occupation: e.target.value,
                   },
                 })
               }
             />
           </div>
-          <div className="rounded-md border p-4 flex flex-row text-gray-200 cursor-default items-center">
-            <div>Telefon:</div>
+          <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
+            <div className="flex-1">Telefon:</div>
             <input
-            className=" text-black p-1 rounded-l ml-2"
+            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="phone"
-              value={userInfo?.parent.phone}
+              value={user?.parent.phone}
               onChange={(e) =>
-                setUserInfo({
-                  ...userInfo,
+                setUser({
+                  ...user,
                   parent: {
-                    ...userInfo?.parent,
+                    ...user?.parent,
                     phone: e.target.value,
                   },
                 })

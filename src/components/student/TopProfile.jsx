@@ -5,29 +5,13 @@ import { useUser } from "../../context/userContext";
 const TopProfile = () => {
   const [file, setFile] = useState(null);
   const { user } = useUser();
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    if (user) {
-      performFetch();
-    }
-  }, [user]);
-
-  const onSuccess = (data) => {
-    setUserInfo(data);
-  };
-
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
-    `/user/${user}`,
-    onSuccess
-  );
 
   return (
     <div className=" shadow-lg  rounded-2xl p-4">
       <div className="flex-none sm:flex">
         <div className=" relative h-32 w-32   sm:mb-0 mb-3">
           <img
-            src={file || userInfo?.picture}
+            src={file || user?.picture}
             alt="profile picture"
             className=" w-32 h-32 object-cover rounded-2xl"
           />
@@ -49,15 +33,15 @@ const TopProfile = () => {
           <div className="flex items-center justify-between sm:mt-2">
             <div className="flex items-center">
               <div className="flex flex-col">
-                <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">
-                  {userInfo?.firstName} {userInfo?.lastName}
+                <div className="w-full flex-none text-lg font-bold leading-none">
+                  {user?.firstName} {user?.lastName}
                 </div>
-                <div className="flex-auto text-gray-400 my-1">
+                <div className="flex-auto text-gray-700 my-1">
                   <span className="mr-3 ">
-                    {userInfo?.educationDetails?.class}. Sınıf
+                    {user?.educationDetails?.class}. Sınıf
                   </span>
-                  <span className="mr-3 border-r border-gray-600  max-h-0"></span>
-                  <span>{userInfo?.contact?.address?.province}</span>
+                  <span className="mr-3 border-r border-gray-900  max-h-0"></span>
+                  <span>{user?.contact?.address?.province}</span>
                 </div>
               </div>
             </div>
@@ -81,8 +65,8 @@ const TopProfile = () => {
                 />
               </svg>
 
-              <p className="">
-                {!userInfo?.isTeacher && userInfo?.scheduledClasses.filter((clas) => clas.isDone).length}{" "}
+              <p className="text-gray-800">
+                {!user?.isTeacher && user?.scheduledClasses.filter((clas) => clas.isDone).length}{" "}
                 ders yapıldı.
               </p>
             </div>
@@ -105,7 +89,7 @@ const TopProfile = () => {
                 />
               </svg>
 
-              <p className="">{userInfo?.esCoin?.total} EsCoin</p>
+              <p className="text-gray-800">{user?.esCoin?.total} EsCoin</p>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ const StudentDashboard = () => {
 
 
   return (
-    < div>
+    < div className="flex justify-center px-6 md:px-10 flex-col">
       <MainComponent />
     </div>
   );

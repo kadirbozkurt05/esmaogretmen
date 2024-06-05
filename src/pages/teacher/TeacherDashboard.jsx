@@ -5,27 +5,28 @@ import { useUser } from "../../context/userContext";
 import useFetch from "../../hooks/useFetch";
 
 const TeacherDashboard = ()=>{
-  const {user} = useUser();
+  // const {user} = useUser();
 
-  const [userInfo, setUserInfo] = useState();
-  useEffect(()=>{
-    cancelFetch();
-  },[])
+  // const [userInfo, setUserInfo] = useState({});
 
 
+   
+  // useEffect(()=>{
+  //   performFetch();
+  //   },[])
 
 
-  const onSuccess = (data) => {
-    setUserInfo(data);
-  }
+  // const onSuccess = (data) => {
+  //   setUserInfo(data);
+  // }
 
 
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user.u}`,onSuccess);
+  // const {error, isLoading, performFetch} = useFetch(`/user/${user}`,onSuccess);
 
-  if(error) {
-    //MODAL
-  }
+  // if(error) {
+  //   //MODAL
+  // }
 
 
 

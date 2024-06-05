@@ -17,9 +17,10 @@ const MainComponent = ({ id, teacher }) => {
 
   const {error, performFetch} = useFetch(`/user/${id}`,onSuccess)
 
-  useEffect(() => {
+  
+  useEffect(()=>{
     performFetch();
-  }, []);
+    },[])
 
   if(error){
     //MODAL

@@ -11,9 +11,10 @@ const Student = ({ student }) => {
 
   const {error, loading, performFetch} = useFetch(`/user/${student}`, onSuccess);
 
+  
   useEffect(()=>{
     performFetch();
-  },[])
+    },[])
 
   if(error){
     //MODAL

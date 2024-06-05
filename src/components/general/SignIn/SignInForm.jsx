@@ -22,11 +22,12 @@ const SignInForm = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   const onSuccess = (data) => {
-    if(data.uid){
-      setUser(data?.uid);
+    if (data?.firstName) {
+      setUser(data);
+
       if (checked) {
-        localStorage.setItem("user", data?.uid);
-  
+        localStorage.setItem("user", data);
+
         sessionStorage.setItem(
           "credential",
           JSON.stringify({
@@ -41,21 +42,19 @@ const SignInForm = () => {
             password: formData.password,
           })
         );
-  
-        sessionStorage.setItem("user", data?.uid);
+
+        sessionStorage.setItem("user", data);
       } else {
-        if(data?.uid){
-          sessionStorage.setItem("user", data?.uid);
-        sessionStorage.setItem(
-          "credential",
-          JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          })
-        );
-  
+        if (data) {
+          sessionStorage.setItem("user", JSON.stringify(data));
+          sessionStorage.setItem(
+            "credential",
+            JSON.stringify({
+              email: formData.email,
+              password: formData.password,
+            })
+          );
         }
-        
       }
 
       setShowModal(true);
@@ -63,12 +62,9 @@ const SignInForm = () => {
         setShowModal(false);
         navigate("/");
       }, 1000);
+     }
 
-    }
-
-
-
-    if(data.code){
+    if (data.code) {
       const code = data?.code;
       if (code.includes("auth/invalid-credential")) {
         setErrorMessage(
@@ -79,18 +75,14 @@ const SignInForm = () => {
         setErrorMessage(
           "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
         );
-      } 
-
+      }
     }
-
-   
-    
   };
 
-  const { isLoading, error, performFetch } = useFetch(
-    "/user/login",
-    onSuccess
-  );
+
+  const { isLoading, error, performFetch } = useFetch("/user/login", onSuccess);
+
+
 
 
   const handleChange = (e) => {
@@ -104,7 +96,7 @@ const SignInForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    formData.remember = checked;
     performFetch({
       method: "POST",
       headers: {
@@ -114,19 +106,16 @@ const SignInForm = () => {
     });
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (error) {
-      setErrorMessage("Giriş sırasında bir hata oluştu. Lütfen daha sonra yeniden deneyiniz.")
+      setErrorMessage(
+        "Giriş sırasında bir hata oluştu. Lütfen daha sonra yeniden deneyiniz."
+      );
       setShowErrorModal(true);
-  }
-
-  },[error])
-
-
+    }
+  }, [error]);
 
   if (isLoading) {
-    
   }
 
   return (

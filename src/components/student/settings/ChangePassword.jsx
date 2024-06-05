@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../../hooks/useFetch";
 import Modal from "../../general/Modal/Modal";
 
 
 
 const ChangePassword = () => {
-  const navigate = useNavigate();
 
 const [showModal, setShowModal] = useState(false);
 const [showErrorModal, setShowErrorModal] = useState(false);
@@ -21,11 +19,8 @@ const [showErrorModal, setShowErrorModal] = useState(false);
   });
 
   const credential = JSON.parse(sessionStorage.getItem("credential")) || JSON.parse(localStorage.getItem("credential"));
-  const onSuccessLogin = (data) => {
-    //MODAL
-  };
 
-  const {error: errorLogin, performFetch:performLogin} = useFetch(`/user/login`,onSuccessLogin);
+  const {error: errorLogin, performFetch:performLogin} = useFetch(`/user/login`);
 
   useEffect(()=>{
     if(credential){
@@ -63,7 +58,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
     
   };
 
-  const { error, loading, performFetch } = useFetch(
+  const { error, performFetch } = useFetch(
     "/user/change-password",
     onSuccess
   );
@@ -92,7 +87,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
   }
 
   return (
-    <section>
+    <div className=" flex flex-col md:h-full justify-center items-center w-full">
 
 {showModal && (
         <Modal
@@ -111,15 +106,15 @@ const [showErrorModal, setShowErrorModal] = useState(false);
 
 
 
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight ">
+      <div className="flex flex-col items-center w-full justify-center h-full lg:py-0">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 p-2 ">
+          <div className="flex w-full flex-col">
+            <h1 className=" mb-2 text-xl font-bold leading-tight tracking-tight ">
               Parolayı Değiştir
             </h1>
             <form
               onSubmit={handleSubmit}
-              className="space-y-4 md:space-y-6"
+              className="flex w-full flex-col"
               action="#"
             >
               <div>
@@ -164,7 +159,7 @@ const [showErrorModal, setShowErrorModal] = useState(false);
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ import { useUser } from "../../context/userContext";
 import useFetch from "../../hooks/useFetch";
 const MainComponent = () => {
   const {user} = useUser();
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
   const [addNews, setAddNews] = useState(false);
   const [showNews, setShowNews] = useState(false);
 
@@ -19,6 +19,8 @@ const MainComponent = () => {
 
   useEffect(()=>{
     performFetch();
+
+
   },[])
 
 
@@ -29,7 +31,7 @@ const MainComponent = () => {
 
 
 
-  const {error, isLoading, performFetch, cancelFetch} = useFetch(`/user/${user}`,onSuccess);
+  const {error, isLoading, performFetch} = useFetch(`/user/${user}`,onSuccess);
 
   if(error ) {
     //MODAL

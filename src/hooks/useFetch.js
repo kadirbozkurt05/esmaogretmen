@@ -53,7 +53,7 @@ const useFetch = (route, onReceived) => {
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
-      const url = `${hostUrl}/api${route}`;
+      const url = `/api${route}`;
 
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 
