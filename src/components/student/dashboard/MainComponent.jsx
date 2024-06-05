@@ -4,6 +4,7 @@ import PreviousClasses from "./PreviousLessons";
 import TeacherNotes from "./TeacherNotes";
 import { useUser } from "../../../context/userContext";
 import ScheduledClasses from "./ScheduledClasses"
+import Info from "./../profile/Info"
 import {
   Card,
   List,
@@ -126,6 +127,13 @@ const MainComponent = () => {
 
   <ChangePassword />
 </div>
+  const profileComponent = <div>
+  <div className="mb-4  shadow-lg  rounded-2xl p-4">
+        <h6 className="text-l font-semibold text-center">AYARLAR</h6>
+      </div>
+
+  < Info user = {user}/>
+</div>
 
   const [selectedComponent, setSelectedComponent] = useState(homeworkComponent);
 
@@ -144,7 +152,7 @@ const MainComponent = () => {
   }, []);
 
   return (
-    <div className="flex md:h-screen w-full md:px-10 flex-col md:flex-row">
+    <div className="flex w-full md:px-10 flex-col md:flex-row">
       <Card className=" static md:h-screen md:max-w-[20rem] p-4 md:flex-1 md:w-32 shadow-xl shadow-blue-gray-900/5">
         <div>
           <ProfileCard />
@@ -211,6 +219,12 @@ const MainComponent = () => {
               </svg>
             </ListItemPrefix>
             ÖĞRETMEN NOTLARI
+          </ListItem>
+          <ListItem onClick={() => setSelectedComponent(profileComponent)}>
+            <ListItemPrefix>
+              <Cog6ToothIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            PROFİL
           </ListItem>
           <ListItem onClick={() => setSelectedComponent(settngsComponent)}>
             <ListItemPrefix>

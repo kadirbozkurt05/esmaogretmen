@@ -24,6 +24,7 @@ const EditInfo = () => {
 
 
   const onSuccess = ()=>{
+    
     sessionStorage.setItem("user",JSON.stringify(user));
     if(localStorage.getItem("user")){
       localStorage.setItem("user",JSON.stringify(user));
@@ -62,7 +63,7 @@ const EditInfo = () => {
     <div className="">
       <div className="flex flex-col">
         <h1 className=" mb-2">Kişisel Bilgiler</h1>
-        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+        <div className="mb-4   gap-2 shadow-lg grid grid-cols-1 md:grid-cols-2  rounded-2xl p-2">
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex flex-1">İsim:</div>
             <input
@@ -111,7 +112,7 @@ const EditInfo = () => {
       </div>
       <div className="flex flex-col">
         <h1 className=" mb-2">İletişim</h1>
-        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+        <div className="mb-4   gap-2 shadow-lg grid md:grid-cols-2 grid-cols-1  rounded-2xl p-2">
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Telefon:</div>
             <input
@@ -227,7 +228,7 @@ const EditInfo = () => {
       </div>
       <div className="flex flex-col">
         <h1 className=" mb-2">Okul Bilgileri</h1>
-        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+        <div className="mb-4   gap-2 shadow-lg grid md:grid-cols-2 grid-cols-1  rounded-2xl p-2">
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Sınıf:</div>
             <input
@@ -286,7 +287,7 @@ const EditInfo = () => {
       </div>
       <div className="flex flex-col">
         <h1 className=" mb-2">Veli Bilgileri</h1>
-        <div className="mb-4   gap-2 shadow-lg grid grid-cols-2  rounded-2xl p-2">
+        <div className="mb-4   gap-2 shadow-lg grid md:grid-cols-2 grid-cols-1  rounded-2xl p-2">
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Sıfatı:</div>
             <input
