@@ -65,7 +65,7 @@ const ProfileCard = () => {
               {user?.firstName} {user?.lastName}
             </h1>
             <h1 className="text-gray-500 text-sm">
-              {user?.contact?.address?.province}
+              {user?.contact?.email}
             </h1>
           </div>
         </div>

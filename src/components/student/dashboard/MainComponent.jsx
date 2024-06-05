@@ -34,24 +34,21 @@ const MainComponent = () => {
         <h6 className="text-l font-semibold text-center">ÖDEVLER</h6>
       </div>
 
-      {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) >= today)?.length === 0 ? (
+      {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) <= today)?.length === 0 ? (
         <div className="mb-6 md:mb-0 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
           {" "}
           Şu anda ödeviniz yoktur
         </div>
       ) : (
-        <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) >= today).map((homework, index) => {
-            return (
-              <Homework
-                title={homework?.title}
-                message={homework.message}
-                date={homework.date}
-                key={index}
-              />
-            );
-          })}
+
+
+        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
+          <Homework homeworks = {user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) <= today)} />
         </div>
+
+
+
+
       )}
     </div>
   );
@@ -95,7 +92,7 @@ const MainComponent = () => {
   );
 
   const teacherNotesComponent = (
-    <div>
+    <div >
      <div className="mb-4  shadow-lg  rounded-2xl p-4">
         <h6 className="text-l font-semibold text-center">ÖĞRETMEN NOTLARI</h6>
       </div>
@@ -106,18 +103,8 @@ const MainComponent = () => {
           Henüz öğretmeniniz sizin için bir not yazmamış.
         </div>
       ) : (
-        <div className=" mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {user.teacherNotes.map((note, index) => {
-            return (
-              <TeacherNotes
-                title={note?.title}
-                message={note?.message}
-                date={note?.date}
-                teacher={note?.teacher}
-                key={index}
-              />
-            );
-          })}
+        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
+          <TeacherNotes teacherNotes = {user.teacherNotes} />
         </div>
       )}
     </div>
@@ -206,7 +193,17 @@ const MainComponent = () => {
                 <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
               </svg>
             </ListItemPrefix>
+            
             ÖDEVLER
+            <ListItemSuffix>
+              <Chip
+                value={(user.homework.filter((homework)=>new Date(homework.date.seconds * 1000) <= today)).length}
+                size="sm"
+                variant="ghost"
+                color="blue-gray"
+                className="rounded-full"
+              />
+            </ListItemSuffix>
           </ListItem>
           <ListItem
             onClick={() => setSelectedComponent(previousClassesComponent)}
@@ -222,6 +219,15 @@ const MainComponent = () => {
               </svg>
             </ListItemPrefix>
             GEÇMİŞ DERSLER
+            <ListItemSuffix>
+              <Chip
+                value={previousClasses.length}
+                size="sm"
+                variant="ghost"
+                color="blue-gray"
+                className="rounded-full"
+              />
+            </ListItemSuffix>
           </ListItem>
           <ListItem
             onClick={() => setSelectedComponent(scheduledClassesComponent)}
@@ -232,7 +238,7 @@ const MainComponent = () => {
             GELECEK DERSLER
             <ListItemSuffix>
               <Chip
-                value="14"
+                value={scheduledClasses.length}
                 size="sm"
                 variant="ghost"
                 color="blue-gray"
@@ -254,6 +260,15 @@ const MainComponent = () => {
               </svg>
             </ListItemPrefix>
             ÖĞRETMEN NOTLARI
+            <ListItemSuffix>
+              <Chip
+                value={(user.teacherNotes.filter((note)=>!note.isRead)).length}
+                size="sm"
+                variant="ghost"
+                color="blue-gray"
+                className="rounded-full"
+              />
+            </ListItemSuffix>
           </ListItem>
           <ListItem onClick={() => setSelectedComponent(profileComponent)}>
             <ListItemPrefix>
