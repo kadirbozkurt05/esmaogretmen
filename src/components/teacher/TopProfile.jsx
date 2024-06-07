@@ -29,7 +29,7 @@ const TopProfile = ()=>{
 
 
     return(
-        <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
+        <div className=" shadow-lg  rounded-2xl p-4">
         <div className="flex-none sm:flex">
           <div className=" relative h-32 w-32   sm:mb-0 mb-3">
             <img src={userInfo && userInfo?.picture} alt="aji" className=" w-32 h-32 object-cover rounded-2xl"/>

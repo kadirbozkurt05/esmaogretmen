@@ -1,5 +1,4 @@
-import StudentList from "./StudentList";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
 import Settings from "./../student/settings/ChangePassword";
 import AddNews from "./AddNews";
@@ -15,7 +14,6 @@ import Student from "./Student";
 import MainComponentManage from "./manageStudents/MainComponentManage";
 const MainComponent = () => {
   const { user, setUser } = useUser();
-  const [studentId, setStudentId] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const newsComponent = <News />;
@@ -39,13 +37,13 @@ const MainComponent = () => {
     >
       {user.students.map((student, index) => {
         return (
-          <div>
+          <div key={index}>
             <Student
               onClick={(e) => {
                 selectedStudent(e.target.id)
                 
               }}
-              key={index}
+              
               student={student}
             />
           </div>

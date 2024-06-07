@@ -45,9 +45,7 @@ const MainComponentManage = ({ id, teacher }) => {
                   SIRADAKİ DERSLER
                 </h6>
               </div>
-              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
                 <ScheduledClasses id={id} />
-              </div>
             </div>
             <div>
               <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">

@@ -53,7 +53,14 @@ const useFetch = (route, onReceived) => {
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
-      const url = `https://esma-c.netlify.app/.netlify/functions/api${route}`;
+
+      // Assuming you're using a bundler like Webpack or a framework like Create React App
+const isProduction = process.env.NODE_ENV === 'production';
+
+const url = isProduction 
+  ? `https://esma-c.netlify.app/.netlify/functions/api${route}`
+  : `/api${route}`;
+
 
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 

@@ -1,6 +1,6 @@
 const StudentInfo = ({ user }) => {
   return (
-    <div className="bg-gray-800 border border-gray-800 shadow-lg  rounded-2xl p-4">
+    <div className=" shadow-lg  rounded-2xl p-4">
       <div className="flex-none sm:flex">
         <div className=" relative h-32 w-32   sm:mb-0 mb-3">
           <img
@@ -13,10 +13,10 @@ const StudentInfo = ({ user }) => {
           <div className="flex items-center justify-between sm:mt-2">
             <div className="flex items-center">
               <div className="flex flex-col">
-                <div className="w-full flex-none text-lg text-gray-200 font-bold leading-none">
+                <div className="w-full flex-none text-lg  font-bold leading-none">
                   {user?.firstName} {user?.lastName}
                 </div>
-                <div className="flex-auto text-gray-400 my-1">
+                <div className="flex-auto  my-1">
                   <span className="mr-3 ">
                     {user?.educationDetails?.class}. Sınıf
                   </span>
@@ -27,7 +27,7 @@ const StudentInfo = ({ user }) => {
             </div>
           </div>
 
-          <div className="flex pt-2  text-sm text-gray-400">
+          <div className="flex pt-2  text-sm ">
             <div className="flex-1 inline-flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

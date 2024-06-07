@@ -62,7 +62,7 @@ const SignInForm = () => {
         setShowModal(false);
         navigate("/");
       }, 1000);
-     }
+    }
 
     if (data.code) {
       const code = data?.code;
@@ -79,11 +79,7 @@ const SignInForm = () => {
     }
   };
 
-
   const { isLoading, error, performFetch } = useFetch("/user/login", onSuccess);
-
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
