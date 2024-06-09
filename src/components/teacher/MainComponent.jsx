@@ -1,21 +1,22 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
 import Settings from "./../student/settings/ChangePassword";
 import AddNews from "./AddNews";
 import AddCompetition from "./AddCompetition";
 import Competitions from "./Competitions";
 import News from "./News";
-import { useUser } from "../../context/userContext";
 import Modal from "../general/Modal/Modal";
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import ProfileCard from "./ProfileCard";
 import Info from "./profile/Info";
 import Student from "./Student";
 import MainComponentManage from "./manageStudents/MainComponentManage";
-const MainComponent = () => {
-  const { user, setUser } = useUser();
-  const [showModal, setShowModal] = useState(false);
+import { auth } from "../../../firebase";
+import { useUser } from "../../context/userContext";
 
+const MainComponent = ({user}) => {
+  const {setUser} = useUser();
+  const [showModal, setShowModal] = useState(false);
   const newsComponent = <News />;
   const competitionComponent = <Competitions />;
   const addNewsComponent = <AddNews />;
@@ -32,10 +33,10 @@ const MainComponent = () => {
   const studentsComponent = (
     <div
       className={`grid grid-cols-1 ${
-        user.students.length >= 2 ? "md:grid-cols-2" : "md:grid-cols-1"
+        user?.students.length >= 2 ? "md:grid-cols-2" : "md:grid-cols-1"
       } gap-4 items-center`}
     >
-      {user.students.map((student, index) => {
+      {user?.students.map((student, index) => {
         return (
           <div key={index}>
             <Student
@@ -52,8 +53,11 @@ const MainComponent = () => {
     </div>
   );
 
-  const [selectedComponent, setSelectedComponent] = useState(studentsComponent);
+  const [selectedComponent, setSelectedComponent] = useState(user && studentsComponent);
 
+  useEffect(()=>{
+    console.log(user);
+  },[user])
   
 
   const logout = () => {
@@ -63,13 +67,11 @@ const MainComponent = () => {
     setShowModal(false);
     try {
       setUser(null);
-      sessionStorage.removeItem("user");
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("credential");
-      localStorage.removeItem("credential");
-      navigate("/");
+      await auth.signOut()
+      console.log("Signed out", auth.currentUser);
+      
     } catch (error) {
-      //MODAL
+      console.log(error);
     }
   };
   const cancelled = () => {
@@ -97,7 +99,7 @@ const MainComponent = () => {
           </div>
 
           <List>
-            <ListItem onClick={() => setSelectedComponent(studentsComponent)}>
+            <ListItem onClick={() => user && setSelectedComponent(studentsComponent)}>
               <ListItemPrefix>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +113,7 @@ const MainComponent = () => {
               </ListItemPrefix>
               ÖĞRENCİLER
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(addNewsComponent)}>
+            <ListItem onClick={() => user && setSelectedComponent(addNewsComponent)}>
               <ListItemPrefix>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +128,7 @@ const MainComponent = () => {
               DUYURU EKLE
             </ListItem>
             <ListItem
-              onClick={() => setSelectedComponent(addCompetitionComponent)}
+              onClick={() => user && setSelectedComponent(addCompetitionComponent)}
             >
               <ListItemPrefix>
                 <svg
@@ -140,14 +142,14 @@ const MainComponent = () => {
               </ListItemPrefix>
               YARIŞMA EKLE
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(newsComponent)}>
+            <ListItem onClick={() => user && setSelectedComponent(newsComponent)}>
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
               </ListItemPrefix>
               DUYURULAR
             </ListItem>
             <ListItem
-              onClick={() => setSelectedComponent(competitionComponent)}
+              onClick={() =>user && setSelectedComponent(competitionComponent)}
             >
               <ListItemPrefix>
                 <svg
@@ -163,13 +165,13 @@ const MainComponent = () => {
               </ListItemPrefix>
               YARIŞMALAR
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(profileComponent)}>
+            <ListItem onClick={() =>user&& setSelectedComponent(profileComponent)}>
               <ListItemPrefix>
                 <Cog6ToothIcon className="h-5 w-5" />
               </ListItemPrefix>
               PROFİL
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(settingsComponent)}>
+            <ListItem onClick={() =>user && setSelectedComponent(settingsComponent)}>
               <ListItemPrefix>
                 <Cog6ToothIcon className="h-5 w-5" />
               </ListItemPrefix>
@@ -193,91 +195,7 @@ const MainComponent = () => {
         </div>
       </div>
     </>
-    // <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 px-6">
-    //   <div className="container  m-4">
-    //     <div className=" max-w-5xl w-full mx-auto grid gap-4 grid-cols-1">
-    //       <div className="flex flex-col sticky top-0 z-10">
-    //         <TopProfile />
-    //       </div>
 
-    //       {userInfo?.isTeacher && userInfo?.students.length > 0 &&
-    //       <>
-    //       <hr />
-    //       <div className=" bg-gray-800 border border-gray-800 shadow-lg rounded-2xl text-gray-100 font-medium p-4 justify-center flex">
-    //         <h6 className="text-xl font-semibold text-white">ÖĞRENCİLER</h6>
-    //       </div>
-    //       <StudentList students={userInfo?.students} />
-    //       </>
-    //       }
-    //       <hr />
-    //       <div className="flex flex-col ">
-    //         <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">
-    //           <div className="flex-auto bg-gray-200">
-    //             <div
-    //               onClick={() => setAddNews(true)}
-    //               className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
-    //             >
-    //               <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
-    //                 <i className="far fa-cog text-2xl pt-1"></i>
-    //                 <span className="  hover:text-lg  ml-3 align-bottom pb-1">
-    //                   DUYURU EKLE
-    //                 </span>
-    //               </span>
-    //             </div>
-    //           </div>
-    //           <div className="flex-auto ">
-    //             <div
-    //               onClick={() => setAddNews(false)}
-    //               className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
-    //             >
-    //               <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
-    //                 <i className="far fa-cog text-2xl pt-1"></i>
-    //                 <span className="  hover:text-lg  ml-3 align-bottom pb-1">
-    //                   YARIŞMA EKLE
-    //                 </span>
-    //               </span>
-    //             </div>
-    //           </div>
-    //         </div>
-
-    //         {addNews ? <AddNews /> : <AddCompetition />}
-    //         <hr className="my-6" />
-
-    //         <div className="  bg-gray-100 flex items-center justify-between cursor-pointer">
-    //           <div className="flex-auto  ">
-    //             <div
-    //               onClick={() => setShowNews(false)}
-    //               className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
-    //             >
-    //               <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
-    //                 <i className="far fa-cog text-2xl pt-1"></i>
-    //                 <span className="  hover:text-lg ml-3 align-bottom pb-1">
-    //                   Yarışmalar
-    //                 </span>
-    //               </span>
-    //             </div>
-    //           </div>
-    //           <div className="flex-auto  bg-gray-200">
-    //             <a
-    //               onClick={() => setShowNews(true)}
-    //               className="flex items-center justify-center text-center mx-auto px-4 py-2  text-indigo-500"
-    //             >
-    //               <span className=" px-1 py-1 group-hover:bg-indigo-100 rounded-full ">
-    //                 <i className="far fa-cog text-2xl pt-1"></i>
-    //                 <span className="  hover:text-lg ml-3 align-bottom pb-1">
-    //                   Duyurular
-    //                 </span>
-    //               </span>
-    //             </a>
-    //           </div>
-    //         </div>
-
-    //         {showNews ? <News /> : <Competitions />}
-    //         <hr className="my-6" />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

@@ -13,11 +13,6 @@ const Nav = () => {
   const [showModal, setShowModal] = useState(false);
   const { setUser, user } = useUser();
 
-  const onLogout = () => {
-    setIsNavOpen(false);
-    setIsClicked(false);
-    setShowModal(true);
-  };
 
   useEffect(() => {
     if (href === "/") {

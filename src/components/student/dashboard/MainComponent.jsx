@@ -18,9 +18,10 @@ import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
 import ChangePassword from "./../settings/ChangePassword";
 import ProfileCard from "../ProfileCard";
 import Modal from "../../general/Modal/Modal";
-const MainComponent = () => {
+import { auth } from "../../../../firebase";
+const MainComponent = ({user}) => {
   const today = new Date();
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   const [scheduledClasses, setScheduledClasses] = useState([]);
   const [previousClasses, setPreviousClasses] = useState([]);
 
@@ -148,13 +149,9 @@ const MainComponent = () => {
     setShowModal(false);
     try {
       setUser(null);
-      sessionStorage.removeItem("user");
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("credential");
-      localStorage.removeItem("credential");
-      navigate("/");
+      await auth.signOut();
     } catch (error) {
-      //MODAL
+      console.log(error);
     }
   };
   const cancelled = () => {

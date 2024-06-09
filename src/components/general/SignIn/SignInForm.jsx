@@ -4,10 +4,11 @@ import Modal from "../Modal/Modal";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import useFetch from "../../../hooks/useFetch";
 import { useUser } from "./../../../context/userContext.jsx";
-
+import { auth } from "./../../../../firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
 const SignInForm = () => {
+  const [uid, setUid] = useState("");
   const { setUser } = useUser();
-
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -21,65 +22,57 @@ const SignInForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigate("/");
+    }
+  }, []);
+
   const onSuccess = (data) => {
     if (data?.firstName) {
       setUser(data);
-
-      if (checked) {
-        localStorage.setItem("user", JSON.stringify(data));
-
-        sessionStorage.setItem(
-          "credential",
-          JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          })
-        );
-        localStorage.setItem(
-          "credential",
-          JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          })
-        );
-
-        sessionStorage.setItem("user", JSON.stringify(data));
-      } else {
-        if (data) {
-          sessionStorage.setItem("user", JSON.stringify(data));
-          sessionStorage.setItem(
-            "credential",
-            JSON.stringify({
-              email: formData.email,
-              password: formData.password,
-            })
-          );
-        }
-      }
-
       setShowModal(true);
       setTimeout(() => {
         setShowModal(false);
         navigate("/");
-      }, 1000);
-    }
-
-    if (data.code) {
-      const code = data?.code;
-      if (code.includes("auth/invalid-credential")) {
-        setErrorMessage(
-          "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
-        );
-        setShowErrorModal(true);
-      } else if (code.includes("has been temporarily disabled")) {
-        setErrorMessage(
-          "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
-        );
-      }
+      }, 1500);
+    } else {
+      setErrorMessage(
+        "Giriş esnasında bir hata oluştu. Lütfen daha sonra yeniden deneyin."
+      );
+      setShowErrorModal(true);
     }
   };
 
-  const { isLoading, error, performFetch } = useFetch("/user/login", onSuccess);
+  useEffect(() => {
+    const getUser = async () => {
+      if (uid !== "") {
+        const response = await fetch(`http://localhost:5000/api/user/${uid}`);
+        const data = await response.json();
+        setUser(data);
+        if (data?.firstName) {
+          setUser(data);
+          setShowModal(true);
+          setTimeout(() => {
+            setShowModal(false);
+            navigate("/");
+          }, 1500);
+        } else {
+          setErrorMessage(
+            "Giriş esnasında bir hata oluştu. Lütfen daha sonra yeniden deneyin."
+          );
+          setShowErrorModal(true);
+        }
+      }
+    };
+
+    getUser();
+  }, [uid]);
+
+  const { isLoading, error, performFetch } = useFetch(
+    `/user/${uid}`,
+    onSuccess
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,18 +85,27 @@ const SignInForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.remember = checked;
-    performFetch({
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      setUid(auth.currentUser?.uid);
+    } catch (error) {
+      if (error.message.includes("auth/invalid-credential")) {
+        setErrorMessage(
+          "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
+        );
+        setShowErrorModal(true);
+      } else if (error.message.includes("has been temporarily disabled")) {
+        setErrorMessage(
+          "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
+        );
+      }
+    }
   };
 
   useEffect(() => {
     if (error) {
+      console.log(error);
       setErrorMessage(
         "Giriş sırasında bir hata oluştu. Lütfen daha sonra yeniden deneyiniz."
       );
@@ -143,7 +145,6 @@ const SignInForm = () => {
                 <form
                   onSubmit={handleSubmit}
                   className="space-y-4 md:space-y-6"
-                  action="#"
                 >
                   <div>
                     <label
@@ -156,7 +157,7 @@ const SignInForm = () => {
                       type="email"
                       name="email"
                       id="email"
-                      value={formData.email}
+                      value={formData.email || ""}
                       onChange={handleChange}
                       className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
                       placeholder="ahmet.yilmaz@example.com"
@@ -174,7 +175,7 @@ const SignInForm = () => {
                       type="password"
                       name="password"
                       id="password"
-                      value={formData.password}
+                      value={formData.password || ""}
                       onChange={handleChange}
                       placeholder="••••••••"
                       className="w-full rounded-md py-2.5 px-4 border text-sm outline-[#007bff]"
@@ -189,10 +190,9 @@ const SignInForm = () => {
                           aria-describedby="remember"
                           type="checkbox"
                           name="remember"
-                          checked={formData.remember}
+                          checked={checked}
                           onChange={() => {
                             setChecked(!checked);
-                            localStorage.setItem("remember", "true");
                           }}
                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         />

@@ -6,17 +6,9 @@ import StudentDashboard from "../student/StudentDashboard.jsx";
 import { useUser } from "../../context/userContext.jsx";
 import Faqs from "../../components/general/MainPage/Faqs.jsx";
 import WhatsAppButton from "../../components/general/MainPage/WhatsAppButton.jsx";
-import { useEffect } from "react";
 
 const MainPage = () => {
-  const {user,setUser} = useUser();
-
-  useEffect(()=>{
-    if(!user){
-      setUser(JSON.parse(sessionStorage.getItem("user")));
-    }
-  },[user])
-
+  const { user } = useUser();
 
   const slides = [
     {
@@ -25,29 +17,24 @@ const MainPage = () => {
       body: "",
     },
     {
-      image:
-        "https://i.ibb.co/LrCkJZr/esma-ogretmen-here.png",
+      image: "https://i.ibb.co/LrCkJZr/esma-ogretmen-here.png",
       title: "Welcome",
       body: "",
     },
-
-
   ];
 
   if (user) {
     if (user?.isTeacher || user?.isAdmin) {
-      return <TeacherDashboard />;
+      return <TeacherDashboard user={user} />;
     } else {
       return <StudentDashboard />;
     }
   } else {
     return (
-      < >
+      <>
         <Info />
         <Faqs />
-        
-          <Slider slides={slides} title={"YARIŞMALAR"} />
-
+        <Slider slides={slides} title={"YARIŞMALAR"} />
         <NewsLetter />
         <WhatsAppButton />
       </>

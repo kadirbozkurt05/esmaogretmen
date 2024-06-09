@@ -1,8 +1,26 @@
 import { useEffect, useState } from "react";
+import useFetch from "../../hooks/useFetch";
+import { auth } from "../../../firebase";
 import { useUser } from "../../context/userContext";
 
 const ProfileCard = () => {
-  const { user } = useUser();
+  const {user, setUser}  = useUser();
+  // useEffect(()=>{
+  //   if(auth.currentUser.uid){
+  //     performFetch();
+  //   }
+  // },[auth.currentUser]);
+
+
+  // const onSuccess = (data) => {
+    
+  //   if(data.firstName){
+  //     setUser(data);
+  //   }
+    
+  // }
+
+  // const {performFetch} = useFetch(`/user/${auth?.currentUser?.id}`,onSuccess);
 
 
 

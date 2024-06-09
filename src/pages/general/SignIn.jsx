@@ -7,14 +7,6 @@ import { useEffect } from "react";
 
 
 const SignIn = () => {
-  const {user} = useUser();
-  const navigate = useNavigate();
-
-  useEffect(()=>{
-if(user){
-  navigate("/");
-}
-  },[user])
 
   return (<>
     <Nav/>
