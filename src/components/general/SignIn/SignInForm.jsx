@@ -47,7 +47,20 @@ const SignInForm = () => {
   useEffect(() => {
     const getUser = async () => {
       if (uid !== "") {
-        const response = await fetch(`http://localhost:5000/api/user/${uid}`);
+        try {
+          const isProduction = process.env.NODE_ENV === 'production';
+        const url = isProduction
+          ? `https://esma-c.netlify.app/.netlify/functions/api`
+          : `/api`;
+          console.log(url);
+        const idToken = await auth.currentUser.getIdToken();
+        const response = await fetch(`${url}/user/${uid}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`,
+          },
+        });
         const data = await response.json();
         setUser(data);
         if (data?.firstName) {
@@ -63,6 +76,11 @@ const SignInForm = () => {
           );
           setShowErrorModal(true);
         }
+        } catch (error) {
+          await auth.signOut();
+        }
+        
+        
       }
     };
 
