@@ -27,12 +27,11 @@ const TeacherNotes = ({ teacherNotes }) => {
       ...user,
       teacherNotes: updatedTeacherNotes,
     });
-
     setIsUpdated(true);
   };
 
   useEffect(() => {
-    if (isUpdated) {
+    if(isUpdated){
       performFetch({
         method: "PUT",
         body: JSON.stringify(user),
@@ -41,10 +40,7 @@ const TeacherNotes = ({ teacherNotes }) => {
   }, [isUpdated]);
 
   const onSuccess = () => {
-    sessionStorage.setItem("user", JSON.stringify(user));
-    if (localStorage.getItem("user")) {
-      localStorage.setItem("user", JSON.stringify(user));
-    }
+    window.location.reload();
   };
 
   const { performFetch } = useFetch(`/user/${user.id}`, onSuccess);
@@ -85,7 +81,7 @@ const TeacherNotes = ({ teacherNotes }) => {
                     <p className="flex self-end font-sans text-sm antialiased font-normal leading-normal text-gray-700">
                       ÖĞRETMEN : {note.teacher}
                     </p>
-                    {isUpdated || note.isRead ? (
+                    {note.isRead ? (
                       <Chip
                         variant="ghost"
                         color="green"

@@ -34,7 +34,7 @@ const MainComponent = ({user}) => {
       </div>
 
       {user.homework.filter(
-        (homework) => new Date(homework.date.seconds * 1000) <= today
+        (homework) => new Date(homework.date.seconds * 1000) >= today
       )?.length === 0 ? (
         <div className="mb-6 md:mb-0 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
           {" "}
@@ -44,7 +44,7 @@ const MainComponent = ({user}) => {
         <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
           <Homework
             homeworks={user.homework.filter(
-              (homework) => new Date(homework.date.seconds * 1000) <= today
+              (homework) => new Date(homework.date.seconds * 1000) >= today
             )}
           />
         </div>
@@ -197,7 +197,7 @@ const MainComponent = ({user}) => {
                   value={
                     user.homework.filter(
                       (homework) =>
-                        new Date(homework.date.seconds * 1000) <= today
+                        new Date(homework.date.seconds * 1000) >= today
                     ).length
                   }
                   size="sm"
