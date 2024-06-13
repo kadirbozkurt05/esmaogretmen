@@ -1,4 +1,3 @@
-// App.jsx
 import React from "react";
 import Footer from "./components/general/Footer/Footer";
 import Nav from "./components/general/Nav/Nav";
@@ -7,8 +6,6 @@ import { useUser } from "./context/userContext";
 
 function App() {
   const { user } = useUser();
-
-
 
   return (
     <div className="back-ground">

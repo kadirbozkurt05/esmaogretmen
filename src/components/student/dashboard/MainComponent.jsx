@@ -151,7 +151,7 @@ const MainComponent = ({user}) => {
       setUser(null);
       await auth.signOut();
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
   const cancelled = () => {

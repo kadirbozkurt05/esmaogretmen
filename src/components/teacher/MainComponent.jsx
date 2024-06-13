@@ -55,9 +55,7 @@ const MainComponent = ({user}) => {
 
   const [selectedComponent, setSelectedComponent] = useState(user && studentsComponent);
 
-  useEffect(()=>{
-    console.log(user);
-  },[user])
+  
   
 
   const logout = () => {
@@ -68,10 +66,9 @@ const MainComponent = ({user}) => {
     try {
       setUser(null);
       await auth.signOut()
-      console.log("Signed out", auth.currentUser);
       
     } catch (error) {
-      console.log(error);
+      return
     }
   };
   const cancelled = () => {
