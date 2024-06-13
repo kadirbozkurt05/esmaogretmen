@@ -6,6 +6,7 @@ import useFetch from "../../../hooks/useFetch";
 import { useUser } from "./../../../context/userContext.jsx";
 import { auth } from "./../../../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 const SignInForm = () => {
   const [uid, setUid] = useState("");
   const { setUser } = useUser();
@@ -28,51 +29,46 @@ const SignInForm = () => {
     }
   }, []);
 
-  const onSuccess = (data) => {
-    if (data?.firstName) {
-      setUser(data);
-      setShowModal(true);
-      setTimeout(() => {
-        setShowModal(false);
-        navigate("/");
-      }, 1500);
-    } else {
-      setErrorMessage(
-        "Giriş esnasında bir hata oluştu. Lütfen daha sonra yeniden deneyin."
-      );
-      setShowErrorModal(true);
-    }
-  };
-
   useEffect(() => {
     const getUser = async () => {
       if (uid !== "") {
-        const response = await fetch(`http://localhost:5000/api/user/${uid}`);
-        const data = await response.json();
-        setUser(data);
-        if (data?.firstName) {
+        try {
+          const isProduction = process.env.NODE_ENV === "production";
+          const url = isProduction
+            ? `https://esma-c.netlify.app/.netlify/functions/api`
+            : `/api`;
+
+          const idToken = await auth.currentUser.getIdToken();
+          const response = await fetch(`${url}/user/${uid}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+          });
+          const data = await response.json();
           setUser(data);
-          setShowModal(true);
-          setTimeout(() => {
-            setShowModal(false);
-            navigate("/");
-          }, 1500);
-        } else {
-          setErrorMessage(
-            "Giriş esnasında bir hata oluştu. Lütfen daha sonra yeniden deneyin."
-          );
-          setShowErrorModal(true);
+          if (data?.firstName) {
+            setUser(data);
+            setShowModal(true);
+            setTimeout(() => {
+              setShowModal(false);
+              navigate("/");
+            }, 1500);
+          } else {
+            setErrorMessage(
+              "Giriş esnasında bir hata oluştu. Lütfen daha sonra yeniden deneyin."
+            );
+            setShowErrorModal(true);
+          }
+        } catch (error) {
+          await auth.signOut();
         }
       }
     };
 
     getUser();
   }, [uid]);
-
-  const { isLoading, error, performFetch } = useFetch(
-    `/user/${uid}`,
-    onSuccess
-  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,19 +98,6 @@ const SignInForm = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-      setErrorMessage(
-        "Giriş sırasında bir hata oluştu. Lütfen daha sonra yeniden deneyiniz."
-      );
-      setShowErrorModal(true);
-    }
-  }, [error]);
-
-  if (isLoading) {
-  }
 
   return (
     <>

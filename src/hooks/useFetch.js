@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import {auth} from "./../../firebase.js"
 /**
  * Our useFetch hook should be used for all communication with the server.
  *
@@ -40,14 +40,17 @@ const useFetch = (route, onReceived) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Add any args given to the function to the fetch function
-  const performFetch = (options) => {
+  const performFetch = async (options) => {
     setError(null);
     setIsLoading(true);
 
+    const idToken = await auth.currentUser.getIdToken();
+    
     const baseOptions = {
       method: "GET",
       headers: {
         "content-type": "application/json",
+        "authorization": "Bearer "+idToken
       },
     };
 
