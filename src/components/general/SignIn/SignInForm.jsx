@@ -5,11 +5,17 @@ import ResetPassword from "../ResetPassword/ResetPassword";
 import useFetch from "../../../hooks/useFetch";
 import { useUser } from "./../../../context/userContext.jsx";
 import { auth } from "./../../../../firebase.js";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  browserSessionPersistence,
+  onAuthStateChanged,
+  setPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { getAuth } from "firebase/auth";
 const SignInForm = () => {
   const [uid, setUid] = useState("");
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -24,9 +30,31 @@ const SignInForm = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   useEffect(() => {
-    if (auth.currentUser) {
+    if (auth.currentUser && user) {
       navigate("/");
     }
+  }, []);
+
+  const [persistenceType, setPersistenceType] = useState(null);
+
+  // useEffect(()=>{
+  //   if(checked){
+  //     setPersistenceType(browserLocalPersistence);
+  //   }else{
+  //     setPersistenceType(browserLocalPersistence);
+  //   }
+
+  // },[checked])
+
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {});
+        return () => unsubscribe();
+      })
+      .catch((error) => {
+        console.error("Error setting persistence:", error);
+      });
   }, []);
 
   useEffect(() => {
@@ -47,8 +75,10 @@ const SignInForm = () => {
             },
           });
           const data = await response.json();
-          setUser(data);
+
           if (data?.firstName) {
+            localStorage.setItem("user", JSON.stringify(data));
+
             setUser(data);
             setShowModal(true);
             setTimeout(() => {

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../Modal/Modal";
-import useFetch from "../../../hooks/useFetch";
+import { auth } from "../../../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const ResetPassword = () => {
   const [error, setError] = useState(false);
@@ -9,15 +10,7 @@ const ResetPassword = () => {
   );
   const [email, setEmail] = useState("");
 
-  useEffect(()=>{
-    cancelFetch();
-  },[])
-  
-  const onSuccess = ()=>{
 
-  }
-
-  const {error:fetchError, isLoading, performFetch, cancelFetch} = useFetch("/user/reset-password", onSuccess);
 
   const handleSubmit = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,16 +20,23 @@ const ResetPassword = () => {
       return;
     }
 
-    performFetch({
-      body: {
-        email
-      }
-    });
+    try {
+      
+      await sendPasswordResetEmail(auth, email);
+      window.location.reload();
+
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("Bir hata oluştu. Daha sonra yeniden deneyin.");
+      setError(true)
+    }
+
+    
 
   };
   return (
     <>
-      {error && fetchError && (
+      {error && (
         <Modal
           title={"Hata"}
           text={errorMessage}

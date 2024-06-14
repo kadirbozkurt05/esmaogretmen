@@ -22,6 +22,7 @@ const SignUpForm = () => {
     confirmPassword: "",
     remember: false,
   });
+  
 
   useEffect(() => {
     return cancelFetch();

@@ -148,11 +148,13 @@ const MainComponent = ({user}) => {
   const approved = async () => {
     setShowModal(false);
     try {
-      setUser(null);
       await auth.signOut();
+      setUser(null);
+      localStorage.removeItem("user");
+      
+      
     } catch (error) {
-      return;
-    }
+      console.log(error);    }
   };
   const cancelled = () => {
     setShowModal(false);

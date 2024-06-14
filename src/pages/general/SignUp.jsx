@@ -3,13 +3,15 @@ import Nav from "../../components/general/Nav/Nav";
 import Footer from "../../components/general/Footer/Footer";
 import { useUser } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../../firebase";
+import { useEffect } from "react";
 
 const SignUp = () => {
   const { user } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (user && auth.currentUser) {
       navigate("/");
     }
   }, []);

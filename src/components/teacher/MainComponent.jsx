@@ -65,6 +65,7 @@ const MainComponent = ({user}) => {
     setShowModal(false);
     try {
       setUser(null);
+      localStorage.removeItem("user");
       await auth.signOut()
       
     } catch (error) {

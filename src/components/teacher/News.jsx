@@ -12,7 +12,7 @@ const News = () => {
     setAllNews(data);
     setShowedNews(data.slice(0, 4));
   };
-  const { error, isLoading, performFetch, cancelFetch } = useFetch(
+  const { error, isLoading, performFetch } = useFetch(
     "/news/all",
     onSuccess
   );
