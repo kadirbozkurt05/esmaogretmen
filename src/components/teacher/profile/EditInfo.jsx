@@ -4,59 +4,44 @@ import useFetch from "../../../hooks/useFetch";
 import { useUser } from "../../../context/userContext";
 
 const EditInfo = () => {
-  const {user, setUser} = useUser();
+  const { user, setUser } = useUser();
   const [cancel, setCancel] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
 
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     setUser({
       ...user,
       [name]: value,
     });
   };
-  
 
+  const onSuccess = () => {
+    localStorage.setItem("user", JSON.stringify(user));
 
-
-
-  const onSuccess = ()=>{
-    
-    sessionStorage.setItem("user",JSON.stringify(user));
-    if(localStorage.getItem("user")){
-      localStorage.setItem("user",JSON.stringify(user));
-    };
     setIsUpdated(true);
     setCancel(true);
+  };
+
+  const { error, isLoading, performFetch } = useFetch(
+    `/user/${user.id}`,
+    onSuccess
+  );
+
+  const handleSubmit = async () => {
+    performFetch({
+      method: "PUT",
+      body: JSON.stringify(user),
+    });
+  };
+
+  if (isUpdated) {
+    return <Info user={user} />;
   }
 
-
-
-
-  const {error, isLoading, performFetch} = useFetch(`/user/${user.id}`,onSuccess);
-
-
-
-
-  const handleSubmit = async ()=>{
-    
-      performFetch({
-        method:"PUT",
-        body:JSON.stringify(user)
-      })
-
-
-  }
-
-  if(isUpdated){
-    return(<Info user={user}/>)
-  }
-
-  if(cancel){
-    return(<Info user={user}/>)
+  if (cancel) {
+    return <Info user={user} />;
   }
 
   return (
@@ -67,7 +52,7 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex flex-1">İsim:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="firstName"
               value={user?.firstName}
@@ -77,14 +62,13 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex flex-row  cursor-default items-center">
             <div className="flex flex-1">Soy İsim:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="lastName"
               value={user?.lastName}
               onChange={handleInputChange}
             />
           </div>
-          
         </div>
       </div>
       <div className="flex flex-col">
@@ -92,7 +76,7 @@ const EditInfo = () => {
         <div className="mb-4 w-full  shadow-lg flex flex-row justify-between rounded-2xl p-2">
           <div className="rounded-md  p-4 w-full flex flex-row  cursor-default items-center">
             <textarea
-            className= "text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className="text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="input"
               name="aboutMe"
               value={user?.aboutMe}
@@ -107,24 +91,25 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Telefon:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="phone"
               value={user?.contact?.phone}
-              onChange={(e)=>{setUser({
-                ...user,
-                contact:{
-                  ...user?.contact,
-                  phone:e.target.value
-                }
-              })}
-              }
+              onChange={(e) => {
+                setUser({
+                  ...user,
+                  contact: {
+                    ...user?.contact,
+                    phone: e.target.value,
+                  },
+                });
+              }}
             />
           </div>
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">E-posta:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               disabled
               name="email"
@@ -134,7 +119,7 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Şehir:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="province"
               value={user?.contact.address.province}
@@ -155,7 +140,7 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">İlçe:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="district"
               value={user?.contact.address.district}
@@ -176,7 +161,7 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Adres:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="streetAddress"
               value={user?.contact.address.streetAddress}
@@ -197,7 +182,7 @@ const EditInfo = () => {
           <div className="rounded-md  p-4 flex w-full flex-row  cursor-default items-center">
             <div className="flex-1">Posta Kodu:</div>
             <input
-            className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
+              className=" text-gray-400 bg-yellow-100 p-1 italic flex-1 ml-2"
               type="text"
               name="zipCode"
               value={user?.contact.address.zipCode}
@@ -219,12 +204,21 @@ const EditInfo = () => {
       </div>
 
       <div className=" grid grid-cols-2 gap-4">
-          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={()=>setCancel(true)}>Vazgeç</div>
-          <div className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer" onClick={handleSubmit}>Güncelle</div>
+        <div
+          className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer"
+          onClick={() => setCancel(true)}
+        >
+          Vazgeç
         </div>
+        <div
+          className=" border-s p-2 text-center bg-gray-200 rounded-lg cursor-pointer"
+          onClick={handleSubmit}
+        >
+          Güncelle
+        </div>
+      </div>
     </div>
   );
 };
 
 export default EditInfo;
-

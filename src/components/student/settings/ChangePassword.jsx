@@ -2,15 +2,9 @@ import React, { useState, useEffect } from "react";
 import useFetch from "../../../hooks/useFetch";
 import Modal from "../../general/Modal/Modal";
 
-
-
 const ChangePassword = () => {
-
-const [showModal, setShowModal] = useState(false);
-const [showErrorModal, setShowErrorModal] = useState(false);
-  
-
-
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const [formData, setFormData] = useState({
     password: "",
@@ -18,50 +12,15 @@ const [showErrorModal, setShowErrorModal] = useState(false);
     remember: false,
   });
 
-  const credential = JSON.parse(sessionStorage.getItem("credential")) || JSON.parse(localStorage.getItem("credential"));
-
-  const {error: errorLogin, performFetch:performLogin} = useFetch(`/user/login`);
-
-  useEffect(()=>{
-    if(credential){
-      performLogin({
-        method:"POST",
-        body: JSON.stringify(credential)
-      })
-    }
-  },[])
-
-
-
   const onSuccess = () => {
-    
-     const credential = JSON.parse(sessionStorage.getItem("credential"));
-     try {
-      sessionStorage.setItem("credential",JSON.stringify({email:credential.email, password:formData.password}));
-      if(localStorage.getItem("credential")){
-      localStorage.setItem("credential",JSON.stringify({email:credential.email, password:formData.password}));
-    }
-
-     } catch (error) {
-      //MODAL
-     }
-
-    
-
-
     setShowModal(true);
 
-    setTimeout(()=>{
+    setTimeout(() => {
       setShowModal(false);
-
-    },1000)
-    
+    }, 1000);
   };
 
-  const { error, performFetch } = useFetch(
-    "/user/change-password",
-    onSuccess
-  );
+  const { error, performFetch } = useFetch("/user/change-password", onSuccess);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,14 +41,13 @@ const [showErrorModal, setShowErrorModal] = useState(false);
     }
   };
 
-  if(error){
+  if (error) {
     setShowErrorModal(true);
   }
 
   return (
     <div className=" flex flex-col md:h-full justify-center items-center w-full">
-
-{showModal && (
+      {showModal && (
         <Modal
           title={"Parola Değiştirildi"}
           text={"Parola başarıyla değiştirildi."}
@@ -98,13 +56,13 @@ const [showErrorModal, setShowErrorModal] = useState(false);
       {showErrorModal && (
         <Modal
           title={"Hata"}
-          text={"Şifre değiştirilirken bir hata oluştu. Lütfen daha sonra yeniden deneyiniz..."}
+          text={
+            "Şifre değiştirilirken bir hata oluştu. Lütfen daha sonra yeniden deneyiniz..."
+          }
           positiveButton={"Anladım"}
           positiveFunction={() => setShowErrorModal(false)}
         />
       )}
-
-
 
       <div className="flex flex-col items-center w-full justify-center h-full lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 p-2 ">

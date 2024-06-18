@@ -3,6 +3,8 @@ import { Link, useHref } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import { useUser } from "../../../context/userContext";
+import { auth } from "../../../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Nav = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -12,6 +14,15 @@ const Nav = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { setUser, user } = useUser();
+
+
+
+  onAuthStateChanged(auth, currentUser => {
+    if(currentUser){
+      setUser(JSON.parse(localStorage.getItem("user")))
+    }
+  })
+
 
 
   useEffect(() => {
@@ -38,10 +49,7 @@ const Nav = () => {
     setShowModal(false);
     try {
       setUser(null);
-      sessionStorage.removeItem("user");
       localStorage.removeItem("user");
-      sessionStorage.removeItem("credential");
-      localStorage.removeItem("credential");
       navigate("/");
     } catch (error) {
       //
@@ -69,9 +77,9 @@ const Nav = () => {
 
       <nav
         className={
-          user
-            ? "bg-teal-100 border-gray-200"
-            : " bg-teal-100 border-gray-200 sticky top-0 "
+          user && auth.currentUser
+            ? "z-50 bg-teal-100 border-gray-200"
+            : "z-50 bg-teal-100 border-gray-200 sticky top-0 "
         }
       >
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -91,7 +99,7 @@ const Nav = () => {
 
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             
-            {!user && (
+          {!user && !auth.currentUser && (
               <button
                 onClick={() => {
                   setIsClicked(false);
@@ -131,7 +139,7 @@ const Nav = () => {
             }
             id="navbar-user"
           >
-            {!user ? (
+            {!user && !auth.currentUser ? (
               <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:items-center md:mt-0 md:border-0 ">
                 <li>
                   <Link
@@ -194,7 +202,7 @@ const Nav = () => {
                     İletişim
                   </Link>
                 </li>
-                {!user && (
+                {!user && !auth.currentUser && (
                   <div className=" md:ml-10 flex flex-row">
                     {" "}
                     <li>
