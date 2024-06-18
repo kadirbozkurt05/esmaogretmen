@@ -58,6 +58,8 @@ const MainPage = () => {
           const idTokenResult = await auth?.currentUser?.getIdTokenResult();
           if (idTokenResult?.claims?.role === "teacher") {
             setIsTeacher(true);
+          }else{
+            setIsTeacher(false);
           }
         }
       } catch (error) {
@@ -69,7 +71,10 @@ const MainPage = () => {
   }, [auth.currentUser]);
 
   useEffect(() => {
+    console.log(user);
+    console.log(isTeacher);
     if (user && isTeacher !== null) {
+
       if (isTeacher) {
         setCurrentComponent(<TeacherDashboard user={user} />);
       } else {

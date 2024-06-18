@@ -53,7 +53,7 @@ const MainComponentManage = ({ id, teacher }) => {
                   GEÇMİŞ DERSLER
                 </h6>
               </div>
-              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+              <div  >
                 <PreviousClasses id={id} />
               </div>
             </div>
@@ -69,7 +69,7 @@ const MainComponentManage = ({ id, teacher }) => {
                   ÖDEV VER
                 </h6>
               </div>
-              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+              <div>
                 <GiveHomework id={id} />
               </div>
             </div>
@@ -82,7 +82,7 @@ const MainComponentManage = ({ id, teacher }) => {
                   NOT EKLE
                 </h6>
               </div>
-              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+              <div>
                 <SendNote id={id} teacherName={teacher}/>
               </div>
             </div>
@@ -94,7 +94,7 @@ const MainComponentManage = ({ id, teacher }) => {
                   SIRADAKİ DERS EKLE
                 </h6>
               </div>
-              <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar bg-gray-600 border border-gray-800 shadow-lg  rounded-2xl p-4">
+              <div>
                 <AddNextLesson id={id} teacherName={teacher}/>
               </div>
             </div>
