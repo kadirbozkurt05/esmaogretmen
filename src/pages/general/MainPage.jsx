@@ -9,30 +9,14 @@ import WhatsAppButton from "../../components/general/MainPage/WhatsAppButton.jsx
 import { auth } from "../../../firebase.js";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { Spinner } from "@material-tailwind/react";
+
 
 const MainPage = () => {
-  const { user } = useUser();
-  const [isTeacher, setIsTeacher] = useState(false);
+  const { user, setUser } = useUser();
+  const [isTeacher, setIsTeacher] = useState(null);
+  const [currentComponent, setCurrentComponent] = useState(<div className="h-screen w-screen flex justify-center items-center"><Spinner/></div>);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {});
-  }, [auth.currentUser]);
-
-  useEffect(() => {
-    const checkRole = async () => {
-      try {
-        if (auth.currentUser) {
-          const idTokenResult = await auth.currentUser.getIdTokenResult();
-          if (idTokenResult.claims.role === "teacher") {
-            setIsTeacher(true);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    checkRole();
-  }, [auth.currentUser]);
 
   const slides = [
     {
@@ -47,23 +31,55 @@ const MainPage = () => {
     },
   ];
 
-  if (user && isTeacher !== null) {
-    if (isTeacher) {
-      return <TeacherDashboard user={user} />;
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(JSON.parse(localStorage.getItem("user")));
+      }else{
+        setCurrentComponent(
+          <>
+            <Slider slides={slides} title={"YARIŞMALAR"} />
+            <Info />
+            <Faqs />
+            <NewsLetter />
+            <WhatsAppButton />
+          </>
+        );
+      }
+    });
+  }, []);
+
+
+
+  useEffect(() => {
+    const checkRole = async () => {
+      try {
+        if (auth?.currentUser) {
+          const idTokenResult = await auth?.currentUser?.getIdTokenResult();
+          if (idTokenResult?.claims?.role === "teacher") {
+            setIsTeacher(true);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkRole();
+  }, [auth.currentUser]);
+
+  useEffect(() => {
+    if (user && isTeacher !== null) {
+      if (isTeacher) {
+        setCurrentComponent(<TeacherDashboard user={user} />);
+      } else {
+        setCurrentComponent(<StudentDashboard user={user} />);
+      }
     } else {
-      return <StudentDashboard />;
+      
     }
-  } else {
-    return (
-      <>
-        <Slider slides={slides} title={"YARIŞMALAR"} />
-        <Info />
-        <Faqs />
-        <NewsLetter />
-        <WhatsAppButton />
-      </>
-    );
-  }
+  }, [isTeacher]);
+  return <>{currentComponent}</>;
 };
 
 export default MainPage;

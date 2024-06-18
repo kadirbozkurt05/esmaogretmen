@@ -43,7 +43,7 @@ const useFetch = (route, onReceived) => {
   const performFetch = async (options) => {
     setError(null);
     setIsLoading(true);
-    const idToken = "";
+    let idToken = "";
 
     if(auth.currentUser){
       idToken = await auth.currentUser.getIdToken();

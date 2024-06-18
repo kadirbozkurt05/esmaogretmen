@@ -10,7 +10,7 @@ const Slider = ({ slides }) => {
       <Carousel
         loop
         autoplay
-        autoplayDelay = "5000"
+        autoplayDelay = {5000}
         className="rounded-xl " 
         prevArrow={({ handlePrev }) => (
           <IconButton
