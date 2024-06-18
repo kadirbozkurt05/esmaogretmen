@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import useFetch from "../../../hooks/useFetch";
+import { Button } from "@material-tailwind/react";
 
 const PreviousClasses = ({ id }) => {
-  const today = new Date();
-  const [previousLessons, setPreviousLessons] = useState([]);
+  const [classes, setClasses] = useState(null);
+  const [showAll, setShowall] = useState(false);
+  const [showedClasses, setShowedClasses] = useState([]);
   const [requestBody, setRequestBody] = useState(null);
+  const today = new Date();
 
 
   const onSuccess = (data) => {
-    const classes = data?.scheduledClasses;
-    
-    const filteredClasses = classes.filter((clas) => new Date(clas.date.seconds*1000) < today)
-
-    setPreviousLessons(filteredClasses);
+    const classesFromDb = data?.scheduledClasses;
+    const filteredClasses = classesFromDb?.filter(
+      (clas) => new Date(clas.date.seconds * 1000) < today
+    );
+    setClasses(filteredClasses);
   };
 
-  const onSuccessLesson = (data) => {
+  const onSuccessLesson = () => {
     window.location.reload();
   };
 
@@ -24,9 +27,6 @@ const PreviousClasses = ({ id }) => {
     if(requestBody){
       performFetchLesson({
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
         body: requestBody,
       });
 
@@ -50,12 +50,113 @@ const PreviousClasses = ({ id }) => {
     performFetch();
   },[])
 
+  useEffect(() => {
+    if (showAll) {
+      setShowedClasses(classes);
+    } else {
+      setShowedClasses(classes?.slice(0, 4));
+    }
+  }, [showAll, classes]);
+
   if (errorPerformLesson) {
     //MODAL
   }
 
-  return (
-    <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
+  return (<>
+    <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar border   rounded-2xl">
+      <div className="relative w-full md:h-full flex justify-between pb-6 flex-col text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+        <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
+          {showedClasses?.map((clas, index) => {
+            
+            return (
+              <div
+                key={index}
+                role="button"
+                className=" border-b border-r flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              >
+                <div className="grid mr-4 place-items-center">
+                  <img
+                    alt="candice"
+                    src="https://www.stockvault.net/data/2017/03/09/231443/preview16.jpg"
+                    className="relative inline-block h-12 w-12 !rounded-full  object-cover object-center"
+                  />
+                </div>
+                <div>
+                  <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
+                    DERS : {clas.title}
+                  </h6>
+                  <p className="block font-sans text-sm antialiased font-normal leading-normal text-gray-700">
+                    TARIH:{" "}
+                    {format(new Date(clas.date.seconds * 1000), "dd/MM/yyyy")}
+                  </p>
+                  
+                </div>
+                <div>
+                  {!clas?.isDone ? (
+                    <>
+                      {" "}
+                      <label htmlFor="checkbox" className="mr-2">
+                        Yapıldı olarak işaretle!
+                      </label>
+                      <input
+                        type="checkbox"
+                        onChange={(e) => {
+                          const reqBody = {
+                            userId:id,
+                            classId:clas?.id,
+                            isDone:e.target.checked,
+                          }
+                          setRequestBody(JSON.stringify(reqBody))
+
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <div className="rounded-full h-10 w-10">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                      >
+                        <path
+                          fill="#83f745"
+                          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+                        />
+                      </svg>{" "}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </nav>
+        {!showAll ? (
+          <div
+            onClick={() => {
+              setShowall(true);
+            }}
+            className="flex w-max self-center gap-4"
+          >
+            <Button color="red">HEPSİNİ GÖSTER</Button>
+          </div>
+        ) : (
+          <div
+            onClick={() => {
+              setShowall(false);
+            }}
+            className="flex w-max self-center gap-4"
+          >
+            <Button color="red">GİZLE</Button>
+          </div>
+        )}
+      </div>
+    </div>
+
+
+
+
+
+
+    {/* <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2">
       <div className="flex flex-col ">
         <ol>
           {previousLessons.map((previousClass,index) => {
@@ -107,7 +208,8 @@ const PreviousClasses = ({ id }) => {
           })}
         </ol>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 };
 

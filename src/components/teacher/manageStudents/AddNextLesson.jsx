@@ -4,6 +4,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import useFetch from "../../../hooks/useFetch";
 import Modal from "../../general/Modal/Modal";
+import { Button } from "@material-tailwind/react";
 
 
 const AddNextLesson = ({ id, teacherName }) => {
@@ -62,8 +63,8 @@ const AddNextLesson = ({ id, teacherName }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-md shadow-md mb-6 border h-72 p-2">
-            {showSuccessModal && (
+    <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar border p-2  rounded-2xl">
+      {showSuccessModal && (
         <Modal title={"Ders Eklendi"} text={"Ders başarıyla eklenmiştir."} />
       )}
       {showFailModal && (
@@ -79,35 +80,33 @@ const AddNextLesson = ({ id, teacherName }) => {
       {showApproveModal && (
         <Modal
           title={"Ders Ekle"}
-          text={"Dersi eklemek istediğinizden emin misiniz?"}
+          text={"Sıradaki dersi eklemek istediğinizden emin misiniz?"}
           positiveButton={"EVET"}
           positiveFunction={approveLesson}
         />
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col justify-between">
-          <div className="flex flex-col ">
-            <label htmlFor="title" className=" text-black">
-              Ders :{" "}
-            </label>
-            <input {...register("title")} required />
-            <label htmlFor="date">Tarih : </label>
-            <DatePicker
-              required
-              selected={date}
-              onChange={handleDateChange}
-              dateFormat="dd/MM/yyyy"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
-            />
-          </div>
 
-          <div className=" text-center ">
-            <input
-              className="cursor-pointer border p-2 rounded-xl bg-slate-300"
-              value={"GÖNDER"}
-              type="submit"
-            />
-          </div>
+      <form
+        className="flex flex-col justify-between h-full"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="flex flex-col">
+          <label htmlFor="title">Ders : </label>
+          <input {...register("title")} required className=" text-black border border-black p-2 rounded-md"/>
+          <label className="mt-2" htmlFor="date">
+            Tarih :{" "}
+          </label>
+          <DatePicker
+            required
+            selected={date}
+            onChange={handleDateChange}
+            dateFormat="dd/MM/yyyy"
+            className=" text-black border w-full border-black p-2 rounded-md cursor-pointer"
+          />
+        </div>
+
+        <div className="flex justify-center">
+          <Button type="submit" color="red">GÖNDER</Button>
         </div>
       </form>
     </div>

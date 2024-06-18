@@ -1,9 +1,6 @@
 import MainComponent from "../../components/student/dashboard/MainComponent";
-import { useUser } from "../../context/userContext";
 
-const StudentDashboard = () => {
-  const {user} = useUser();
-
+const StudentDashboard = ({user}) => {
 
   return (
     < div className="flex justify-center px-6 md:px-10 flex-col">

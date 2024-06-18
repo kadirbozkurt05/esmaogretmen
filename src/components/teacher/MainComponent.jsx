@@ -41,8 +41,7 @@ const MainComponent = ({user}) => {
           <div key={index}>
             <Student
               onClick={(e) => {
-                selectedStudent(e.target.id)
-                
+                selectedStudent(e.target.id);
               }}
               
               student={student}

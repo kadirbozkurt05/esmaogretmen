@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 const Student = ({ student, onClick}) => {
-  const [studentInfo, setStudentInfo] = useState();
+  const [studentInfo, setStudentInfo] = useState({});
 
 
   const onSuccess = (data) => {
@@ -17,7 +16,10 @@ const Student = ({ student, onClick}) => {
     },[])
 
   if(error){
-    //MODAL
+    
+  }
+  if(loading){
+    
   }
 
   return (

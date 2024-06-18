@@ -4,6 +4,8 @@ import Modal from "../../general/Modal/Modal";
 import { Timestamp } from "firebase/firestore";
 import useFetch from "../../../hooks/useFetch";
 import { useForm } from "react-hook-form";
+import { Button } from "@material-tailwind/react";
+
 
 const GiveHomework = ({ id }) => {
   const [date, setDate] = useState(new Date());
@@ -58,7 +60,7 @@ const GiveHomework = ({ id }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-md shadow-md mb-6 border p-2 h-72 text-white">
+    <div className="mb-6 md:mb-0 h-96 overflow-y-auto no-scrollbar border p-2  rounded-2xl">
       {showSuccessModal && (
         <Modal title={"Ödev Eklendi"} text={"Ödev başarıyla eklenmiştir."} />
       )}
@@ -87,11 +89,11 @@ const GiveHomework = ({ id }) => {
       >
         <div className="flex flex-col">
           <label htmlFor="title">Ders : </label>
-          <input {...register("title")} required className=" text-black"/>
+          <input {...register("title")} required className=" text-black border border-black p-2 rounded-md"/>
           <label htmlFor="message" className="mt-2">
             Ödev :{" "}
           </label>
-          <textarea {...register("message")} required className=" text-black" />
+          <textarea {...register("message")} required className=" text-black border border-black p-2 rounded-md" />
           <label className="mt-2" htmlFor="date">
             Son Tarih :{" "}
           </label>
@@ -100,16 +102,12 @@ const GiveHomework = ({ id }) => {
             selected={date}
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-700 text-white"
+            className=" text-black border w-full border-black p-2 rounded-md cursor-pointer"
           />
         </div>
 
         <div className="flex justify-center">
-          <input
-            className="cursor-pointer middle none center rounded-lg bg-orange-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            value="GÖNDER"
-            type="submit"
-          />
+          <Button type="submit" color="red">GÖNDER</Button>
         </div>
       </form>
     </div>

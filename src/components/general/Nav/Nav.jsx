@@ -7,21 +7,12 @@ import { auth } from "../../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 const Nav = () => {
-  const [isClicked, setIsClicked] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const href = useHref();
   const [title, setTitle] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { setUser, user } = useUser();
-
-
-
-  onAuthStateChanged(auth, currentUser => {
-    if(currentUser){
-      setUser(JSON.parse(localStorage.getItem("user")))
-    }
-  })
 
 
 
@@ -102,7 +93,6 @@ const Nav = () => {
           {!user && !auth.currentUser && (
               <button
                 onClick={() => {
-                  setIsClicked(false);
                   setIsNavOpen(!isNavOpen);
                 }}
                 data-collapse-toggle="navbar-user"
