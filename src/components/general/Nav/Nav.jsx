@@ -129,7 +129,7 @@ const Nav = () => {
             }
             id="navbar-user"
           >
-            {!user && !auth.currentUser ? (
+            {!user || !auth.currentUser ? (
               <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:items-center md:mt-0 md:border-0 ">
                 <li>
                   <Link
@@ -192,7 +192,7 @@ const Nav = () => {
                     İletişim
                   </Link>
                 </li>
-                {!user && !auth.currentUser && (
+                {!user || !auth.currentUser ? (
                   <div className=" md:ml-10 flex flex-row">
                     {" "}
                     <li>
@@ -220,7 +220,7 @@ const Nav = () => {
                       </Link>
                     </li>
                   </div>
-                )}
+                ):null}
               </ul>
             ) : (
               <div className="  border-gray-800 shadow-lg rounded-2xl  font-medium p-4 justify-center flex">

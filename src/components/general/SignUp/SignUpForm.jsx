@@ -250,7 +250,7 @@ const SignUpForm = () => {
         </div>
 
         <div className="flex items-start">
-          <div className="flex items-center h-5">
+          <div className="flex self-center mr-1 items-center h-5">
             <input
               onChange={handleChange}
               id="remember"
@@ -260,18 +260,13 @@ const SignUpForm = () => {
               required
             />
           </div>
-          <label
-            htmlFor="remember"
-            className="ms-2 text-sm font-medium text-gray-900 "
-          >
-            <div
+          <div
               onClick={() => setShowTerms(!showTerms)}
-              className="text-blue-600 hover:underline cursor-pointer"
+              className="text-blue-600 mr-1 hover:underline cursor-pointer"
             >
-              Şartlar ve koşulları{" "}
-            </div>
-            kabul ediyorum.
-          </label>
+              Şartlar ve koşulları
+          </div>
+          <div>kabul ediyorum.</div>
         </div>
         {showTerms && <TermsAndConditions />}
         <div className="text-center mt-6">
