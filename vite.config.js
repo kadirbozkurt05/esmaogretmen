@@ -9,12 +9,8 @@ export default defineConfig({
       '/api':'http://localhost:5000/'
     }
   },
-  build: {
-    rollupOptions: {
-      external: [
-        /^node:.*/,
-      ]
-    }
+  build:{
+    outDir: "build"
   }
 
 })
