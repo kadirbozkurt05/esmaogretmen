@@ -14,36 +14,29 @@ export default function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
-  const url =import.meta.env.VITE_HOST_URL;
   const onSuccess = (data) => {
     setUser(data);
-  }
+    setLoading(false); // Move loading state management here
+  };
 
-  const {performFetch, error} = useFetch('/auth/profile',onSuccess);
+  const { performFetch, error } = useFetch("/auth/profile", onSuccess);
 
-  if(error){
-    setUser(null);
-  }
-
-
-
-  const getUser = useCallback(async () => {
-    try {
-
-      performFetch({
-        credentials: "include",
-      })
-
-    } catch (error) {
-      console.error("Failed to fetch user", error);
+  // Move error handling inside a useEffect
+  useEffect(() => {
+    if (error) {
       setUser(null);
-    } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading is false if there's an error
     }
-  }, []);
+  }, [error]);
+
+  const getUser = useCallback(() => {
+    setLoading(true); // Set loading true before fetching
+    performFetch({
+      credentials: "include",
+    });
+  }, [performFetch]);
 
   const refreshUser = useCallback(() => {
-    setLoading(true);
     setRefresh((prev) => !prev);
   }, []);
 
