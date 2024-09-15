@@ -11,33 +11,39 @@ const UserContext = createContext(null);
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
+  const url =import.meta.env.VITE_HOST_URL;
   const onSuccess = (data) => {
     setUser(data);
-  };
+  }
 
-  const { performFetch, error, isLoading } = useFetch(
-    "/auth/profile",
-    onSuccess
-  );
+  const {performFetch, error} = useFetch('/auth/profile',onSuccess);
 
-  if (error) {
+  if(error){
     setUser(null);
   }
 
+
+
   const getUser = useCallback(async () => {
     try {
+
       performFetch({
         credentials: "include",
-      });
+      })
+
     } catch (error) {
       console.error("Failed to fetch user", error);
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   const refreshUser = useCallback(() => {
+    setLoading(true);
     setRefresh((prev) => !prev);
   }, []);
 
@@ -47,7 +53,7 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser }}>
-      {isLoading ? <div>Loading...</div> : children}
+      {loading ? <div>Loading...</div> : children}
     </UserContext.Provider>
   );
 }
