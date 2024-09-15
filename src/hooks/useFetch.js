@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {auth} from "./../../firebase.js"
 
 const useFetch = (route, onReceived) => {
 
@@ -25,18 +24,13 @@ const useFetch = (route, onReceived) => {
   const performFetch = async (options) => {
     setError(null);
     setIsLoading(true);
-    let idToken = "";
 
-    if(auth.currentUser){
-      idToken = await auth.currentUser.getIdToken();
-    }
     
     
     const baseOptions = {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        "authorization": "Bearer "+idToken
       },
     };
 

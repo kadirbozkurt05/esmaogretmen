@@ -5,7 +5,6 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import useFetch from "../hooks/useFetch";
 
 const UserContext = createContext(null);
 
@@ -14,29 +13,34 @@ export default function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
-  const onSuccess = (data) => {
-    setUser(data);
-    setLoading(false); // Move loading state management here
-  };
+  const url =import.meta.env.VITE_HOST_URL;
 
-  const { performFetch, error } = useFetch("/auth/profile", onSuccess);
+  const getUser = useCallback(async () => {
+    try {
+      const response = await fetch(`${url}/auth/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
-  // Move error handling inside a useEffect
-  useEffect(() => {
-    if (error) {
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user", error);
       setUser(null);
-      setLoading(false); // Ensure loading is false if there's an error
+    } finally {
+      setLoading(false);
     }
-  }, [error]);
-
-  const getUser = useCallback(() => {
-    setLoading(true); // Set loading true before fetching
-    performFetch({
-      credentials: "include",
-    });
-  }, [performFetch]);
+  }, []);
 
   const refreshUser = useCallback(() => {
+    setLoading(true);
     setRefresh((prev) => !prev);
   }, []);
 
