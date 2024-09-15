@@ -13,7 +13,7 @@ export default function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
-  const url =`${import.meta.env.VITE_HOST_URL}/api${route}`;
+  const url =import.meta.env.VITE_HOST_URL;
 
   const getUser = useCallback(async () => {
     try {
