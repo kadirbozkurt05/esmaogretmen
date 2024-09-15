@@ -13,9 +13,11 @@ export default function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
+  const url =`${import.meta.env.VITE_HOST_URL}/api${route}`;
+
   const getUser = useCallback(async () => {
     try {
-      const response = await fetch("/api/auth/profile", {
+      const response = await fetch(`${url}/auth/profile`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
