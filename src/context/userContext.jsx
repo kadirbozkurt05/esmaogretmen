@@ -17,7 +17,7 @@ export default function UserProvider({ children }) {
 
   const getUser = useCallback(async () => {
     try {
-      const response = await fetch(`${url}/auth/profile`, {
+      const response = await fetch(`${url}/api/auth/profile`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
