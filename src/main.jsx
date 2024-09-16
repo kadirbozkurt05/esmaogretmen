@@ -1,7 +1,7 @@
 import React from "react";
 import App from "./App.jsx";
 import "./index.css";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/general/SignUp.jsx";
 import SignIn from "./pages/general/SignIn.jsx";
 import { createRoot } from "react-dom/client";
