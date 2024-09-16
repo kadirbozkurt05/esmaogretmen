@@ -9,10 +9,8 @@ export default defineConfig({
       '/api':'http://localhost:5000/'
     }
   },
-  // build:{
-  //   rollupOptions: {
-  //     external: ['/src/main.jsx']
-  //   }
-  // }
+  build:{
+    outDir: 'dist'
+  }
 
 })
