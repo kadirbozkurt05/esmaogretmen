@@ -5,8 +5,8 @@ export default function Logo() {
     <Link to={`/`}>
       <img
         alt="logo"
-        className="cursor-pointer h-10 md:h-16 md:block"
-        src="https://i.ibb.co/prMYsS5/logo-no-background.png"
+        className="cursor-pointer h-4 md:h-6 md:block"
+        src="/logo-no-bg.png"
       />
     </Link>
   );

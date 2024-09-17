@@ -29,7 +29,7 @@ const Slider = ({ slides }) => {
             color="black"
             size="lg"
             onClick={handlePrev}
-            className="!absolute top-2/4 left-4 -translate-y-2/4"
+            className="!absolute top-2/4 left-4 bg-black rounded-full text-white -translate-y-2/4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ const Slider = ({ slides }) => {
             color="black"
             size="lg"
             onClick={handleNext}
-            className="!absolute top-2/4 !right-4 -translate-y-2/4"
+            className="!absolute bg-black text-white rounded-full top-2/4 !right-4 -translate-y-2/4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

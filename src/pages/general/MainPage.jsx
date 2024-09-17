@@ -43,7 +43,7 @@ const MainPage = () => {
       } else {
         if (!isLoading) { 
           setCurrentComponent(
-            <div >
+            <div className="flex flex-col" >
               <Info />
               {sliderComponent}              
               <Faqs />

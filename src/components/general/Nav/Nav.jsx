@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useHref } from "react-router-dom";
 import { useUser } from "../../../context/userContext";
 import Logo from "./Logo";
-import Container from "../../Container";
+import BigScreen from "./BigScreen";
+import SmallScreen from "./SmallScreen"; // Import SmallScreen
 
 const Nav = () => {
   const href = useHref();
@@ -28,21 +29,23 @@ const Nav = () => {
   }, [user]);
 
   return (
-    <nav className=" bg-light-rose px-6 2xl:px-32 md:py-2 flex flex-row items-center shadow-md justify-between">
-
+    <nav className="bg-light-rose px-6 2xl:px-32 md:py-2 flex flex-row sm:h-16 lg:h-20 items-center shadow-md justify-between">
       <div>
-        <Logo/>
+        <Logo />
       </div>
-{  !user  ?  <div className="flex  cursor-pointer text-sm flex-row gap-2 md:gap-6 font-trebuchet font-bold">
-      <Link className="hover:text-gray-600 hidden sm:block"  to={`/basvur/try`}>Özel Ders Talep Et</Link>
-        <Link  className="hover:text-gray-600"to={`/giris`}>Giriş Yap</Link>
-        <Link className="hover:text-gray-600" to={`/kayit`}>Kayıt Ol</Link>
-      </div>:
-      <div>{title}</div>
-      }
-
+      {!user ? (
+        <div className="flex items-center">
+          <div className="hidden sm:flex">
+            <BigScreen />
+          </div>
+          <div className="flex md:hidden">
+            <SmallScreen />
+          </div>
+        </div>
+      ) : (
+        <div>{title}</div>
+      )}
     </nav>
-
   );
 };
 
