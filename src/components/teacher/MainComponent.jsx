@@ -28,6 +28,8 @@ const MainComponent = ({user}) => {
   
 
   const selectedStudent = (studentId)=> {    
+
+    
     setSelectedComponent(<MainComponentManage
       id={studentId}
       teacher={`${user.firstName} ${user.lastName}`}
@@ -44,10 +46,10 @@ const MainComponent = ({user}) => {
         return (
           <div key={index}>
             <Student
-              onClick={(e) => {
-                selectedStudent(e.target.id);
+              onClick={async (studentId) => {
+                console.log("Selected student ID:", studentId);
+                selectedStudent(studentId);  
               }}
-              
               student={student}
             />
           </div>
@@ -55,6 +57,7 @@ const MainComponent = ({user}) => {
       })}
     </div>
   );
+  
 
   const [selectedComponent, setSelectedComponent] = useState(user && studentsComponent);
 

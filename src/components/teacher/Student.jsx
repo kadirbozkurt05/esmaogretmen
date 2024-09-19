@@ -1,31 +1,24 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-const Student = ({ student, onClick}) => {
+const Student = ({ student, onClick }) => {
   const [studentInfo, setStudentInfo] = useState({});
-
 
   const onSuccess = (data) => {
     setStudentInfo(data);
-  }
+  };
 
-  const {error, loading, performFetch} = useFetch(`/user/${student}`, onSuccess);
+  const { error, loading, performFetch } = useFetch(
+    `/user/${student}`,
+    onSuccess
+  );
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     performFetch();
-    },[student])
-
-  if(error){
-    console.log("zaaa", error);
-  }
-  if(loading){
-    
-  }
+  }, [student]);
 
   return (
     <div
-    onClick={(e)=>onClick(e)}
-      id={student}
+      onClick={(e) => onClick(student)}
       className="p-4 cursor-pointer flex flex-row justify-between items-center  shadow-lg rounded-2xl"
     >
       <div className="flex flex-col justify-center">

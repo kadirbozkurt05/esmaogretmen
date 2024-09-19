@@ -5,6 +5,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
+import WaitingComponent from "../components/general/MainPage/WaitinComponent";
 
 const UserContext = createContext(null);
 
@@ -13,7 +14,7 @@ export default function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
-  const url =import.meta.env.VITE_HOST_URL;
+  const url = import.meta.env.VITE_HOST_URL;
 
   const getUser = useCallback(async () => {
     try {
@@ -22,7 +23,7 @@ export default function UserProvider({ children }) {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials:"include",
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -50,7 +51,7 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser }}>
-      {loading ? <div>Sayfa yükleniyor. Bu işlem 30 saniye kadar sürebilir. Lütfen sayfayı kapatmayın.</div> : children}
+      {loading ? <WaitingComponent /> : children}
     </UserContext.Provider>
   );
 }
