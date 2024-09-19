@@ -5,7 +5,7 @@ import { useUser } from "./../../../context/userContext.jsx";
 import useFetch from "../../../hooks/useFetch.js";
 
 const SignInForm = () => {
-  const { setUser, user, refreshUser } = useUser();
+  const { user, refreshUser } = useUser();
   const navigate = useNavigate();
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -18,30 +18,44 @@ const SignInForm = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-
   }, [user]);
 
-  const onSuccess = (data) => {
-    refreshUser()
-  }
+  const onSuccess = (result) => {
+    setData(result);
+  };
 
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    "/auth/login",
-    onSuccess
-  );
+  useEffect(() => {
+    if (data) {
+      if (data._id) {
+        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(false);
+          return refreshUser();
+        }, 1000);
+      } else {
+        if (data?.message.includes("Invalid credentials")) {
+          setErrorMessage(
+            "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
+          );
+        } else if (data?.message.includes("User not found!")) {
+          setErrorMessage("Bu e-posta adresiyle bir kullanıcı bulunamadı!");
+        } else {
+          setErrorMessage(
+            "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz."
+          );
+        }
+        setShowErrorModal(true);
+      }
+    }
+  }, [data]);
 
-
-
-  if(error){
-    console.log(error);
-    
-  }
-
+  const { performFetch } = useFetch("/auth/login", onSuccess);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,29 +66,13 @@ const SignInForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      performFetch({
-        method: "POST",
-        body: JSON.stringify(formData),
-        credentials:"include"
-      });
-    } catch (error) {
-      // if (error.message.includes("auth/invalid-credential")) {
-      //   setErrorMessage(
-      //     "E-posta ile şifre eşleşmiyor. Lütfen şifrenizi kontrol edip yeniden deneyin."
-      //   );
-      //   setShowErrorModal(true);
-      // } else if (error.message.includes("has been temporarily disabled")) {
-      //   setErrorMessage(
-      //     "Çok fazla başarısız giriş denemesi nedeniyle bu hesaba erişim geçici süre ile engellenmiştir. Lütfen daha sonra tekrar deneyiniz."
-      //   );
-      // }
-      console.log(error);
-      
-    }
+    performFetch({
+      method: "POST",
+      body: JSON.stringify(formData),
+      credentials: "include",
+    });
   };
 
   return (
@@ -93,9 +91,10 @@ const SignInForm = () => {
           positiveFunction={() => setShowErrorModal(false)}
         />
       )}
-      <section>
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
+      <div className="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50 z-40">
+          <div className=" bg-white rounded-lg shadow dark:border w-3/4 md:w-2/3 lg:w-3/4 xl:w-1/4 md:mt-0 xl:p-0 ">
+          <div onClick={()=>refreshUser()} className="flex justify-end cursor-pointer px-4">x</div>
+
             {showResetPassword ? (
               // <ResetPassword />
               <div></div>
@@ -194,8 +193,7 @@ const SignInForm = () => {
               </div>
             )}
           </div>
-        </div>
-      </section>
+      </div>
     </>
   );
 };

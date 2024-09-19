@@ -1,8 +1,13 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
+import { useUser } from "../../../context/userContext";
 
-const PreviousClasses = ({ classes }) => {
+const PreviousClasses = () => {
+  const {user} = useUser();
+  const today = new Date();
+  const classes = user?.scheduledClasses;
+  const previousClasses = classes.filter((clas) => new Date(clas.date) < today);
   const [showAll, setShowall] = useState(false);
   const [showedClasses, setShowedClasses] = useState(classes.slice(0, 9));
   useEffect(() => {
@@ -14,7 +19,20 @@ const PreviousClasses = ({ classes }) => {
   }, [showAll]);
 
   return (
-    <div className=" flex flex-col md:h-full justify-center items-center w-full">
+
+    <div className="flex flex-col md:h-screen">
+      <div className="mb-4  shadow-lg  rounded-2xl p-4">
+        <h6 className="text-l font-semibold text-center">GEÇMİŞ DERSLER</h6>
+      </div>
+
+      {previousClasses.length === 0 ? (
+        <div className="mb-6 md:mb-0    rounded-2xl p-4">
+          {" "}
+          Planlanmış Dersiniz Bulunmamaktadır.
+        </div>
+      ) : (
+        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
+             <div className=" flex flex-col md:h-full justify-center items-center w-full">
       <div className="relative w-full md:h-full flex justify-between pb-6 flex-col text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
         <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
           {showedClasses.map((clas, index) => {
@@ -52,6 +70,25 @@ const PreviousClasses = ({ classes }) => {
       </div>
       
     </div>
+        </div>
+      )}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   );
 };
 

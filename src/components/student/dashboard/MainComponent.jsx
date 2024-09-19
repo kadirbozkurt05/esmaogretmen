@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Homework from "./Homework";
 import PreviousClasses from "./PreviousLessons";
 import TeacherNotes from "./TeacherNotes";
@@ -14,192 +14,43 @@ import {
   Chip,
 } from "@material-tailwind/react";
 import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
-
-import ChangePassword from "./../settings/ChangePassword";
+import SettingsComponent from "../settings/SettingsComponent";
 import ProfileCard from "../ProfileCard";
 import Modal from "../../general/Modal/Modal";
-import { auth } from "../../../../firebase";
 import useFetch from "../../../hooks/useFetch";
 import Competitions from "./competitions/Competitions";
-const MainComponent = ({user}) => {
+const MainComponent = ({ user }) => {
   const today = new Date();
   const { refreshUser } = useUser();
-  const [scheduledClasses, setScheduledClasses] = useState([]);
-  const [previousClasses, setPreviousClasses] = useState([]);
-  const [competitions, setCompetitions] = useState([]);
-
-  const onSuccess = (data) => {
-    setCompetitions(data);
-  }
-
-
-
-  const {performFetch, error} = useFetch("/competition/all",onSuccess);
-  if(error){
-    console.log(error);    
-  }
-
-useEffect(()=>{
-  performFetch();
-},[])
+  const previousClasses = user.scheduledClasses.filter(
+    (clas) => new Date(clas.date) < today
+  );
+  const scheduledClasses = user.scheduledClasses.filter(
+    (clas) => new Date(clas.date) >= today
+  );
 
   const [showModal, setShowModal] = useState(false);
 
-  const homeworkComponent = (
-    <div>
-      <div className="mb-4 shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">ÖDEVLER</h6>
-      </div>
-
-      {user.homework.filter(
-        (homework) => new Date(homework.date) >= today
-      )?.length === 0 ? (
-        <div className="mb-6 md:mb-0 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {" "}
-          Şu anda ödeviniz yoktur
-        </div>
-      ) : (
-        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
-          <Homework
-            homeworks={user.homework.filter(
-              (homework) => new Date(homework.date) >= today
-            )}
-          />
-        </div>
-      )}
-    </div>
-  );
-
-  const scheduledClassesComponent = (
-    <div className="flex flex-col md:h-screen">
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">SIRADAKİ DERSLER</h6>
-      </div>
-
-      {scheduledClasses.length === 0 ? (
-        <div className="mb-6 md:mb-0    rounded-2xl p-4">
-          {" "}
-          Geçmiş Dersiniz Bulunmamaktadır.
-        </div>
-      ) : (
-        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
-          <ScheduledClasses classes={scheduledClasses} />
-        </div>
-      )}
-    </div>
-  );
-
-  const competitionsComponent = (
-    <div className="flex flex-col">
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">YARIŞMALAR</h6>
-      </div>
-
-      {competitions.length === 0 ? (
-        <div className="mb-6 md:mb-0    rounded-2xl p-4">
-          {" "}
-          Hiç yarışma bulunmamaktadır.
-        </div>
-      ) : (
-        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full rounded-2xl p-1">
-          <Competitions competitions={competitions} />
-        </div>
-      )}
-    </div>
-  );
-
-  const previousClassesComponent = (
-    <div className="flex flex-col md:h-screen">
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">GEÇMİŞ DERSLER</h6>
-      </div>
-
-      {previousClasses.length === 0 ? (
-        <div className="mb-6 md:mb-0    rounded-2xl p-4">
-          {" "}
-          Planlanmış Dersiniz Bulunmamaktadır.
-        </div>
-      ) : (
-        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
-          <PreviousClasses classes={previousClasses} />
-        </div>
-      )}
-    </div>
-  );
-
-  const teacherNotesComponent = (
-    <div>
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">ÖĞRETMEN NOTLARI</h6>
-      </div>
-
-      {user.teacherNotes.length === 0 ? (
-        <div className="mb-6 md:mb-0 max-h-96 overflow-y-auto no-scrollbar  shadow-lg  rounded-2xl p-4">
-          {" "}
-          Henüz öğretmeniniz sizin için bir not yazmamış.
-        </div>
-      ) : (
-        <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
-          <TeacherNotes teacherNotes={user.teacherNotes} />
-        </div>
-      )}
-    </div>
-  );
-
-  const settngsComponent = (
-    <div>
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">AYARLAR</h6>
-      </div>
-
-      <ChangePassword />
-    </div>
-  );
-  const profileComponent = (
-    <div>
-      <div className="mb-4  shadow-lg  rounded-2xl p-4">
-        <h6 className="text-l font-semibold text-center">AYARLAR</h6>
-      </div>
-
-      <Info user={user} />
-    </div>
-  );
-
-  const [selectedComponent, setSelectedComponent] = useState(homeworkComponent);
-
-  useEffect(() => {
-    const classes = user?.scheduledClasses;
-    console.log(user.teacherNotes);
-    
-    const previous = classes.filter(
-      (clas) => new Date(clas.date) < today
-    );
-    const next = classes.filter(
-      (clas) => new Date(clas.date) >= today
-    );
-    setScheduledClasses(next);
-    setPreviousClasses(previous);
-  }, [user]);
+  const [selectedComponent, setSelectedComponent] = useState(<Homework />);
 
   const logout = () => {
     setShowModal(true);
   };
   const approved = async () => {
     performLogout({
-      credentials:"include"
+      credentials: "include",
     });
   };
   const cancelled = () => {
     setShowModal(false);
   };
 
-  const onSuccessLogout = () =>{
+  const onSuccessLogout = () => {
     setShowModal(false);
     refreshUser();
-    
-  }
+  };
 
-  const { isLoading, error:errorLogout, performFetch:performLogout } = useFetch(
+  const { performFetch: performLogout } = useFetch(
     "/auth/logout",
     onSuccessLogout
   );
@@ -225,7 +76,7 @@ useEffect(()=>{
           </div>
 
           <List>
-            <ListItem onClick={() => setSelectedComponent(homeworkComponent)}>
+            <ListItem onClick={() => setSelectedComponent(<Homework />)}>
               <ListItemPrefix>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -242,8 +93,7 @@ useEffect(()=>{
                 <Chip
                   value={
                     user.homework.filter(
-                      (homework) =>
-                        new Date(homework.date) >= today
+                      (homework) => new Date(homework.date) >= today
                     ).length
                   }
                   size="sm"
@@ -253,9 +103,7 @@ useEffect(()=>{
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem
-              onClick={() => setSelectedComponent(previousClassesComponent)}
-            >
+            <ListItem onClick={() => setSelectedComponent(<PreviousClasses />)}>
               <ListItemPrefix>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +126,7 @@ useEffect(()=>{
               </ListItemSuffix>
             </ListItem>
             <ListItem
-              onClick={() => setSelectedComponent(scheduledClassesComponent)}
+              onClick={() => setSelectedComponent(<ScheduledClasses />)}
             >
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
@@ -294,16 +142,13 @@ useEffect(()=>{
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem
-              onClick={() => setSelectedComponent(competitionsComponent)}
-            >
+            <ListItem onClick={() => setSelectedComponent(<Competitions />)}>
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
               </ListItemPrefix>
               YARIŞMALAR
               <ListItemSuffix>
                 <Chip
-                  value={competitions.filter(cp=>cp.isActive).length}
                   size="sm"
                   variant="ghost"
                   color="blue-gray"
@@ -311,9 +156,7 @@ useEffect(()=>{
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem
-              onClick={() => setSelectedComponent(teacherNotesComponent)}
-            >
+            <ListItem onClick={() => setSelectedComponent(<TeacherNotes />)}>
               <ListItemPrefix>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -339,13 +182,15 @@ useEffect(()=>{
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(profileComponent)}>
+            <ListItem onClick={() => setSelectedComponent(<Info />)}>
               <ListItemPrefix>
                 <Cog6ToothIcon className="h-5 w-5" />
               </ListItemPrefix>
               PROFİL
             </ListItem>
-            <ListItem onClick={() => setSelectedComponent(settngsComponent)}>
+            <ListItem
+              onClick={() => setSelectedComponent(<SettingsComponent />)}
+            >
               <ListItemPrefix>
                 <Cog6ToothIcon className="h-5 w-5" />
               </ListItemPrefix>

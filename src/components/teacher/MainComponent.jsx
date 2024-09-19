@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Cog6ToothIcon, InboxIcon, PowerIcon } from "@heroicons/react/24/solid";
-import Settings from "./../student/settings/ChangePassword";
 import AddNews from "./AddNews";
 import AddCompetition from "./AddCompetition";
 import Competitions from "./Competitions";
@@ -14,6 +13,7 @@ import MainComponentManage from "./manageStudents/MainComponentManage";
 import { useUser } from "../../context/userContext";
 import AllStudents from "./AllStudents";
 import useFetch from "../../hooks/useFetch";
+import SettingsComponent from "../student/settings/SettingsComponent";
 
 const MainComponent = ({user}) => {
   const {refreshUser} = useUser();
@@ -23,7 +23,7 @@ const MainComponent = ({user}) => {
   const addNewsComponent = <AddNews />;
   const addCompetitionComponent = <AddCompetition />;
   const profileComponent = <Info user={user} />;
-  const settingsComponent = <Settings />;
+  const settingsComponent = <SettingsComponent />;
   const allStudentsComponent = <AllStudents />;
   
 

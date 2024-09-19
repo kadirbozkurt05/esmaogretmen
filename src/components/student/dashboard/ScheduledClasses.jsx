@@ -1,22 +1,40 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
+import { useUser } from "../../../context/userContext";
 
-const ScheduledClasses = ({classes}) => {
+const ScheduledClasses = () => {
+  const today = new Date();
+  const {user} = useUser();
+  const classes = user?.scheduledClasses;
+  const scheduledClasses = classes.filter((clas) => new Date(clas.date) >= today);
+
   const [showAll, setShowall] = useState(false);
-  const [showedClasses, setShowedClasses] = useState(classes.slice(0, 9));
+  const [showedClasses, setShowedClasses] = useState(scheduledClasses.slice(0, 9));
   useEffect(() => {
     if (showAll) {
-      setShowedClasses(classes);
+      setShowedClasses(scheduledClasses);
     } else {
-      setShowedClasses(classes.slice(0, 9));
+      setShowedClasses(scheduledClasses.slice(0, 9));
     }
   }, [showAll]);
 
 
 
   return ( 
-    <div className=" flex flex-col md:h-full justify-center items-center w-full">
+    <div className="flex flex-col md:h-screen">
+    <div className="mb-4  shadow-lg  rounded-2xl p-4">
+      <h6 className="text-l font-semibold text-center">SIRADAKİ DERSLER</h6>
+    </div>
+
+    {scheduledClasses.length === 0 ? (
+      <div className="mb-6 md:mb-0    rounded-2xl p-4">
+        {" "}
+        Geçmiş Dersiniz Bulunmamaktadır.
+      </div>
+    ) : (
+      <div className=" mb-6 md:mb-0 overflow-y-auto no-scrollbar w-full md:h-full rounded-2xl p-1">
+            <div className=" flex flex-col md:h-full justify-center items-center w-full">
     <div className="relative w-full md:h-full flex justify-between pb-6 flex-col text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
       <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
         {showedClasses.map((clas, index) => {
@@ -54,6 +72,19 @@ const ScheduledClasses = ({classes}) => {
     </div>
     
   </div>
+      </div>
+    )}
+  </div>
+
+
+
+
+
+
+
+
+
+
   );
 };
 

@@ -55,6 +55,12 @@ const ChangePassword = () => {
   }
 
   return (
+
+    <div>
+    <div className="mb-4  shadow-lg  rounded-2xl p-4">
+      <h6 className="text-l font-semibold text-center">AYARLAR</h6>
+    </div>
+
     <div className=" flex flex-col md:h-full justify-center items-center w-full">
       {showModal && (
         <Modal
@@ -126,6 +132,15 @@ const ChangePassword = () => {
         </div>
       </div>
     </div>
+  </div>
+
+
+
+
+
+
+
+
   );
 };
 

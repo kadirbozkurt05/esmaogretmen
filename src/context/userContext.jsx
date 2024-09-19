@@ -50,8 +50,7 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser }}>
-      {/* {loading ? <div>Loading...</div> : children} */}
-      {children}
+      {loading ? <div>Sayfa yükleniyor. Bu işlem 30 saniye kadar sürebilir. Lütfen sayfayı kapatmayın.</div> : children}
     </UserContext.Provider>
   );
 }
