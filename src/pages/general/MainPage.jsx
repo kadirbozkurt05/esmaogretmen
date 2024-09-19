@@ -11,12 +11,13 @@ import { Spinner } from "@material-tailwind/react";
 import useFetch from "../../hooks/useFetch.js";
 
 const MainPage = () => {
-  
   const { user } = useUser();
   const [sliderComponent, setSliderComponent] = useState(null);
 
   const onSuccess = (data) => {
-     setSliderComponent(<Slider slides={data.filter(cp=>cp.isActive)} title={"YARIŞMALAR"} />);
+    setSliderComponent(
+      <Slider slides={data.filter((cp) => cp.isActive)} title={"YARIŞMALAR"} />
+    );
   };
 
   const { performFetch, isLoading } = useFetch("/competition/all", onSuccess);
@@ -32,28 +33,25 @@ const MainPage = () => {
   );
 
   useEffect(() => {
-    
-      if (user) {
-        if(user.role==="teacher"){
-          setCurrentComponent(<TeacherDashboard user={user} />);
-        }else{
-          setCurrentComponent(<StudentDashboard user={user} />);
-
-        }
+    if (user) {
+      if (user.role === "teacher") {
+        setCurrentComponent(<TeacherDashboard user={user} />);
       } else {
-        if (!isLoading) { 
-          setCurrentComponent(
-            <div className="flex flex-col" >
-              <Info />
-              {sliderComponent}              
-              <Faqs />
-              <NewsLetter />
-              <WhatsAppButton />
-            </div>
-          );
-        }
+        setCurrentComponent(<StudentDashboard user={user} />);
       }
-    
+    } else {
+      if (!isLoading) {
+        setCurrentComponent(
+          <div className="flex flex-col">
+            <Info />
+            {sliderComponent}
+            <Faqs />
+            <NewsLetter />
+            <WhatsAppButton />
+          </div>
+        );
+      }
+    }
   }, [isLoading, sliderComponent]);
 
   return <>{currentComponent}</>;

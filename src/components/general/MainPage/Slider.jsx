@@ -17,7 +17,7 @@ const Slider = ({ slides }) => {
 
 
   return (
-    <div className="  w-full flex justify-center py-6 px-6 md:px-36 shadow-xl ">
+    <div className="  w-full flex justify-center py-6 px-6 2xl:px-36 shadow-xl ">
       <Carousel
         loop
         autoplay
