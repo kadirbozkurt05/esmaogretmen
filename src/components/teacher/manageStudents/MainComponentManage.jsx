@@ -15,6 +15,11 @@ const MainComponentManage = ({ id, teacher }) => {
   const { user, refreshUser } = useUser();
   const [showDisableModal, setShowDisableModal] = useState(false);  
   const [isLoaded, setIsLoaded] = useState(null);
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
+  };
   
 
   const onSuccess = (data) => {  
@@ -62,7 +67,7 @@ const MainComponentManage = ({ id, teacher }) => {
 
   return (
     <>
-    <div className="flex flex-col items-center justify-center min-h-screen  px-6">
+    <div className="flex flex-col min-h-screen">
       {showDisableModal && (
         <Modal
           title={"Pasif Hale Getir"}
@@ -73,64 +78,119 @@ const MainComponentManage = ({ id, teacher }) => {
           negativeFunction={() => setShowDisableModal(false)}
         />
       )}
-      <div className="w-full  max-w-5xl m-4">
-        <div className=" mx-auto grid gap-4 grid-cols-1">
-          <div className="flex flex-col">
-            {isLoaded && <StudentInfo user={student} />}
-          </div>
-          <hr />
+<div className="w-full  mx-auto my-6 px-4 md:px-0">
+  <div className="grid gap-6 grid-cols-1">
+    <div className="flex flex-col bg-white rounded-lg shadow-md">
+      {isLoaded && <StudentInfo user={student} />}
+    </div>
 
-          <div className=" md:grid md:grid-cols-2 md:gap-2 flex flex-col">
-            <div>
-              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold   text-center">
-                  SIRADAKİ DERSLER
-                </h6>
-              </div>
-              {isLoaded && <ScheduledClasses student={student} />}
-            </div>
-            <div>
-              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold   text-center">
-                  GEÇMİŞ DERSLER
-                </h6>
-              </div>
-              <div>
-                {isLoaded && <PreviousClasses student={student} />}
-              </div>
-            </div>
+    <hr className="border-gray-300" />
 
-            <div>
-              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold   text-center">ÖDEV VER</h6>
-              </div>
-              <div>
-                {isLoaded &&<GiveHomework student={student} />}
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold   text-center">NOT EKLE</h6>
-              </div>
-              <div>
-                {isLoaded && <SendNote student={student} teacherName={teacher} />}
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-4  border border-gray-800 shadow-lg  rounded-2xl p-4">
-                <h6 className="text-l font-semibold   text-center">
-                  SIRADAKİ DERS EKLE
-                </h6>
-              </div>
-              <div>
-                {isLoaded && <AddNextLesson student={student} teacherName={teacher} />}
-              </div>
-            </div>
-          </div>
+    <div className="grid grid-cols-1 gap-6">
+      {/* Upcoming Classes */}
+      <div className="group">
+        <div
+          className="flex justify-between items-center bg-blue-100 hover:bg-blue-200 transition-all border border-blue-300 shadow-md rounded-lg p-4 cursor-pointer"
+          onClick={() => toggleSection("upcoming")}
+        >
+          <h6 className="text-lg font-semibold text-blue-900">SIRADAKİ DERSLER</h6>
+          <span className="text-blue-900 transition-transform duration-300 group-hover:rotate-90">
+            {openSection === "upcoming" ? "▲" : "▼"}
+          </span>
         </div>
+        {openSection === "upcoming" && (
+          <div className="mt-4 bg-white rounded-lg shadow-inner">
+            {isLoaded ? <ScheduledClasses student={student} />: (
+              <div className="text-center text-blue-500 italic">Loading...</div>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Previous Classes */}
+      <div className="group">
+        <div
+          className="flex justify-between items-center bg-green-100 hover:bg-green-200 transition-all border border-green-300 shadow-md rounded-lg p-4 cursor-pointer"
+          onClick={() => toggleSection("previous")}
+        >
+          <h6 className="text-lg font-semibold text-green-900">GEÇMİŞ DERSLER</h6>
+          <span className="text-green-900 transition-transform duration-300 group-hover:rotate-90">
+            {openSection === "previous" ? "▲" : "▼"}
+          </span>
+        </div>
+        {openSection === "previous" && (
+          <div className="mt-4 bg-white rounded-lg shadow-inner">
+            {isLoaded ? <PreviousClasses student={student} /> : (
+              <div className="text-center text-green-500 italic">Loading...</div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Give Homework */}
+      <div className="group">
+        <div
+          className="flex justify-between items-center bg-orange-100 hover:bg-orange-200 transition-all border border-orange-300 shadow-md rounded-lg p-4 cursor-pointer"
+          onClick={() => toggleSection("homework")}
+        >
+          <h6 className="text-lg font-semibold text-orange-900">ÖDEV VER</h6>
+          <span className="text-orange-900 transition-transform duration-300 group-hover:rotate-90">
+            {openSection === "homework" ? "▲" : "▼"}
+          </span>
+        </div>
+        {openSection === "homework" && (
+          <div className="mt-4 bg-white rounded-lg shadow-inner">
+            {isLoaded ? <GiveHomework student={student} /> : (
+              <div className="text-center text-orange-500 italic">Loading...</div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Send Note */}
+      <div className="group">
+        <div
+          className="flex justify-between items-center bg-purple-100 hover:bg-purple-200 transition-all border border-purple-300 shadow-md rounded-lg p-4 cursor-pointer"
+          onClick={() => toggleSection("note")}
+        >
+          <h6 className="text-lg font-semibold text-purple-900">NOT EKLE</h6>
+          <span className="text-purple-900 transition-transform duration-300 group-hover:rotate-90">
+            {openSection === "note" ? "▲" : "▼"}
+          </span>
+        </div>
+        {openSection === "note" && (
+          <div className="mt-4 bg-white rounded-lg shadow-inner">
+            {isLoaded ? <SendNote student={student} /> : (
+              <div className="text-center text-purple-500 italic">Loading...</div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Add Next Lesson */}
+      <div className="group">
+        <div
+          className="flex justify-between items-center bg-pink-100 hover:bg-pink-200 transition-all border border-pink-300 shadow-md rounded-lg p-4 cursor-pointer"
+          onClick={() => toggleSection("nextLesson")}
+        >
+          <h6 className="text-lg font-semibold text-pink-900">SIRADAKİ DERS EKLE</h6>
+          <span className="text-pink-900 transition-transform duration-300 group-hover:rotate-90">
+            {openSection === "nextLesson" ? "▲" : "▼"}
+          </span>
+        </div>
+        {openSection === "nextLesson" && 
+            isLoaded && (
+              <div>
+                <AddNextLesson student={student} teacherName={teacher} />
+              </div>
+            )
+          
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
       <div
         onClick={() => setShowDisableModal(true)}
         className=" w-full text-center"

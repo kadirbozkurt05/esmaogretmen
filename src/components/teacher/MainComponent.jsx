@@ -94,7 +94,7 @@ const MainComponent = ({user}) => {
           negativeFunction={cancelled}
         />
       )}
-      <div className="flex w-full md:px-10 flex-col md:flex-row">
+      <div className="flex w-full flex-col md:flex-row">
         <Card className=" static md:h-screen md:max-w-[20rem] p-4 md:flex-1 md:w-32 shadow-xl shadow-blue-gray-900/5">
           <div>
             <ProfileCard />
@@ -205,7 +205,7 @@ const MainComponent = ({user}) => {
           </List>
         </Card>
 
-        <div className="flex w-full flex-col md:flex-1 md:px-6 md:w-64 items-center">
+        <div className="flex w-full flex-col md:flex-1 items-center">
           <div className=" w-full m-4">
             <div className="flex gap-4 flex-col w-full">
               {selectedComponent}
