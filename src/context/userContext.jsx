@@ -50,7 +50,8 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser }}>
-      {loading ? <div>Loading...</div> : children}
+      {/* {loading ? <div>Loading...</div> : children} */}
+      {children}
     </UserContext.Provider>
   );
 }
