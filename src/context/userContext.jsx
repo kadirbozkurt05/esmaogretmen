@@ -51,7 +51,7 @@ export default function UserProvider({ children }) {
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser }}>
-      {loading ? <WaitingComponent /> : children}
+      {!loading && children}
     </UserContext.Provider>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { Button } from "@material-tailwind/react";
+import {Link} from "react-router-dom"
 
 const DrawComponent = () => {
   const params = useParams();
@@ -94,7 +95,8 @@ const DrawComponent = () => {
           />
           {isDrawing ? "saniye" : null}
         </label>
-        <Button>Anasayfaya Git</Button>
+        <Link to={"/"}>
+        <Button>Anasayfaya Git</Button></Link>
       </div>
       <div className="flex justify-center">
         <Button
