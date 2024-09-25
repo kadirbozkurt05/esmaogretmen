@@ -2,27 +2,25 @@ import {
   Button,
   Carousel,
   IconButton,
-  Typography
-
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import SignUpForm from "../SignUp/SignUpForm";
+import { useState } from "react";
 
 const Slider = ({ slides }) => {
+  const [signUp, setSignUpForm] = useState(false);
 
-
-  if(slides.length==0){
-    
+  if (slides.length == 0) {
     return null;
   }
-
-
-  return (
-    <div className="  w-full flex justify-center py-6 px-6 2xl:px-36 shadow-xl ">
+  return (<>
+  {signUp && <SignUpForm/>}
+  <div className="  w-full flex justify-center py-6 px-6 2xl:px-36 shadow-xl ">
       <Carousel
         loop
         autoplay
-        autoplayDelay = {5000}
-        className="rounded-xl " 
+        autoplayDelay={5000}
+        className="rounded-xl "
         prevArrow={({ handlePrev }) => (
           <IconButton
             variant="text"
@@ -75,35 +73,27 @@ const Slider = ({ slides }) => {
         {slides.map((slide, index) => {
           return (
             <div className="flex flex-col pb-10 justify-center">
-<img
-              src={slide?.picture}
-              alt={slide?.title}
-              className="h-96 md:h-full object-cover"
-              key={index}
-            />
-            
-            <Link to={"/kayit"} className=" transition ease-in-out delay-150 "  >
-            <Button className="bg-orange-400 w-full rounded-none">YARIŞMAYA KATIL</Button>
-              
-              </Link>
-            
-            
+              <img
+                src={slide?.picture}
+                alt={slide?.title}
+                className="h-96 md:h-full object-cover"
+                key={index}
+              />
 
+              <div
+                onClick={()=>setSignUpForm(true)}
+                className=" transition ease-in-out delay-150 "
+              >
+                <Button className="bg-orange-400 w-full rounded-none">
+                  YARIŞMAYA KATIL
+                </Button>
+              </div>
             </div>
-            
           );
         })}
-        
       </Carousel>
-
-
     </div>
-
-
-
-
-
-
+  </>
 
   );
 };
